@@ -1,5 +1,6 @@
+import { Typography } from "@material-ui/core";
 import React from "react";
 
 export default function HomePage() {
-  return <p>Home page works!</p>;
+  return <Typography>Home page works!</Typography>;
 }

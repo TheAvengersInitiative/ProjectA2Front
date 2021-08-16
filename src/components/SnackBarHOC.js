@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Snackbar, Slide } from "@material-ui/core/Snackbar";
+import { Snackbar, Slide } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 
 export const withSnackbar = (WrappedComponent) => {
@@ -10,7 +10,7 @@ export const withSnackbar = (WrappedComponent) => {
       severity: "error",
     });
 
-    const showMessage = (message, severity = "success") =>
+    const showMessage = (severity = "success", message) =>
       setAlert({ ...alert, message: message, severity: severity, open: true });
 
     const handleClose = (_, reason) =>
@@ -18,7 +18,7 @@ export const withSnackbar = (WrappedComponent) => {
 
     return (
       <>
-        <WrappedComponent {...props} snackbarShowMessage={showMessage} />
+        <WrappedComponent {...props} showMessage={showMessage} />
         <Snackbar
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
           autoHideDuration={2000}

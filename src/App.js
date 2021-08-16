@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
 
       <Container>
         <Box mt={6}>
-          <HashRouter>
+          <Router>
             <Switch>
               <Route
                 exact
@@ -23,7 +23,7 @@ function App() {
                 render={(props) => <HomePage {...props} />}
               />
             </Switch>
-          </HashRouter>
+          </Router>
         </Box>
       </Container>
     </>
