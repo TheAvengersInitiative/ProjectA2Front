@@ -23,12 +23,12 @@ function App() {
                 name="Home Page"
                 render={(props) => <HomePage {...props} />}
               />
-                <Route
-                    exact
-                    path="/my-projects"
-                    name="My projects"
-                    render={(props) => <ProjectPage {...props} />}
-                />
+              <Route
+                exact
+                path="/my-projects"
+                name="My projects"
+                render={(props) => <ProjectPage {...props} />}
+              />
             </Switch>
           </Router>
         </Box>
