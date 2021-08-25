@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu, MenuItem, withStyles } from "@material-ui/core";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function ItemOptions(props) {
   const StyledMenu = withStyles({
@@ -28,18 +28,18 @@ function ItemOptions(props) {
   const history = useHistory();
 
   function handleOpenEdit(id) {
-      history.push(`/edit-project/${id}`);
+    history.push(`/edit-project/${id}`);
   }
 
-    function handleDelete(id) {
-        history.push(`/delete-project/${id}`);
-    }
+  function handleDelete(id) {
+    history.push(`/delete-project/${id}`);
+  }
 
-    function handleView(id) {
-        history.push(`/project/${id}`);
-    }
+  function handleView(id) {
+    history.push(`/project/${id}`);
+  }
 
-    return (
+  return (
     <StyledMenu
       id="long-menu"
       anchorEl={anchorEl}
@@ -53,8 +53,8 @@ function ItemOptions(props) {
         },
       }}
     >
-        <MenuItem onClick={() => handleView(id)}>View</MenuItem>
-        <MenuItem onClick={() => handleOpenEdit(id)}>Edit</MenuItem>
+      <MenuItem onClick={() => handleView(id)}>View</MenuItem>
+      <MenuItem onClick={() => handleOpenEdit(id)}>Edit</MenuItem>
       <MenuItem onClick={() => handleDelete(id)}>Delete</MenuItem>
     </StyledMenu>
   );
