@@ -9,7 +9,7 @@ import { withSnackbar } from "../../components/SnackBarHOC";
 function ProjectPage(props) {
   const { showMessage } = props;
   const [project, setProject] = useState();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const handleClose = () => {
     setOpen(!open);
