@@ -2,8 +2,10 @@ import React from "react";
 import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
+import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/AddNewProject";
 import {addProject} from "./utils/Projects";
+
 
 function App() {
   return (
@@ -23,6 +25,12 @@ function App() {
                 path="/"
                 name="Home Page"
                 render={(props) => <HomePage {...props} />}
+              />
+              <Route
+                exact
+                path="/my-projects"
+                name="My projects"
+                render={(props) => <ProjectPage {...props} />}
               />
                 <Route path="/my-projects/add">
                     <AddNewProject title="Add new project" subtitle="Enter all the information to add a new project" submit={addProject}/>
