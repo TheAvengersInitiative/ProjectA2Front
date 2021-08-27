@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Dialog, DialogTitle, Grid } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { PROJECTS } from "../../utils/ConstForTest";
 import ProjectItem from "../../components/ProjectItem";
@@ -9,11 +9,10 @@ import { withSnackbar } from "../../components/SnackBarHOC";
 function ProjectPage(props) {
   const { showMessage } = props;
   const [project, setProject] = useState();
-  const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
+  /*  const handleClose = () => {
     setOpen(!open);
-  };
+  };*/
 
   useEffect(() => {
     /*
@@ -52,7 +51,11 @@ function ProjectPage(props) {
               <Grid container spacing={2} direction="column">
                 {}
                 {project?.map((item, index) => (
-                  <ProjectItem key={index} item={item} />
+                  <ProjectItem
+                    key={index}
+                    item={item}
+                    showMessage={showMessage}
+                  />
                 ))}
               </Grid>
             </Box>
@@ -75,13 +78,6 @@ function ProjectPage(props) {
           </Box>
         ))
       )}
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby="simple-dialog-title"
-        open={open}
-      >
-        <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
-      </Dialog>
     </Grid>
   );
 }
