@@ -24,15 +24,15 @@ function ItemOptions(props) {
   ));
 
   const ITEM_HEIGHT = 48;
-  const { anchorEl, handleClose, id } = props;
+  const { anchorEl, handleClose, id, setDelete } = props;
   const history = useHistory();
 
   function handleOpenEdit(id) {
     history.push(`/edit-project/${id}`);
   }
 
-  function handleDelete(id) {
-    history.push(`/delete-project/${id}`);
+  function handleDelete() {
+    setDelete(true);
   }
 
   function handleView(id) {
