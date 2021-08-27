@@ -17,7 +17,7 @@ import DeleteDialog from "./DeleteDialog";
 const ProjectItem = (props) => {
   const { item } = props;
   const [anchorEl, setAnchorEl] = useState(false);
-  const [open,setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   //const history = useHistory();
 
   const shrinkText = (text) => {
@@ -95,7 +95,7 @@ const ProjectItem = (props) => {
           </CardContent>
         </Card>
       </Grid>
-      <DeleteDialog open={open} setOpen={setOpen} id={item.id}/>
+      <DeleteDialog open={open} setOpen={setOpen} id={item.id} />
     </>
   );
 };

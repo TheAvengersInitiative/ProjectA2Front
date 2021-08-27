@@ -10,7 +10,7 @@ function ProjectPage(props) {
   const { showMessage } = props;
   const [project, setProject] = useState();
 
-/*  const handleClose = () => {
+  /*  const handleClose = () => {
     setOpen(!open);
   };*/
 
@@ -51,7 +51,11 @@ function ProjectPage(props) {
               <Grid container spacing={2} direction="column">
                 {}
                 {project?.map((item, index) => (
-                  <ProjectItem key={index} item={item} showMessage={showMessage}/>
+                  <ProjectItem
+                    key={index}
+                    item={item}
+                    showMessage={showMessage}
+                  />
                 ))}
               </Grid>
             </Box>

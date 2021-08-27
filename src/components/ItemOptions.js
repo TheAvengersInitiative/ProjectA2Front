@@ -32,7 +32,7 @@ function ItemOptions(props) {
   }
 
   function handleDelete() {
-    setDelete(true)
+    setDelete(true);
   }
 
   function handleView(id) {
