@@ -3,8 +3,8 @@ import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import ProjectPage from "./pages/proyects/ProjectPage";
-import AddNewProject from "./pages/project/AddNewProject";
-import { addProject } from "./utils/Projects";
+import AddNewProject from "./pages/project/ProjectForm";
+import { addProject,editProject } from "./utils/Projects";
 
 function App() {
   return (
@@ -38,6 +38,13 @@ function App() {
                   submit={addProject}
                 />
               </Route>
+                <Route path="/my-projects/:id">
+                    <AddNewProject
+                        title="Edit project"
+                        subtitle="Edit the information of an existing project"
+                        submit={editProject}
+                    />
+                </Route>
             </Switch>
           </Router>
         </Box>
