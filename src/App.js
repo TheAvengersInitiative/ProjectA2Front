@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
-import { addProject,editProject } from "./utils/Projects";
+import { addProject, editProject } from "./utils/Projects";
 
 function App() {
   return (
@@ -38,13 +38,13 @@ function App() {
                   submit={addProject}
                 />
               </Route>
-                <Route path="/my-projects/:id">
-                    <AddNewProject
-                        title="Edit project"
-                        subtitle="Edit the information of an existing project"
-                        submit={editProject}
-                    />
-                </Route>
+              <Route path="/my-projects/:id">
+                <AddNewProject
+                  title="Edit project"
+                  subtitle="Edit the information of an existing project"
+                  submit={editProject}
+                />
+              </Route>
             </Switch>
           </Router>
         </Box>
