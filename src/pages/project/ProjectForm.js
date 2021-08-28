@@ -34,10 +34,9 @@ function ProjectForm(props) {
           Object.keys(res.data).forEach(
             (key) => (initialValues[key] = res.data[key])
           );
-          initialValues["tags"] =
-            initialValues["tags"] && initialValues["tags"].join();
-          initialValues["links"] =
-            initialValues["links"] && initialValues["links"].join();
+
+          initialValues["tags"] = initialValues["tags"].join();
+          initialValues["links"] = initialValues["links"].join();
         })
         .catch(() => {
           showMessage("error", "There was an error!");
