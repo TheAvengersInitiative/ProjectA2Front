@@ -1,7 +1,6 @@
 import React from "react";
 import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
-import HomePage from "./pages/home/HomePage";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
 import { addProject, editProject } from "./utils/Projects";
@@ -23,7 +22,7 @@ function App() {
                 exact
                 path="/"
                 name="Home Page"
-                render={(props) => <HomePage {...props} />}
+                render={(props) => <ProjectPage {...props} />}
               />
               <Route
                 exact

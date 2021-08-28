@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { PROJECTS } from "../../utils/ConstForTest";
 import ProjectItem from "../../components/ProjectItem";
 import ShimmerItemProject from "../../components/ShimmerItemProject";
 import { withSnackbar } from "../../components/SnackBarHOC";
+import { useHistory } from "react-router-dom";
+import { getAllProject } from "../../utils/Projects";
 
 function ProjectPage(props) {
   const { showMessage } = props;
   const [project, setProject] = useState();
+  const history = useHistory();
 
-  /*  const handleClose = () => {
-    setOpen(!open);
-  };*/
+  async function fetchProjects() {
+    try {
+      const response = await getAllProject();
+      setProject(response.data);
+    } catch (e) {
+      showMessage("error", "Opss... Something went wrong");
+    }
+  }
 
   useEffect(() => {
-    /*
-    try{
-      axios.get(`${BASE_URL}/api/route`).then((res)=>{
-      setProject(res)}).catch(e){console.log(e)}
-    }
-     */
-    setTimeout(() => {
-      setProject(PROJECTS);
-      showMessage("error", "HOLA");
-    }, 2000);
+    fetchProjects();
   }, []);
+
+  const goToAdd = () => {
+    history.push("/my-projects/add");
+  };
 
   return (
     <Grid container spacing={2} direction="column">
       <Grid item>
         <Grid justifyContent="space-between" container direction="row">
           <Box fontWeight={500} fontSize={30}>
-            My project
+            My projects
           </Box>
           <Button
             variant="contained"
             color="primary"
             disableElevation
+            onClick={goToAdd}
             startIcon={<AddCircleIcon />}
           >
             Add project

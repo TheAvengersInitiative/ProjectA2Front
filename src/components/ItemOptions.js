@@ -28,15 +28,11 @@ function ItemOptions(props) {
   const history = useHistory();
 
   function handleOpenEdit(id) {
-    history.push(`/edit-project/${id}`);
+    history.push(`/my-projects/${id}`);
   }
 
   function handleDelete() {
     setDelete(true);
-  }
-
-  function handleView(id) {
-    history.push(`/project/${id}`);
   }
 
   return (
@@ -53,7 +49,6 @@ function ItemOptions(props) {
         },
       }}
     >
-      <MenuItem onClick={() => handleView(id)}>View</MenuItem>
       <MenuItem onClick={() => handleOpenEdit(id)}>Edit</MenuItem>
       <MenuItem onClick={() => handleDelete(id)}>Delete</MenuItem>
     </StyledMenu>

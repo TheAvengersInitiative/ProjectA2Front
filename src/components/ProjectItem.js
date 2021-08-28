@@ -32,7 +32,7 @@ const ProjectItem = (props) => {
   };
 
   /*  const redirectItem = () => {
-    history.push(`/my-projects/${item.id}`);
+    history.push(`/my-projects/${item?.id}`);
   };*/
 
   const handleClick = (event) => {
@@ -50,7 +50,7 @@ const ProjectItem = (props) => {
           <CardContent>
             <Grid justifyContent="space-between" container direction="row">
               <Box mb={2} fontSize={22} fontWeight={500} color="textPrimary">
-                Project {item.title}
+                Project {item?.title}
               </Box>
               <Box>
                 <IconButton
@@ -62,7 +62,7 @@ const ProjectItem = (props) => {
                   <MoreVertIcon />
                 </IconButton>
                 <ItemOptions
-                  id={item.id}
+                  id={item?.id}
                   handleClose={handleClose}
                   anchorEl={anchorEl}
                   setDelete={setOpen}
@@ -71,15 +71,16 @@ const ProjectItem = (props) => {
             </Grid>
 
             <Grid container spacing={2} direction="row">
-              {item?.tags.map((item, index) => (
-                <Grid item key={index}>
-                  <Chip label={item} color="primary" />
-                </Grid>
-              ))}
+              {item?.tag &&
+                item?.tags.map((item, index) => (
+                  <Grid item key={index}>
+                    <Chip label={item} color="primary" />
+                  </Grid>
+                ))}
             </Grid>
             <Box my={2}>
               <Typography color="textSecondary">
-                {shrinkText(item.description)}
+                {shrinkText(item?.description)}
               </Typography>
             </Box>
             <Grid container direction="row" alignItems="center">
@@ -95,7 +96,7 @@ const ProjectItem = (props) => {
           </CardContent>
         </Card>
       </Grid>
-      <DeleteDialog open={open} setOpen={setOpen} id={item.id} />
+      <DeleteDialog open={open} setOpen={setOpen} id={item?.id} />
     </>
   );
 };
