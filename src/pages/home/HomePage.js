@@ -1,6 +1,7 @@
-import { Typography } from "@material-ui/core";
 import React from "react";
+import ProjectDetail from "../../components/ProjectDetail";
+import { projectOneMock } from "../../utils/ConstForTest";
 
 export default function HomePage() {
-  return <Typography>Home page works!</Typography>;
+  return <ProjectDetail project={projectOneMock} />;
 }

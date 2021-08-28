@@ -24,19 +24,15 @@ function ItemOptions(props) {
   ));
 
   const ITEM_HEIGHT = 48;
-  const { anchorEl, handleClose, id } = props;
+  const { anchorEl, handleClose, id, setDelete } = props;
   const history = useHistory();
 
   function handleOpenEdit(id) {
-    history.push(`/edit-project/${id}`);
+    history.push(`/my-projects/${id}`);
   }
 
-  function handleDelete(id) {
-    history.push(`/delete-project/${id}`);
-  }
-
-  function handleView(id) {
-    history.push(`/project/${id}`);
+  function handleDelete() {
+    setDelete(true);
   }
 
   return (
@@ -53,7 +49,6 @@ function ItemOptions(props) {
         },
       }}
     >
-      <MenuItem onClick={() => handleView(id)}>View</MenuItem>
       <MenuItem onClick={() => handleOpenEdit(id)}>Edit</MenuItem>
       <MenuItem onClick={() => handleDelete(id)}>Delete</MenuItem>
     </StyledMenu>
