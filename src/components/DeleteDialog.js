@@ -8,9 +8,8 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { withSnackbar } from "./SnackBarHOC";
-import axios from "axios";
+import { deleteProjectById } from "../utils/Projects";
 // eslint-disable-next-line no-undef
-const BASEURL = process.env.REACT_APP_BASEURL;
 
 const DeleteDialog = (props) => {
   const { open, setOpen, showMessage, id } = props;
@@ -21,10 +20,16 @@ const DeleteDialog = (props) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${BASEURL}/project/${id}`);
-      showMessage("success", "Success to delete project " + id);
+      await deleteProjectById(id);
+
+      showMessage("success", "Successfully deleted the project");
+      setOpen(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (e) {
       showMessage("error", "Failed to delete project");
+      console.log(e);
     }
   };
 
