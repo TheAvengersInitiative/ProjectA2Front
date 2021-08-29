@@ -12,4 +12,4 @@ export const addProject = async (data) =>
   await axiosInstance.post("/project", data);
 export const getAllProject = async () => await axiosInstance.get("/project");
 export const deleteProjectById = async (id) =>
-  await axiosInstance.get(`/project/${id}`);
+  await axiosInstance.delete(`/project/${id}`);
