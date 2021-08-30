@@ -34,9 +34,9 @@ function ProjectForm(props) {
           Object.keys(res.data).forEach(
             (key) => (initialValues[key] = res.data[key])
           );
+
           initialValues["tags"] = initialValues["tags"].join();
           initialValues["links"] = initialValues["links"].join();
-          console.log(initialValues);
         })
         .catch(() => {
           showMessage("error", "There was an error!");
@@ -53,11 +53,15 @@ function ProjectForm(props) {
 
     try {
       id ? await submit(id, values) : await submit(values);
+
       showMessage(
         "success",
         `Project was ${id ? "edited" : "created"} successfully`
       );
-      history.push(`/my-projects`);
+
+      setTimeout(() => {
+        history.push(`/my-projects`);
+      }, 1000);
     } catch (e) {
       showMessage("error", "There was an error!");
     }

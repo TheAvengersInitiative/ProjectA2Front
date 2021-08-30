@@ -29,7 +29,6 @@ const DeleteDialog = (props) => {
       }, 1000);
     } catch (e) {
       showMessage("error", "Failed to delete project");
-      console.log(e);
     }
   };
 
