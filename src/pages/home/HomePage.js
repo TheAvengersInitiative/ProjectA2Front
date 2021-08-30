@@ -18,5 +18,12 @@ export default function HomePage() {
     fetchProjects();
   }, []);
 
-  return <>{projects.length > 0 && projects.map((item,index) =>(<ProjectDetail key={index} project={item} />))}</>;
+  return (
+    <>
+      {projects.length > 0 &&
+        projects.map((item, index) => (
+          <ProjectDetail key={index} project={item} />
+        ))}
+    </>
+  );
 }
