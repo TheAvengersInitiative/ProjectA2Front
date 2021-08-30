@@ -71,7 +71,7 @@ const ProjectItem = (props) => {
             </Grid>
 
             <Grid container spacing={2} direction="row">
-              {item?.tag &&
+              {item?.tags &&
                 item?.tags.map((item, index) => (
                   <Grid item key={index}>
                     <Chip label={item} color="primary" />
@@ -83,14 +83,19 @@ const ProjectItem = (props) => {
                 {shrinkText(item?.description)}
               </Typography>
             </Box>
-            <Grid container direction="row" alignItems="center">
+            <Grid container direction="column" alignItems="left">
               <Grid item>
                 <Typography>Link: </Typography>
               </Grid>
-              <Grid item>
-                <Box ml={0.5}>
-                  <Link>link.com.ar</Link>
-                </Box>
+              <Grid container direction="row">
+                {item?.links &&
+                item.links.map((item, index) => (
+                    <Grid item key={index}>
+                      <Box ml={0.5}>
+                        <Link>{item}</Link>
+                      </Box>
+                    </Grid>
+                ))}
               </Grid>
             </Grid>
           </CardContent>
