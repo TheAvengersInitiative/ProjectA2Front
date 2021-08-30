@@ -89,13 +89,13 @@ const ProjectItem = (props) => {
               </Grid>
               <Grid container direction="row">
                 {item?.links &&
-                item.links.map((item, index) => (
+                  item.links.map((item, index) => (
                     <Grid item key={index}>
                       <Box ml={0.5}>
                         <Link>{item}</Link>
                       </Box>
                     </Grid>
-                ))}
+                  ))}
               </Grid>
             </Grid>
           </CardContent>

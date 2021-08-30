@@ -4,6 +4,7 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
 import { addProject, editProject } from "./utils/Projects";
+import HomePage from "./pages/home/HomePage";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
                 exact
                 path="/"
                 name="Home Page"
-                render={(props) => <ProjectPage {...props} />}
+                render={(props) => <HomePage {...props} />}
               />
               <Route
                 exact
