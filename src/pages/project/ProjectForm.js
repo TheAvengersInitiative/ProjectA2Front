@@ -1,5 +1,5 @@
 import { Box, Button, Container, Grid, Typography } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
 import * as yup from "yup";
@@ -15,34 +15,55 @@ const validationSchema = yup.object().shape({
   tags: yup.string().required().nullable(),
 });
 
-function ProjectForm(props) {
-  const initialValues = {
+export const ProjectForm = (props) => {
+  const [initialValues, setInitialValues] = useState({
     title: "",
     description: "",
     links: "",
     tags: "",
-  };
-  const history = useHistory();
+  });
   let { id } = useParams();
 
-  const { title, subtitle, submit, showMessage } = props;
+  const { showMessage } = props;
 
   useEffect(() => {
     if (id) {
       getProjectById(id)
         .then((res) => {
-          Object.keys(res.data).forEach(
-            (key) => (initialValues[key] = res.data[key])
-          );
+          console.log(res.data);
+          const value = {};
+          Object.keys(res.data).forEach((key) => (value[key] = res.data[key]));
 
-          initialValues["tags"] = initialValues["tags"].join();
-          initialValues["links"] = initialValues["links"].join();
+          value["tags"] = value["tags"].join();
+          value["links"] = value["links"].join();
+          setInitialValues(value);
         })
         .catch(() => {
           showMessage("error", "There was an error!");
         });
     }
   }, []);
+
+  useEffect(() => {
+    console.log("init ", initialValues);
+  }, [initialValues]);
+
+  return (
+    <>
+      {id ? (
+        initialValues.title && (
+          <ShowForm initialValues={initialValues} id={id} {...props} />
+        )
+      ) : (
+        <ShowForm initialValues={initialValues} {...props} />
+      )}
+    </>
+  );
+};
+
+export const ShowForm = (props) => {
+  const { title, subtitle, submit, showMessage, initialValues, id } = props;
+  const history = useHistory();
 
   const onSubmit = async (values) => {
     const array = values.tags.split(",");
@@ -108,6 +129,7 @@ function ProjectForm(props) {
                         <TextFieldContainer
                           id="links"
                           label="Links"
+                          helperText="Separate values using commas"
                           formikProps={formikProps}
                         />
                       </Grid>
@@ -115,6 +137,7 @@ function ProjectForm(props) {
                         <TextFieldContainer
                           id="tags"
                           label="Tags"
+                          helperText="Separate values using commas"
                           formikProps={formikProps}
                         />
                       </Grid>
@@ -137,6 +160,6 @@ function ProjectForm(props) {
       </Box>
     </Container>
   );
-}
+};
 
 export default withSnackbar(ProjectForm);
