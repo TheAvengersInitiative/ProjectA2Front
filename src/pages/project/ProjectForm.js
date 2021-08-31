@@ -129,6 +129,7 @@ export const ShowForm = (props) => {
                         <TextFieldContainer
                           id="links"
                           label="Links"
+                          helperText="Separate values using commas"
                           formikProps={formikProps}
                         />
                       </Grid>
@@ -136,6 +137,7 @@ export const ShowForm = (props) => {
                         <TextFieldContainer
                           id="tags"
                           label="Tags"
+                          helperText="Separate values using commas"
                           formikProps={formikProps}
                         />
                       </Grid>
