@@ -6,6 +6,7 @@ import AddNewProject from "./pages/project/ProjectForm";
 import { addProject, editProject } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
   return (
@@ -37,6 +38,12 @@ function App() {
                 path="/recover-password"
                 name="Recover Password"
                 render={(props) => <RecoverPassword {...props} />}
+              />
+              <Route
+                exact
+                path="/reset-password"
+                name="Reset Password"
+                render={(props) => <ResetPassword {...props} />}
               />
               <Route path="/my-projects/add">
                 <AddNewProject
