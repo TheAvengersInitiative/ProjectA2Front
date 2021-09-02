@@ -1,38 +1,50 @@
 import React from 'react';
-import { Form, Formik } from "formik"; 
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Grid, Button, Typography, Container, Box } from '@material-ui/core'
 import TextFieldContainer from './TextFieldContainer';
+import { withSnackbar } from './SnackBarHOC';
+import { resetPassword } from '../utils/Projects';
 
-function ResetPassword() {
+function ResetPassword(props) {
 
-    const initialValues = {
-      email: "",
-    } 
-    
-    const validationSchema = Yup.object({
-      email: Yup
+  const { showMessage } = props;
+
+  const initialValues = {
+    email: "",
+  }
+
+  const validationSchema = Yup.object({
+    email: Yup
       .string()
       .email("Invalid email")
       .required("Email is required")
-    })
+  })
 
-    const onSubmit = (formData) => {
-        console.log(formData);
+  const onSubmit = async (formData) => {
+    try {
+      await resetPassword(formData);
+      showMessage("success", "Your password was successfuly reseted")
+      setTimeout(() => {
+        history.push("my-proyects");
+      }, 1000);
+    } catch (e) {
+      showMessage("error", "An error occured");
     }
-
+  }
 
   return (
     <Container>
       <Box marginTop={4}>
-        <Grid container item xs = {6} spacing={1} alignContent="center" alignItems="rigth">
-          <Grid item xs = {12}>
-            <Typography variant="h5">Reset password</Typography>
-          </Grid>
-          <Grid item xs = {12}>
-            <Typography variant="subtitle2">Please enter your email to receive instructions to reset your password </Typography>
-          </Grid>
-          <Grid item xs={12}>
+        <Grid container justify="center">
+          <Grid container item xs={6} spacing={1} alignContent="center" >
+            <Grid item xs={12}>
+              <Typography variant="h5">Reset password</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="subtitle2">Please enter your email to receive instructions to reset your password </Typography>
+            </Grid>
+            <Grid item xs={12}>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -54,7 +66,7 @@ function ResetPassword() {
                           color="primary"
                           type="submit"
                         >
-                        RESET
+                          RESET
                         </Button>
                       </Grid>
                     </Grid>
@@ -62,10 +74,11 @@ function ResetPassword() {
                 )}
               </Formik>
             </Grid>
+          </Grid>
         </Grid>
       </Box>
     </Container>
   );
 }
 
-export default ResetPassword;
+export default withSnackbar(ResetPassword);

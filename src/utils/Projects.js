@@ -13,3 +13,6 @@ export const addProject = async (data) =>
 export const getAllProject = async () => await axiosInstance.get("/project");
 export const deleteProjectById = async (id) =>
   await axiosInstance.delete(`/project/${id}`);
+export const recoverPassword = async (data) => await axiosInstance.post("/forgot-password", data)
+export const resetPassword = async (data) => await axiosInstance.post("/reset-password", data)
+

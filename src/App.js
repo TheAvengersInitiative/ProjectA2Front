@@ -33,9 +33,9 @@ function App() {
                 name="My projects"
                 render={(props) => <ProjectPage {...props} />}
               />
-             <Route
+              <Route
                 exact
-                path="/recover-password"
+                path="/forgot-password/:token"
                 name="Recover Password"
                 render={(props) => <RecoverPassword {...props} />}
               />
