@@ -18,7 +18,6 @@ const ProjectItem = (props) => {
   const { item } = props;
   const [anchorEl, setAnchorEl] = useState(false);
   const [open, setOpen] = useState(false);
-  //const history = useHistory();
 
   const shrinkText = (text) => {
     let nText = text;
