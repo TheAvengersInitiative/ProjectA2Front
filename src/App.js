@@ -24,9 +24,9 @@ function App() {
             <Switch>
               <Route path="/register">
                 <Register
-                    title="Register"
-                    subtitle="Enter the data to register to the A2 app"
-                    submit={register}
+                  title="Register"
+                  subtitle="Enter the data to register to the A2 app"
+                  submit={register}
                 />
               </Route>
               <Route
