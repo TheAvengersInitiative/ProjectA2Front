@@ -3,10 +3,11 @@ import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
-import { addProject, editProject } from "./utils/Projects";
+import { addProject, editProject, register } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
+import Register from "./pages/session/Register";
 
 function App() {
   return (
@@ -21,6 +22,13 @@ function App() {
         <Box mt={6}>
           <Router>
             <Switch>
+              <Route path="/register">
+                <Register
+                  title="Register"
+                  subtitle="Enter the data to register to the A2 app"
+                  submit={register}
+                />
+              </Route>
               <Route
                 exact
                 path="/"
