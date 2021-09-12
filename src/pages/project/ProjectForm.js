@@ -38,8 +38,8 @@ export const ProjectForm = (props) => {
           value["links"] = value["links"].join();
           setInitialValues(value);
         })
-        .catch(() => {
-          showMessage("error", "There was an error!");
+        .catch((e) => {
+          showMessage("error", "There was an error! (" + e + ")");
         });
     }
   }, []);
@@ -84,7 +84,12 @@ export const ShowForm = (props) => {
         history.push(`/my-projects`);
       }, 1000);
     } catch (e) {
-      showMessage("error", "There was an error!");
+      values.tags = values.tags.join(",");
+      values.links = values.links.join(",");
+      showMessage(
+        "error",
+        "There was an error! (" + e + ")\n" + e.response.data
+      );
     }
   };
   return (
@@ -129,6 +134,7 @@ export const ShowForm = (props) => {
                         <TextFieldContainer
                           id="links"
                           label="Links"
+                          helperText="Separate values using commas"
                           formikProps={formikProps}
                         />
                       </Grid>
@@ -136,6 +142,7 @@ export const ShowForm = (props) => {
                         <TextFieldContainer
                           id="tags"
                           label="Tags"
+                          helperText="Separate values using commas"
                           formikProps={formikProps}
                         />
                       </Grid>
