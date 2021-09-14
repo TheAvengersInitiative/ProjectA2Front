@@ -7,6 +7,8 @@ import { addProject, editProject } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
+import TagList  from "./components/TagList";
+
 
 function App() {
   return (
@@ -44,6 +46,12 @@ function App() {
                 path="/reset-password"
                 name="Reset Password"
                 render={(props) => <ResetPassword {...props} />}
+              />
+              <Route
+                exact
+                path="/tags"
+                name="Tag List"
+                render={(props) => <TagList {...props} />}
               />
               <Route path="/my-projects/add">
                 <AddNewProject

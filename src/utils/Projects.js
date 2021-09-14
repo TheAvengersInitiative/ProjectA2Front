@@ -17,3 +17,7 @@ export const recoverPassword = async (data) =>
   await axiosInstance.post("/forgot-password", data);
 export const resetPassword = async (data) =>
   await axiosInstance.post("/reset-password", data);
+export const getTags = async () =>
+  await axiosInstance.get("/tags");
+export const addTag = async (data) =>
+  await axiosInstance.post("/tags", data);
