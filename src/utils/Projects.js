@@ -3,6 +3,8 @@ import axios from "axios";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
 });
+
+export const login = async (data) => await axiosInstance.post("/login", data);
 export const register = async (data) => await axiosInstance.post("/user", data);
 export const editProject = async (id, data) =>
   await axiosInstance.put(`/project/${id}`, data);

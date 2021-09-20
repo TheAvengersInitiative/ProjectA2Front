@@ -10,7 +10,7 @@ import { withSnackbar } from "../../components/SnackBarHOC";
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().nullable(),
   nickname: yup.string().required().nullable().min(3).max(24),
-  bio: yup.string().nullable().max(500),
+  biography: yup.string().nullable().max(500),
   password: yup
     .string()
     .required("Password is required")
@@ -31,14 +31,10 @@ export const Register = (props) => {
   const initialValues = {
     email: "",
     nickname: "",
-    bio: "",
+    biography: "",
     password: "",
     passwordConfirmation: "",
   };
-
-  useEffect(() => {
-    console.log("init ", initialValues);
-  }, [initialValues]);
 
   return (
     <>
@@ -61,7 +57,7 @@ export const ShowForm = (props) => {
         history.push(`/login`);
       }, 1000);
     } catch (e) {
-      showMessage("error", "An error ocurred");
+      showMessage("error", e.response?.data?.errors || "Ocurrio un error");
     }
   };
   return (
@@ -102,8 +98,8 @@ export const ShowForm = (props) => {
                       </Grid>
                       <Grid item xs={12}>
                         <TextFieldContainer
-                          id="bio"
-                          label="Bio"
+                          id="biography"
+                          label="Biography"
                           formikProps={formikProps}
                         />
                       </Grid>
