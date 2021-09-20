@@ -17,3 +17,11 @@ export const recoverPassword = async (data) =>
   await axiosInstance.post("/forgot-password", data);
 export const resetPassword = async (data) =>
   await axiosInstance.post("/reset-password", data);
+
+export const getUserInfoById = async (id) =>
+    await axiosInstance.get(`/user/${id}`);
+export const editUserInfoById = async (id, data) =>
+    await axiosInstance.put(`/user/${id}`, data);
+
+
+

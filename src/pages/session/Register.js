@@ -36,10 +36,6 @@ export const Register = (props) => {
     passwordConfirmation: "",
   };
 
-  useEffect(() => {
-    console.log("init ", initialValues);
-  }, [initialValues]);
-
   return (
     <>
       <ShowForm initialValues={initialValues} {...props} />
@@ -102,7 +98,7 @@ export const ShowForm = (props) => {
                       </Grid>
                       <Grid item xs={12}>
                         <TextFieldContainer
-                          id="bio"
+                          id="biography"
                           label="Bio"
                           formikProps={formikProps}
                         />
