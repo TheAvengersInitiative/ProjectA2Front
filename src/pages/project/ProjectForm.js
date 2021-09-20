@@ -9,10 +9,40 @@ import { withSnackbar } from "../../components/SnackBarHOC";
 import { getProjectById } from "../../utils/Projects";
 
 const validationSchema = yup.object().shape({
-  title: yup.string().required().nullable().min(5).max(25).label("Title"),
-  description: yup.string().required().nullable(),
-  links: yup.string().required().nullable(),
-  tags: yup.string().required().nullable(),
+  title: yup.string().required().nullable().min(3).max(100).label("Title"),
+  description: yup
+    .string()
+    .required()
+    .nullable()
+    .min(10)
+    .max(500)
+    .label("Description"),
+  links: yup
+    .string()
+    .required()
+    .nullable()
+    .test(
+      "size",
+      "Tags must be at least 1 and at most 5",
+      (value) =>
+        value?.split(",").length >= 1 &&
+        value?.split(",").length <= 5 &&
+        value?.split(",").every((s) => s != "" && s != undefined)
+    )
+    .label("Links"),
+  tags: yup
+    .string()
+    .required()
+    .test(
+      "size",
+      "Tags must be at least 1 and at most 5",
+      (value) =>
+        value?.split(",").length >= 1 &&
+        value?.split(",").length <= 5 &&
+        value?.split(",").every((s) => s != "" && s != undefined)
+    )
+    .nullable()
+    .label("Tags"),
 });
 
 export const ProjectForm = (props) => {

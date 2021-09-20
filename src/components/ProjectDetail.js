@@ -50,7 +50,7 @@ export default function ProjectDetail({ project }) {
         className={classes.media}
         image="https://i.pinimg.com/564x/12/6d/6a/126d6a772d8c617371646cea80851342.jpg"
       />
-      <CardHeader title={project.title} subheader={"Owner: " + project.owner} />
+      <CardHeader title={project.title} />
       <CardContent>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={12}>
