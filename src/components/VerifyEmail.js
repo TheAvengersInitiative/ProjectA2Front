@@ -1,12 +1,10 @@
-import React, { useEffect, useState} from "react";
-import { Alert, AlertTitle } from '@material-ui/lab';
+import React, { useEffect, useState } from "react";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import { useParams } from "react-router-dom";
 import { verifyEmail } from "../utils/Projects";
 import { Container, LinearProgress } from "@material-ui/core";
 
-
 function VerifyEmail() {
-
   const [hasError, setHasError] = useState(false);
 
   let { token } = useParams();
@@ -20,26 +18,23 @@ function VerifyEmail() {
     } catch (e) {
       setHasError(true);
     }
-  }; 
+  };
 
- useEffect(() => {
+  useEffect(() => {
     confirmEmail();
   }, []);
 
   return (
-      <Container>
-         { hasError ? 
+    <Container>
+      {hasError ? (
         <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
-            You need to confirm your email <strong>check it out!</strong>
+          <AlertTitle>Error</AlertTitle>
+          You need to confirm your email <strong>check it out!</strong>
         </Alert>
-        : 
+      ) : (
         <LinearProgress />
-         }
-      </Container>
-       
-    
-        
+      )}
+    </Container>
   );
 }
 

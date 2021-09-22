@@ -8,7 +8,7 @@ import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
-import VerifyEmail  from "./components/VerifyEmail";
+import VerifyEmail from "./components/VerifyEmail";
 
 function App() {
   return (
@@ -54,7 +54,7 @@ function App() {
                 name="Reset Password"
                 render={(props) => <ResetPassword {...props} />}
               />
-             <Route
+              <Route
                 exact
                 path="/verify/:user/:token"
                 name="Verify Email"
