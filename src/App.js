@@ -7,8 +7,7 @@ import { addProject, editProject } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
-import TagList  from "./components/TagList";
-
+import TagList from "./components/TagList";
 
 function App() {
   return (
