@@ -21,3 +21,8 @@ export const getTags = async () =>
   await axiosInstance.get("/tags");
 export const addTag = async (data) =>
   await axiosInstance.post("/tags", data);
+export const verifyEmail = async (id, token) =>
+  await axiosInstance.get(`/user/confirm/${id}/${token}`);
+
+
+  
