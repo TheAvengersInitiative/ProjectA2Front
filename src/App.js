@@ -8,6 +8,7 @@ import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
+import Login from "./pages/session/Login";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
                 />
               </Route>
               <Route path="/login">
-                <Register
+                <Login
                     title="Login"
                     subtitle="Please enter your credentials to login into the app"
                     submit={login}
