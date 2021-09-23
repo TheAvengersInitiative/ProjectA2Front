@@ -8,6 +8,7 @@ import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
+import VerifyEmail from "./components/VerifyEmail";
 
 function App() {
   return (
@@ -52,6 +53,12 @@ function App() {
                 path="/reset-password"
                 name="Reset Password"
                 render={(props) => <ResetPassword {...props} />}
+              />
+              <Route
+                exact
+                path="/verify/:user/:token"
+                name="Verify Email"
+                render={(props) => <VerifyEmail {...props} />}
               />
               <Route path="/my-projects/add">
                 <AddNewProject
