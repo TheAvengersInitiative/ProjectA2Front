@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Container, Grid, Typography, TextField, Chip } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -7,6 +7,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
 import { getProjectById } from "../../utils/Projects";
+import { Autocomplete } from "@material-ui/lab";
 
 const validationSchema = yup.object().shape({
   title: yup.string().required().nullable().min(5).max(25).label("Title"),
@@ -134,11 +135,30 @@ export const ShowForm = (props) => {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <TextFieldContainer
-                          id="tags"
-                          label="Tags"
-                          helperText="Separate values using commas"
-                          formikProps={formikProps}
+                        <Autocomplete
+                          multiple
+                          size="medium"
+                          options={availableTags}
+                          renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                              <Chip
+                                key={index}
+                                variant="outlined"
+                                label={option}
+                                size="small"
+                                {...getTagProps({ index })}
+                              />
+                            ))
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant="filled"
+                              label="Tags"
+                              helperText="Choose a maximum of three tags"
+                            />
+                          )}
+
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -161,5 +181,24 @@ export const ShowForm = (props) => {
     </Container>
   );
 };
+
+const availableTags = [
+  "Java", "C", "C++", "Python", "Visual Basic .NET",
+   "PHP", "JavaScript", "TypeScript", "Delphi/Object Pascal", 
+   "Swift", "Perl", "Ruby", "Assembly language", "R", 
+   "Visual Basic", "Objective-C", "Go", "MATLAB", "PL/SQL", 
+   "Scratch", "SAS", "D", "Dart", "ABAP", "COBOL", "Ada", 
+   "Fortran", "Transact-SQL", "Lua", "Scala", "Logo", "F#", "Lisp", 
+   "LabVIEW", "Prolog", "Haskell", "Scheme", "Groovy", "RPG (OS/400)", 
+   "Apex", "Erlang", "MQL4", "Rust", "Bash", "Ladder Logic", "Q", 
+   "Julia", "Alice", "VHDL", "Awk", "(Visual) FoxPro", "ABC", "ActionScript", 
+   "APL", "AutoLISP", "bc", "BlitzMax", "Bourne shell", "C shell", "CFML",
+    "cg", "CL (OS/400)", "Clipper", "Clojure", "Common Lisp", "Crystal", "Eiffel", 
+    "Elixir", "Elm", 'Emacs Lisp', 'Forth', 'Hack', 'Icon', 'IDL', 'Inform', 'Io', 
+    "J", 'Korn shell', "Kotlin", "Maple", "ML", "NATURAL", "NXT-G", "OCaml", 
+    "OpenCL", 'OpenEdge ABL', "Oz", "PL/I", "PowerShell", "REXX", "Ring", 
+    "S", "Smalltalk", "SPARK", "SPSS", "Standard ML", "Stata", "Tcl", 
+    "VBScript", "Verilog"
+];
 
 export default withSnackbar(ProjectForm);
