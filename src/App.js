@@ -38,10 +38,10 @@ function App() {
                 />
               </Route>
               <Route
-                  exact
-                  path="/"
-                  name="Home Page"
-                  render={(props) => <HomePage {...props} />}
+                exact
+                path="/"
+                name="Home Page"
+                render={(props) => <HomePage {...props} />}
               />
               <PrivateRoute exact path="/my-projects" name="My projects">
                 <ProjectPage />
