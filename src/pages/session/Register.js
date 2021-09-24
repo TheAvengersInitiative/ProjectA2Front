@@ -57,7 +57,7 @@ export const ShowForm = (props) => {
         history.push(`/login`);
       }, 1000);
     } catch (e) {
-      showMessage("error", e.response?.data?.errors || "Ocurrio un error");
+      showMessage("error", e.response?.data || "An error ocurred");
     }
   };
   return (
