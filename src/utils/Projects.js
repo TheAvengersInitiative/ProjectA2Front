@@ -18,10 +18,7 @@ export const recoverPassword = async (data) =>
 export const resetPassword = async (data) =>
   await axiosInstance.post("/reset-password", data);
 
-export const getUserInfoById = async (id) =>
-    await axiosInstance.get(`/user/${id}`);
-export const editUserInfoById = async (id, data) =>
-    await axiosInstance.put(`/user/${id}`, data);
-
-
-
+export const getUserInfoById = async () => await axiosInstance.get("/user");
+export const editUserInfo = async (data) =>
+  await axiosInstance.put("/user", data);
+export const deleteUser = async () => await axiosInstance.delete("/user");

@@ -3,11 +3,17 @@ import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
-import { addProject, editProject, register, editUserInfoById} from "./utils/Projects";
+import {
+  addProject,
+  editProject,
+  register,
+  editUserInfo,
+} from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
+import ModifyUser from "./pages/user/ModifyUser";
 
 function App() {
   return (
@@ -29,13 +35,17 @@ function App() {
                   submit={register}
                 />
               </Route>
-              <Route path="/profile/:id">
-                <Register
+              <Route
+                path="/profile"
+                render={(props) => (
+                  <ModifyUser
                     title="Profile"
                     subtitle=""
-                    submit={editUserInfoById}
-                />
-              </Route>
+                    submit={editUserInfo}
+                    {...props}
+                  />
+                )}
+              ></Route>
               <Route
                 exact
                 path="/"
