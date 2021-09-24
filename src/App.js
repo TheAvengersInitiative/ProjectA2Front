@@ -8,6 +8,7 @@ import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
+import VerifyEmail from "./components/VerifyEmail";
 import Login from "./pages/session/Login";
 import { AppBarMenu } from "./components/AppBarMenu";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -36,9 +37,12 @@ function App() {
                   submit={login}
                 />
               </Route>
-              <Route exact path="/" name="Home Page">
-                <HomePage />
-              </Route>
+              <Route
+                  exact
+                  path="/"
+                  name="Home Page"
+                  render={(props) => <HomePage {...props} />}
+              />
               <PrivateRoute exact path="/my-projects" name="My projects">
                 <ProjectPage />
               </PrivateRoute>
@@ -54,6 +58,13 @@ function App() {
                 name="Reset Password"
                 render={(props) => <ResetPassword {...props} />}
               />
+              <Route
+                exact
+                path="/verify/:user/:token"
+                name="Verify Email"
+                render={(props) => <VerifyEmail {...props} />}
+              />
+
               <PrivateRoute path="/my-projects/add">
                 <AddNewProject
                   title="Add new project"
