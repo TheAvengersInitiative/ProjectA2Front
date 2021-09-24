@@ -14,7 +14,7 @@ import * as yup from "yup";
 import { useHistory, useParams } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
-import { getProjectById } from "../../utils/Projects";
+import { getLanguages, getProjectById } from "../../utils/Projects";
 import { Autocomplete } from "@material-ui/lab";
 
 const validationSchema = yup.object().shape({
@@ -96,6 +96,22 @@ export const ShowForm = (props) => {
       showMessage("error", "There was an error!");
     }
   };
+
+  const [tags, setTags] = useState([]);
+
+  async function fetchTags() {
+    try {
+      const response = await getLanguages();
+      setTags(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
   return (
     <Container>
       <Box marginTop={6}>
@@ -146,7 +162,7 @@ export const ShowForm = (props) => {
                         <Autocomplete
                           multiple
                           size="medium"
-                          options={availableTags}
+                          options={tags}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
                               <Chip
@@ -189,6 +205,7 @@ export const ShowForm = (props) => {
   );
 };
 
+/*
 const availableTags = [
   "Java",
   "C",
@@ -291,5 +308,6 @@ const availableTags = [
   "VBScript",
   "Verilog",
 ];
+*/
 
 export default withSnackbar(ProjectForm);

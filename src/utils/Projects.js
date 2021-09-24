@@ -19,3 +19,5 @@ export const resetPassword = async (data) =>
   await axiosInstance.post("/reset-password", data);
 export const verifyEmail = async (id, token) =>
   await axiosInstance.get(`/user/confirm/${id}/${token}`);
+export const getLanguages = async () =>
+  await axiosInstance.get("/project/languages");
