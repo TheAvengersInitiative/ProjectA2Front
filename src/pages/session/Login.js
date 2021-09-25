@@ -3,37 +3,25 @@ import React from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
 import * as yup from "yup";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
+import { useAuth } from "../../contexts/AuthContext";
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email().required().nullable(),
-  nickname: yup.string().required().nullable().min(3).max(24),
-  biography: yup.string().nullable().max(500),
+  email: yup.string().email().required().nullable().label("Email"),
   password: yup
     .string()
     .required("Password is required")
-    .min(8, "Password should be of minimum 8 characters length")
-    .max(31, "Password must be less than 32 characters length"),
-  //.oneOf([yup.ref("repeatPassword")], "Passwords do not match"),
-
-  passwordConfirmation: yup
-    .string()
-    .required("Password is required")
-    .min(8, "Password should be of minimum 8 characters length")
-    .max(31, "Password must be less than 32 characters length")
-    .oneOf([yup.ref("password")], "Passwords do not match"),
-  //chequear que las dos passwords sean iguales
+    .min(8)
+    .max(31)
+    .label("Password"),
 });
 
-export const Register = (props) => {
+const Login = (props) => {
   const initialValues = {
     email: "",
-    nickname: "",
-    biography: "",
     password: "",
-    passwordConfirmation: "",
   };
 
   return (
@@ -43,23 +31,26 @@ export const Register = (props) => {
   );
 };
 
-export const ShowForm = (props) => {
+const ShowForm = (props) => {
   const { title, subtitle, submit, showMessage, initialValues } = props;
   const history = useHistory();
+  const { setUserInfo, isLoggedIn } = useAuth();
 
   const onSubmit = async (values) => {
     try {
-      await submit(values);
-
-      showMessage("success", `Succesfully created user`);
+      const response = await submit(values);
+      setUserInfo(response);
+      showMessage("success", `Succesfully logged in`);
 
       setTimeout(() => {
-        history.push(`/login`);
+        history.push(`/home`);
       }, 1000);
     } catch (e) {
-      showMessage("error", e.response?.data || "An error ocurred");
+      showMessage("error", e.response?.data?.errors || "Invalid credentials");
+      //la cuenta no está activa??
     }
   };
+  if (isLoggedIn) return <Redirect to={"/my-projects"} />;
   return (
     <Container>
       <Box marginTop={6}>
@@ -89,20 +80,7 @@ export const ShowForm = (props) => {
                           formikProps={formikProps}
                         />
                       </Grid>
-                      <Grid item xs={12}>
-                        <TextFieldContainer
-                          id="nickname"
-                          label="Nickname"
-                          formikProps={formikProps}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextFieldContainer
-                          id="biography"
-                          label="Biography"
-                          formikProps={formikProps}
-                        />
-                      </Grid>
+
                       <Grid item xs={12}>
                         <TextFieldContainer
                           id="password"
@@ -111,21 +89,14 @@ export const ShowForm = (props) => {
                           type="password"
                         />
                       </Grid>
-                      <Grid item xs={12}>
-                        <TextFieldContainer
-                          id="passwordConfirmation"
-                          label="Password confirmation"
-                          formikProps={formikProps}
-                          type="password"
-                        />
-                      </Grid>
+
                       <Grid item xs={12}>
                         <Button
                           variant="contained"
                           color="primary"
                           type="submit"
                         >
-                          {"Register"}
+                          {"Login"}
                         </Button>
                       </Grid>
                     </Grid>
@@ -140,4 +111,4 @@ export const ShowForm = (props) => {
   );
 };
 
-export default withSnackbar(Register);
+export default withSnackbar(Login);
