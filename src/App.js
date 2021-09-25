@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Container, Box, Typography, Toolbar } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
@@ -65,10 +65,10 @@ function App() {
                 render={(props) => <ProjectPage {...props} />}
               />
               <Route
-                  exact
-                  path="/verify/:user/:token"
-                  name="Verify Email"
-                  render={(props) => <VerifyEmail {...props} />}
+                exact
+                path="/verify/:user/:token"
+                name="Verify Email"
+                render={(props) => <VerifyEmail {...props} />}
               />
               <PrivateRoute path="/my-projects/add">
                 <AddNewProject

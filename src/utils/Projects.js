@@ -5,8 +5,12 @@ const axiosInstance = axios.create({
   headers: { Authorization: `${localStorage.getItem("token")}` },
 });
 
+// LOGIN
 export const login = async (data) => await axiosInstance.post("/login", data);
+
+// REGISTER
 export const register = async (data) => await axiosInstance.post("/user", data);
+
 // EDIT PROJECT BY ID
 export const editProject = async (id, data) =>
   await axiosInstance.put(`/project/${id}`, data);
@@ -25,10 +29,16 @@ export const getAllProject = async () => await axiosInstance.get("/project");
 // DELETE PROJECT BY ID
 export const deleteProjectById = async (id) =>
   await axiosInstance.delete(`/project/${id}`);
+
+// RECOVER PASSWORD
 export const recoverPassword = async (data) =>
   await axiosInstance.post("/forgot-password", data);
+
+// RESET PASSWORD
 export const resetPassword = async (data) =>
   await axiosInstance.post("/reset-password", data);
+
+// VERIFY EMAIL
 export const verifyEmail = async (id, token) =>
   await axiosInstance.get(`/user/confirm/${id}/${token}`);
 

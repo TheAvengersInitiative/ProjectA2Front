@@ -7,10 +7,10 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import React from "react";
-import { AccountCircle } from "@material-ui/icons";
+import { AccountCircle } from "@mui/icons-material";
 import { useAuth } from "../contexts/AuthContext";
 
 export const AppBarMenu = () => {
