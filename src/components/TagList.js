@@ -23,7 +23,7 @@ function TagList(props) {
   const [loading, setLoading] = useState(true);
 
   const handleDelete = () => {
-    showMessage("error", "Not allowed");
+    showMessage("error", "Deteting Not allowed");
   };
 
   const handleClickOpen = () => {
