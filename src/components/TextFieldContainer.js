@@ -1,6 +1,6 @@
 import React from "react";
 
-import TextField from "@material-ui/core/TextField";
+import { TextField } from "@mui/material";
 
 export default function TextFieldContainer(props) {
   const { id, formikProps, helperText } = props;

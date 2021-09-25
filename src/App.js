@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
+import { AppBar, Container, Box, Typography, Toolbar } from "@mui/material";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
@@ -27,7 +27,7 @@ function App() {
               />
               <Route
                 exact
-                path="/my-projects"
+                path="/myprojects"
                 name="My projects"
                 render={(props) => <ProjectPage {...props} />}
               />

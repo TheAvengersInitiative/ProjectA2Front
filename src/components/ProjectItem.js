@@ -8,8 +8,8 @@ import {
   IconButton,
   Link,
   Typography,
-} from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+} from "@mui/material";
+import { MoreVert } from "@mui/icons-material";
 import React, { useState } from "react";
 import ItemOptions from "./ItemOptions";
 import DeleteDialog from "./DeleteDialog";
@@ -58,7 +58,7 @@ const ProjectItem = (props) => {
                   aria-haspopup="true"
                   onClick={handleClick}
                 >
-                  <MoreVertIcon />
+                  <MoreVert />
                 </IconButton>
                 <ItemOptions
                   id={item?.id}
@@ -73,7 +73,7 @@ const ProjectItem = (props) => {
               {item?.tags &&
                 item?.tags.map((item, index) => (
                   <Grid item key={index}>
-                    <Chip label={item} color="primary" />
+                    <Chip label={item.name} color="primary" />
                   </Grid>
                 ))}
             </Grid>
