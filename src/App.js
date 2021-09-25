@@ -1,23 +1,23 @@
 import React from "react";
-import { AppBar, Container, Toolbar, Typography, Box } from "@material-ui/core";
+import { Container, Box } from "@material-ui/core";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
-import { addProject, editProject, register } from "./utils/Projects";
+import { addProject, editProject, register, login } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
 import VerifyEmail from "./components/VerifyEmail";
+import Login from "./pages/session/Login";
+import { AppBarMenu } from "./components/AppBarMenu";
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./contexts/PrivateRoute";
 
 function App() {
   return (
-    <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">A2</Typography>
-        </Toolbar>
-      </AppBar>
+    <AuthProvider>
+      <AppBarMenu />
 
       <Container>
         <Box mt={6}>
@@ -30,18 +30,22 @@ function App() {
                   submit={register}
                 />
               </Route>
+              <Route path="/login">
+                <Login
+                  title="Login"
+                  subtitle="Please enter your credentials to login into the app"
+                  submit={login}
+                />
+              </Route>
               <Route
                 exact
                 path="/"
                 name="Home Page"
                 render={(props) => <HomePage {...props} />}
               />
-              <Route
-                exact
-                path="/my-projects"
-                name="My projects"
-                render={(props) => <ProjectPage {...props} />}
-              />
+              <PrivateRoute exact path="/my-projects" name="My projects">
+                <ProjectPage />
+              </PrivateRoute>
               <Route
                 exact
                 path="/forgot-password/:token"
@@ -60,25 +64,26 @@ function App() {
                 name="Verify Email"
                 render={(props) => <VerifyEmail {...props} />}
               />
-              <Route path="/my-projects/add">
+
+              <PrivateRoute path="/my-projects/add">
                 <AddNewProject
                   title="Add new project"
                   subtitle="Enter all the information to add a new project"
                   submit={addProject}
                 />
-              </Route>
-              <Route path="/my-projects/:id">
+              </PrivateRoute>
+              <PrivateRoute path="/my-projects/:id">
                 <AddNewProject
                   title="Edit project"
                   subtitle="Edit the information of an existing project"
                   submit={editProject}
                 />
-              </Route>
+              </PrivateRoute>
             </Switch>
           </Router>
         </Box>
       </Container>
-    </>
+    </AuthProvider>
   );
 }
 
