@@ -13,6 +13,7 @@ import Login from "./pages/session/Login";
 import { AppBarMenu } from "./components/AppBarMenu";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
+import TagList from "./components/TagList";
 
 function App() {
   return (
@@ -64,7 +65,12 @@ function App() {
                 name="Verify Email"
                 render={(props) => <VerifyEmail {...props} />}
               />
-
+              <Route
+                exact
+                path="/tags"
+                name="Tag List"
+                render={(props) => <TagList {...props} />}
+              />
               <PrivateRoute path="/my-projects/add">
                 <AddNewProject
                   title="Add new project"
