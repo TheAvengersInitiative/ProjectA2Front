@@ -24,7 +24,7 @@ const validationSchema = yup.object().shape({
   email: yup.string().email().required().nullable().label("Email"),
   nickname: yup.string().required().nullable().min(3).max(24).label("Nickname"),
   biography: yup.string().nullable().max(500).label("Biography"),
-  password: yup.string().min(8).max(31).label("Password"),
+  password: yup.string().min(8).max(32).label("Password"),
 
   passwordConfirmation: yup
     .string()
