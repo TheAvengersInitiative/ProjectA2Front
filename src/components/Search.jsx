@@ -310,7 +310,7 @@ function Search(props) {
             )}
           </Box>
 
-          <Box mb={5}>
+          <Box>
             <Typography color="textSecondary">
               {state && state.length === 0
                 ? "No results"

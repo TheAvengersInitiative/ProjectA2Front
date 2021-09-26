@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProjectDetail from "../../components/ProjectDetail";
-import { Box, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { withSnackbar } from "../../components/SnackBarHOC";
 import Search from "../../components/Search";
 
@@ -18,29 +18,27 @@ function HomePage(props) {
   }, [projects]);
 
   return (
-    <Grid container direction="column">
-      <Search
-        state={projects}
-        setState={setProjects}
-        showMessage={showMessage}
-        filters={filterList}
-      />
-      <Box mt={5}>
-        <Grid item>
-          <Grid container spacing={4} direction="row" justifyContent="center">
-            {projects.length > 0 &&
-              projects.map((item, index) => {
-                return (
-                  <Grid item s key={index}>
-                    <Grid container alignItems="center" justifyContent="center">
-                      <ProjectDetail project={item} feature={item.featured} />
-                    </Grid>
-                  </Grid>
-                );
-              })}
-          </Grid>
+    <Grid container item xs={12} spacing={3}>
+      <Grid item xs={12}>
+        <Search
+          state={projects}
+          setState={setProjects}
+          showMessage={showMessage}
+          filters={filterList}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container spacing={4} direction="row" justifyContent="flex-start">
+          {projects.length > 0 &&
+            projects.map((item, index) => {
+              return (
+                <Grid key={index} item xs={4}>
+                  <ProjectDetail project={item} feature={item.featured} />
+                </Grid>
+              );
+            })}
         </Grid>
-      </Box>
+      </Grid>
     </Grid>
   );
 }

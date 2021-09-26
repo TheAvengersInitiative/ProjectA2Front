@@ -63,7 +63,7 @@ export const ShowForm = (props) => {
   return (
     <Container>
       <Box marginTop={6}>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid container item xs={6} justify="center" spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4">{title}</Typography>

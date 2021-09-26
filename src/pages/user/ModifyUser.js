@@ -10,7 +10,7 @@ import {
   Grid,
   LinearProgress,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -77,7 +77,7 @@ const ModifyUser = (props) => {
       showMessage("success", `Succesfully deleted your account`);
 
       setTimeout(() => {
-        history.push("/home");
+        history.push("/");
       }, 1000);
     } catch (e) {
       showMessage("error", e.response?.data?.errors || "An error ocurred");
@@ -105,8 +105,8 @@ const ModifyUser = (props) => {
   return (
     <Container>
       <Box marginTop={6}>
-        <Grid container justify="center">
-          <Grid container item xs={6} justify="center" spacing={2}>
+        <Grid container justifyContent="center">
+          <Grid container item xs={6} justifyContent="center" spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4">{title}</Typography>
             </Grid>
