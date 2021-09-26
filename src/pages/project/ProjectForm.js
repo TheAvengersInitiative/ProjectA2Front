@@ -30,7 +30,6 @@ export const ProjectForm = (props) => {
     if (id) {
       getProjectById(id)
         .then((res) => {
-          console.log(res.data);
           const value = {};
           Object.keys(res.data).forEach((key) => (value[key] = res.data[key]));
 
@@ -43,10 +42,6 @@ export const ProjectForm = (props) => {
         });
     }
   }, []);
-
-  useEffect(() => {
-    console.log("init ", initialValues);
-  }, [initialValues]);
 
   return (
     <>

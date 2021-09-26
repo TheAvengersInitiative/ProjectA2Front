@@ -1,4 +1,3 @@
-//import { useHistory } from "react-router-dom";
 import {
   Box,
   Card,
@@ -18,7 +17,6 @@ const ProjectItem = (props) => {
   const { item } = props;
   const [anchorEl, setAnchorEl] = useState(false);
   const [open, setOpen] = useState(false);
-  //const history = useHistory();
 
   const shrinkText = (text) => {
     let nText = text;
@@ -30,10 +28,6 @@ const ProjectItem = (props) => {
     }
     return nText;
   };
-
-  /*  const redirectItem = () => {
-    history.push(`/my-projects/${item?.id}`);
-  };*/
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

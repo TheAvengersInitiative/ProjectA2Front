@@ -2,7 +2,9 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
-  headers: { Authorization: `${localStorage.getItem("token")}` },
+  ...(localStorage.getItem("token") && {
+    headers: { Authorization: `${localStorage.getItem("token")}` },
+  }),
 });
 
 export const login = async (data) => await axiosInstance.post("/login", data);
@@ -22,3 +24,8 @@ export const resetPassword = async (data) =>
   await axiosInstance.post("/reset-password", data);
 export const verifyEmail = async (id, token) =>
   await axiosInstance.get(`/user/confirm/${id}/${token}`);
+
+export const getUserInfoById = async () => await axiosInstance.get("/user");
+export const editUserInfo = async (data) =>
+  await axiosInstance.put("/user", data);
+export const deleteUser = async () => await axiosInstance.delete("/user");
