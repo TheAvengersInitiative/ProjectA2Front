@@ -1,4 +1,3 @@
-//import { useHistory } from "react-router-dom";
 import {
   Box,
   Card,
@@ -29,10 +28,6 @@ const ProjectItem = (props) => {
     }
     return nText;
   };
-
-  /*  const redirectItem = () => {
-    history.push(`/my-projects/${item?.id}`);
-  };*/
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

@@ -2,7 +2,9 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8080",
-  headers: { Authorization: `${localStorage.getItem("token")}` },
+  ...(localStorage.getItem("token") && {
+    headers: { Authorization: `${localStorage.getItem("token")}` },
+  }),
 });
 
 // LOGIN
@@ -52,3 +54,7 @@ export const getTags = async () => await axiosInstance.get("/project/tags");
 // GET LANGUAGES
 export const getLanguages = async () =>
   await axiosInstance.get("/project/languages");
+export const getUserInfoById = async () => await axiosInstance.get("/user");
+export const editUserInfo = async (data) =>
+  await axiosInstance.put("/user", data);
+export const deleteUser = async () => await axiosInstance.delete("/user");

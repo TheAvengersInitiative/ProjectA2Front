@@ -17,6 +17,10 @@ export function AuthProvider({ children }) {
 
   const getUserInfo = () => isLoggedIn;
 
+  const isUserLoggedIn = () => {
+    return localStorage.getItem("token");
+  };
+
   const logOut = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("token");
@@ -29,7 +33,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, logOut, getUserInfo, setUserInfo }}
+      value={{ isLoggedIn, logOut, getUserInfo, setUserInfo, isUserLoggedIn }}
     >
       {children}
     </AuthContext.Provider>

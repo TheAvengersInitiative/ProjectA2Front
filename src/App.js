@@ -3,7 +3,13 @@ import { Container, Box } from "@mui/material";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
-import { addProject, editProject, register, login } from "./utils/Projects";
+import {
+  addProject,
+  editProject,
+  register,
+  login,
+  editUserInfo,
+} from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
 import ResetPassword from "./components/ResetPassword";
@@ -13,6 +19,7 @@ import Login from "./pages/session/Login";
 import { AppBarMenu } from "./components/AppBarMenu";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
+import ModifyUser from "./pages/user/ModifyUser";
 
 function App() {
   return (
@@ -37,15 +44,16 @@ function App() {
                   submit={login}
                 />
               </Route>
+              <PrivateRoute path="/profile">
+                <ModifyUser title="Profile" subtitle="" submit={editUserInfo} />
+              </PrivateRoute>
               <Route
                 exact
                 path="/"
                 name="Home Page"
                 render={(props) => <HomePage {...props} />}
               />
-              <PrivateRoute exact path="/my-projects" name="My projects">
-                <ProjectPage />
-              </PrivateRoute>
+
               <Route
                 exact
                 path="/forgot-password/:token"
@@ -60,16 +68,13 @@ function App() {
               />
               <Route
                 exact
-                path="/my-projects"
-                name="My projects"
-                render={(props) => <ProjectPage {...props} />}
-              />
-              <Route
-                exact
                 path="/verify/:user/:token"
                 name="Verify Email"
                 render={(props) => <VerifyEmail {...props} />}
               />
+              <PrivateRoute exact path="/my-projects" name="My projects">
+                <ProjectPage />
+              </PrivateRoute>
               <PrivateRoute path="/my-projects/add">
                 <AddNewProject
                   title="Add new project"

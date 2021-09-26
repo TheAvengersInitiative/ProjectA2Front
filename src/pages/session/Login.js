@@ -34,7 +34,7 @@ const Login = (props) => {
 const ShowForm = (props) => {
   const { title, subtitle, submit, showMessage, initialValues } = props;
   const history = useHistory();
-  const { setUserInfo, isLoggedIn } = useAuth();
+  const { setUserInfo, isUserLoggedIn } = useAuth();
 
   const onSubmit = async (values) => {
     try {
@@ -50,7 +50,7 @@ const ShowForm = (props) => {
       //la cuenta no está activa??
     }
   };
-  if (isLoggedIn) return <Redirect to={"/my-projects"} />;
+  if (isUserLoggedIn()) return <Redirect to={"/home"} />;
   return (
     <Container>
       <Box marginTop={6}>
