@@ -8,6 +8,7 @@ import {
   Chip,
   Autocomplete,
 } from "@mui/material";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -15,13 +16,13 @@ import * as yup from "yup";
 import { useHistory, useParams } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
-import { getLanguages, getProjectById } from "../../utils/Projects";
+import { getLanguages, getProjectById, getTags } from "../../utils/Projects";
+const filter = createFilterOptions();
 
 const validationSchema = yup.object().shape({
   title: yup.string().required().nullable().min(5).max(25).label("Title"),
   description: yup.string().required().nullable(),
   links: yup.string().required().nullable(),
-  tags: yup.string().required().nullable(),
 });
 
 export const ProjectForm = (props) => {
@@ -29,11 +30,13 @@ export const ProjectForm = (props) => {
     title: "",
     description: "",
     links: "",
-    tags: "",
   });
   let { id } = useParams();
 
   const { showMessage } = props;
+
+  const [languages, setLanguages] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     if (id) {
@@ -42,8 +45,8 @@ export const ProjectForm = (props) => {
           const value = {};
           Object.keys(res.data).forEach((key) => (value[key] = res.data[key]));
 
-          value["tags"] = value["tags"].join();
-          value["links"] = value["links"].join();
+          setLanguages(res.data.languages.map((value) => value.name));
+          setTags(res.data.tags.map((value) => value.name));
           setInitialValues(value);
         })
         .catch(() => {
@@ -56,7 +59,13 @@ export const ProjectForm = (props) => {
     <>
       {id ? (
         initialValues.title && (
-          <ShowForm initialValues={initialValues} id={id} {...props} />
+          <ShowForm
+            initialValues={initialValues}
+            id={id}
+            initalLanguages={languages}
+            initialTags={tags}
+            {...props}
+          />
         )
       ) : (
         <ShowForm initialValues={initialValues} {...props} />
@@ -66,15 +75,24 @@ export const ProjectForm = (props) => {
 };
 
 export const ShowForm = (props) => {
-  const { title, subtitle, submit, showMessage, initialValues, id } = props;
+  const {
+    title,
+    subtitle,
+    submit,
+    showMessage,
+    initialValues,
+    id,
+    initalLanguages,
+    initialTags,
+  } = props;
   const history = useHistory();
 
   const onSubmit = async (values) => {
-    const array = values.tags.split(",");
-    values.tags = array;
-
     const array2 = values.links.split(",");
     values.links = array2;
+
+    values.languages = selectedLanguages;
+    values.tags = selectedTags;
 
     try {
       id ? await submit(id, values) : await submit(values);
@@ -88,16 +106,23 @@ export const ShowForm = (props) => {
         history.push(`/my-projects`);
       }, 1000);
     } catch (e) {
-      showMessage("error", "There was an error!");
+      showMessage("error", e?.response?.data || "There was an error!");
     }
   };
 
+  const [languages, setLanguages] = useState([]);
   const [tags, setTags] = useState([]);
+
+  const [selectedLanguages, setSelectedLanguages] = useState(initalLanguages);
+  const [selectedTags, setSelectedTags] = useState(initialTags);
 
   async function fetchTags() {
     try {
       const response = await getLanguages();
-      setTags(response.data);
+      setLanguages(response.data);
+
+      const tags = await getTags();
+      setTags(tags.data);
     } catch (e) {
       console.log(e);
     }
@@ -106,6 +131,9 @@ export const ShowForm = (props) => {
   useEffect(() => {
     fetchTags();
   }, []);
+
+  console.log("LANGUAGES", selectedLanguages);
+  console.log("TAGS", selectedTags);
 
   return (
     <Container>
@@ -155,16 +183,29 @@ export const ShowForm = (props) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Autocomplete
+                          defaultValue={selectedTags}
                           multiple
                           size="medium"
                           options={tags}
+                          onChange={(_, newValue) => {
+                            setSelectedTags(newValue);
+                          }}
+                          filterOptions={(options, params) => {
+                            const filtered = filter(options, params);
+
+                            if (params.inputValue !== "") {
+                              filtered.push(params.inputValue);
+                            }
+
+                            return filtered;
+                          }}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
                               <Chip
                                 key={index}
-                                variant="outlined"
                                 label={option}
                                 size="small"
+                                color="success"
                                 {...getTagProps({ index })}
                               />
                             ))
@@ -180,12 +221,48 @@ export const ShowForm = (props) => {
                         />
                       </Grid>
                       <Grid item xs={12}>
+                        <Autocomplete
+                          defaultValue={selectedLanguages}
+                          multiple
+                          size="medium"
+                          limitTags={3}
+                          options={languages}
+                          renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                              <Chip
+                                key={index}
+                                label={option}
+                                size="small"
+                                color="primary"
+                                {...getTagProps({ index })}
+                              />
+                            ))
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant="filled"
+                              label="Languages"
+                              helperText="Choose a maximum of three languages"
+                            />
+                          )}
+                          onChange={(_, newValue) => {
+                            setSelectedLanguages(newValue);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
                         <Button
                           variant="contained"
                           color="primary"
                           type="submit"
                         >
                           {id ? "Edit" : "Add"}
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button onClick={() => console.log(formikProps.values)}>
+                          FOrmik props
                         </Button>
                       </Grid>
                     </Grid>
