@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Box } from "@material-ui/core";
+import { Container, Box } from "@mui/material";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import ProjectPage from "./pages/proyects/ProjectPage";
 import AddNewProject from "./pages/project/ProjectForm";
@@ -12,6 +12,7 @@ import {
 } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
+import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
 import VerifyEmail from "./components/VerifyEmail";
 import Login from "./pages/session/Login";
@@ -58,6 +59,12 @@ function App() {
                 path="/forgot-password/:token"
                 name="Recover Password"
                 render={(props) => <RecoverPassword {...props} />}
+              />
+              <Route
+                exact
+                path="/reset-password"
+                name="Reset Password"
+                render={(props) => <ResetPassword {...props} />}
               />
               <Route
                 exact

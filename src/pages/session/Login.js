@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@material-ui/core";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -43,18 +43,18 @@ const ShowForm = (props) => {
       showMessage("success", `Succesfully logged in`);
 
       setTimeout(() => {
-        history.push(`/home`);
+        history.push(`/`);
       }, 1000);
     } catch (e) {
       showMessage("error", e.response?.data?.errors || "Invalid credentials");
       //la cuenta no está activa??
     }
   };
-  if (isUserLoggedIn()) return <Redirect to={"/home"} />;
+  if (isUserLoggedIn()) return <Redirect to={"/"} />;
   return (
     <Container>
       <Box marginTop={6}>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid container item xs={6} justify="center" spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4">{title}</Typography>
