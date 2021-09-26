@@ -7,12 +7,11 @@ import {
   addProject,
   editProject,
   register,
-    login,
+  login,
   editUserInfo,
 } from "./utils/Projects";
 import HomePage from "./pages/home/HomePage";
 import RecoverPassword from "./components/RecoverPassword";
-import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
 import VerifyEmail from "./components/VerifyEmail";
 import Login from "./pages/session/Login";
@@ -44,26 +43,16 @@ function App() {
                   submit={login}
                 />
               </Route>
-              <Route
-                path="/profile"
-                render={(props) => (
-                  <ModifyUser
-                    title="Profile"
-                    subtitle=""
-                    submit={editUserInfo}
-                    {...props}
-                  />
-                )}
-              ></Route>
+              <PrivateRoute path="/profile">
+                <ModifyUser title="Profile" subtitle="" submit={editUserInfo} />
+              </PrivateRoute>
               <Route
                 exact
                 path="/"
                 name="Home Page"
                 render={(props) => <HomePage {...props} />}
               />
-              <PrivateRoute exact path="/my-projects" name="My projects">
-                <ProjectPage />
-              </PrivateRoute>
+
               <Route
                 exact
                 path="/forgot-password/:token"
@@ -71,31 +60,33 @@ function App() {
                 render={(props) => <RecoverPassword {...props} />}
               />
               <Route
-                  exact
-                  path="/verify/:user/:token"
-                  name="Verify Email"
-                  render={(props) => <VerifyEmail {...props} />}
+                exact
+                path="/verify/:user/:token"
+                name="Verify Email"
+                render={(props) => <VerifyEmail {...props} />}
               />
-
+              <PrivateRoute exact path="/my-projects" name="My projects">
+                <ProjectPage />
+              </PrivateRoute>
               <PrivateRoute path="/my-projects/add">
                 <AddNewProject
-                    title="Add new project"
-                    subtitle="Enter all the information to add a new project"
-                    submit={addProject}
+                  title="Add new project"
+                  subtitle="Enter all the information to add a new project"
+                  submit={addProject}
                 />
               </PrivateRoute>
               <PrivateRoute path="/my-projects/:id">
                 <AddNewProject
-                    title="Edit project"
-                    subtitle="Edit the information of an existing project"
-                    submit={editProject}
+                  title="Edit project"
+                  subtitle="Edit the information of an existing project"
+                  submit={editProject}
                 />
               </PrivateRoute>
             </Switch>
           </Router>
         </Box>
       </Container>
-    </>
+    </AuthProvider>
   );
 }
 

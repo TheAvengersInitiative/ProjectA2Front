@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
+  LinearProgress,
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
@@ -23,11 +24,10 @@ const validationSchema = yup.object().shape({
   email: yup.string().email().required().nullable().label("Email"),
   nickname: yup.string().required().nullable().min(3).max(24).label("Nickname"),
   biography: yup.string().nullable().max(500).label("Biography"),
-  password: yup.string().required().min(8).max(31).label("Password"),
+  password: yup.string().min(8).max(31).label("Password"),
 
   passwordConfirmation: yup
     .string()
-    .required()
     .min(8)
     .max(31)
     .oneOf([yup.ref("password")], "Passwords do not match")
@@ -35,6 +35,8 @@ const validationSchema = yup.object().shape({
 });
 
 const ModifyUser = (props) => {
+  const [user, setUser] = useState(true);
+  const [loading, setLoading] = useState(true);
   const initialValues = {
     email: "",
     nickname: "",
@@ -48,13 +50,19 @@ const ModifyUser = (props) => {
   useEffect(() => {
     getUserInfoById()
       .then((res) => {
-        const value = {};
-        Object.keys(res.data).forEach((key) => (value[key] = res.data[key]));
+        setUser(res.data);
+        setLoading(false);
       })
       .catch((e) => {
         showMessage("error", e.response?.data?.errors || "An error ocurred");
       });
-  }, []);
+  }, [setLoading]);
+
+  if (user) {
+    Object.keys(initialValues).forEach(
+      (key) => (initialValues[key] = user[key])
+    );
+  }
 
   const history = useHistory();
 
@@ -83,7 +91,7 @@ const ModifyUser = (props) => {
     try {
       await submit(values);
 
-      showMessage("success", `Succesfully created user`);
+      showMessage("success", `Succesfully modified user`);
 
       setTimeout(() => {
         history.push(`/login`);
@@ -92,6 +100,8 @@ const ModifyUser = (props) => {
       showMessage("error", e.response?.data?.errors || "An error ocurred");
     }
   };
+
+  if (loading) return <LinearProgress />;
   return (
     <Container>
       <Box marginTop={6}>
