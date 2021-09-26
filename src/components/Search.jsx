@@ -13,6 +13,7 @@ import {
 import { Autocomplete } from "@mui/material";
 import {
   getAllProject,
+  getLanguages,
   getTags,
   searchProjectByQuery,
 } from "../utils/Projects";
@@ -63,7 +64,7 @@ function Search(props) {
     setFilter(e.target.value);
   };
 
-  const getLanguages = async () => {
+  const getLanguagesSearch = async () => {
     try {
       const res = await getLanguages();
       return res.data;
@@ -200,16 +201,22 @@ function Search(props) {
     }
   };
 
-  useEffect(() => {
-    console.log(filter);
+  const getOptionByFilter = async () => {
+    let result;
     switch (filter) {
       case "name":
         return state ? setOptions(getProjectsName()) : [];
       case "language":
-        return setOptions(getLanguages());
+        result = await getLanguagesSearch();
+        return setOptions(result ? result : []);
       case "tag":
-        return setOptions(getProjectsTags());
+        result = await getProjectsTags();
+        return setOptions(result ? result : []);
     }
+  };
+
+  useEffect(() => {
+    getOptionByFilter();
   }, [filter]);
 
   useEffect(() => {
