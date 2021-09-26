@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core";
+} from "@mui/material";
 import { withSnackbar } from "./SnackBarHOC";
 import { deleteProjectById } from "../utils/Projects";
 // eslint-disable-next-line no-undef

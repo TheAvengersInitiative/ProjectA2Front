@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@material-ui/core";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { Box, Button, Grid } from "@mui/material";
+import { AddCircle } from "@mui/icons-material";
 import ProjectItem from "../../components/ProjectItem";
 import ShimmerItemProject from "../../components/ShimmerItemProject";
 import { withSnackbar } from "../../components/SnackBarHOC";
@@ -15,6 +15,7 @@ function ProjectPage(props) {
   async function fetchProjects() {
     try {
       const response = await getAllProject();
+      console.log(response.data);
       setProject(response.data);
     } catch (e) {
       showMessage("error", "Opss... Something went wrong");
@@ -41,7 +42,7 @@ function ProjectPage(props) {
             color="primary"
             disableElevation
             onClick={goToAdd}
-            startIcon={<AddCircleIcon />}
+            startIcon={<AddCircle />}
           >
             Add project
           </Button>

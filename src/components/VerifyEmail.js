@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Alert, AlertTitle } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { verifyEmail } from "../utils/Projects";
-import { Container, LinearProgress } from "@material-ui/core";
+import { Container, LinearProgress } from "@mui/material";
 
 function VerifyEmail() {
   const [hasError, setHasError] = useState(false);

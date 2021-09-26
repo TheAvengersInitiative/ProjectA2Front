@@ -1,6 +1,4 @@
 import React from "react";
-import clsx from "clsx";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   Grid,
   Link,
@@ -13,31 +11,28 @@ import {
   Collapse,
   IconButton,
   Typography,
-  makeStyles,
-} from "@material-ui/core";
+  Box,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Star } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: "25%",
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
+const ExpandMore = styled((props) => {
+  const { ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
 }));
 
-export default function ProjectDetail({ project }) {
-  const classes = useStyles();
+const CardMediaModify = styled(CardMedia)`
+  height: 80px;
+`;
+
+export default function ProjectDetail({ project, feature = false }) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -45,12 +40,24 @@ export default function ProjectDetail({ project }) {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardMedia
-        className={classes.media}
-        image="https://i.pinimg.com/564x/12/6d/6a/126d6a772d8c617371646cea80851342.jpg"
+    <Card
+      variant="outlined"
+      sx={{ maxWidth: 345 }}
+      style={feature ? { borderColor: "#ffba08" } : {}}
+    >
+      {feature && (
+        <Box style={{ backgroundColor: "#ffba08" }} p={0.5}>
+          <Grid container alignItems="center" direction="row">
+            <Star style={{ height: "15px" }} />
+            <Typography style={{ marginLeft: "2px" }}>Feature</Typography>
+          </Grid>
+        </Box>
+      )}
+      <CardMediaModify image="https://cdn.slidemodel.com/wp-content/uploads/13081-01-gradient-designs-powerpoint-backgrounds-16x9-5.jpg" />
+      <CardHeader
+        title={project.title}
+        subheader={"Owner: " + project.owner.nickname}
       />
-      <CardHeader title={project.title} subheader={"Owner: " + project.owner} />
       <CardContent>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={12}>
@@ -65,9 +72,12 @@ export default function ProjectDetail({ project }) {
               <Chip
                 key={index}
                 variant="outlined"
-                color="primary"
-                label={tag}
-                style={{ marginRight: "10px" }}
+                label={tag.name}
+                style={{
+                  marginRight: "10px",
+                  color: `${feature ? "#ffba08" : "#1976D2"}`,
+                  borderColor: `${feature ? "#ffba08" : "#1976D2"}`,
+                }}
               />
             ))}
           </Grid>
@@ -78,16 +88,14 @@ export default function ProjectDetail({ project }) {
         <Typography variant="subtitle2" color="textSecondary">
           Show more
         </Typography>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
+        <ExpandMore
+          expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
         >
           <ExpandMoreIcon />
-        </IconButton>
+        </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

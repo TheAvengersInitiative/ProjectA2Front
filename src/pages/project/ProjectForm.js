@@ -6,7 +6,7 @@ import {
   Typography,
   TextField,
   Chip,
-} from "@material-ui/core";
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -39,7 +39,6 @@ export const ProjectForm = (props) => {
     if (id) {
       getProjectById(id)
         .then((res) => {
-          console.log(res.data);
           const value = {};
           Object.keys(res.data).forEach((key) => (value[key] = res.data[key]));
 
@@ -52,10 +51,6 @@ export const ProjectForm = (props) => {
         });
     }
   }, []);
-
-  useEffect(() => {
-    console.log("init ", initialValues);
-  }, [initialValues]);
 
   return (
     <>
@@ -115,7 +110,7 @@ export const ShowForm = (props) => {
   return (
     <Container>
       <Box marginTop={6}>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid container item xs={6} justify="center" spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h4">{title}</Typography>
