@@ -183,6 +183,7 @@ export const ShowForm = (props) => {
                       </Grid>
                       <Grid item xs={12}>
                         <Autocomplete
+                          noOptionsText="Tag must have at least 1 character and at most 24 charaters"
                           defaultValue={selectedTags}
                           multiple
                           size="medium"
@@ -193,8 +194,13 @@ export const ShowForm = (props) => {
                           filterOptions={(options, params) => {
                             const filtered = filter(options, params);
 
-                            if (params.inputValue !== "") {
-                              filtered.push(params.inputValue);
+                            const input = params.inputValue;
+                            if (
+                              input !== "" &&
+                              input.length >= 1 &&
+                              input.length <= 24
+                            ) {
+                              filtered.push(input);
                             }
 
                             return filtered;
@@ -225,7 +231,6 @@ export const ShowForm = (props) => {
                           defaultValue={selectedLanguages}
                           multiple
                           size="medium"
-                          limitTags={3}
                           options={languages}
                           renderTags={(value, getTagProps) =>
                             value.map((option, index) => (
@@ -258,11 +263,6 @@ export const ShowForm = (props) => {
                           type="submit"
                         >
                           {id ? "Edit" : "Add"}
-                        </Button>
-                      </Grid>
-                      <Grid item>
-                        <Button onClick={() => console.log(formikProps.values)}>
-                          FOrmik props
                         </Button>
                       </Grid>
                     </Grid>
