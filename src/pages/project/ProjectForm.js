@@ -1,4 +1,13 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  TextField,
+  Chip,
+  Autocomplete,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -6,7 +15,7 @@ import * as yup from "yup";
 import { useHistory, useParams } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
-import { getProjectById } from "../../utils/Projects";
+import { getLanguages, getProjectById } from "../../utils/Projects";
 
 const validationSchema = yup.object().shape({
   title: yup.string().required().nullable().min(5).max(25).label("Title"),
@@ -82,6 +91,22 @@ export const ShowForm = (props) => {
       showMessage("error", "There was an error!");
     }
   };
+
+  const [tags, setTags] = useState([]);
+
+  async function fetchTags() {
+    try {
+      const response = await getLanguages();
+      setTags(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
   return (
     <Container>
       <Box marginTop={6}>
@@ -129,11 +154,29 @@ export const ShowForm = (props) => {
                         />
                       </Grid>
                       <Grid item xs={12}>
-                        <TextFieldContainer
-                          id="tags"
-                          label="Tags"
-                          helperText="Separate values using commas"
-                          formikProps={formikProps}
+                        <Autocomplete
+                          multiple
+                          size="medium"
+                          options={tags}
+                          renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                              <Chip
+                                key={index}
+                                variant="outlined"
+                                label={option}
+                                size="small"
+                                {...getTagProps({ index })}
+                              />
+                            ))
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant="filled"
+                              label="Tags"
+                              helperText="Choose a maximum of three tags"
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={12}>
