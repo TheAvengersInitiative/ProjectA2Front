@@ -28,6 +28,9 @@ export const addProject = async (data) =>
 // GET ALL PROJECTS
 export const getAllProject = async () => await axiosInstance.get("/project");
 
+export const getMyProjects = async () =>
+  await axiosInstance.get("/project/my-projects");
+
 // DELETE PROJECT BY ID
 export const deleteProjectById = async (id) =>
   await axiosInstance.delete(`/project/${id}`);
