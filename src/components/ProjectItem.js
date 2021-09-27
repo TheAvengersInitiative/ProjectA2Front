@@ -75,7 +75,7 @@ const ProjectItem = (props) => {
                 item
                 xs={12}
                 container
-                spacing={2}
+                spacing={1}
                 direction="row"
                 alignItems="center"
               >
@@ -93,7 +93,7 @@ const ProjectItem = (props) => {
                 item
                 xs={12}
                 container
-                spacing={2}
+                spacing={1}
                 direction="row"
                 alignItems="center"
               >
