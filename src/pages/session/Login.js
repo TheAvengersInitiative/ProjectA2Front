@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, Link } from "@mui/material";
 import React from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
@@ -62,6 +62,13 @@ const ShowForm = (props) => {
 
             <Grid item xs={12}>
               <Typography>{subtitle}</Typography>
+            </Grid>
+
+            <Grid item xs={12}>
+              <Typography>
+                If you do not have an account{" "}
+                <Link href="/register">click to create an account</Link>
+              </Typography>
             </Grid>
 
             <Grid item xs={12}>
