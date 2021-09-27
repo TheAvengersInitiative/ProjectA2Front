@@ -39,57 +39,93 @@ const ProjectItem = (props) => {
 
   return (
     <>
-      <Grid item>
+      <Grid item xs={12}>
         <Card variant="outlined">
           <CardContent>
-            <Grid justifyContent="space-between" container direction="row">
-              <Box mb={2} fontSize={22} fontWeight={500} color="textPrimary">
-                Project {item?.title}
-              </Box>
-              <Box>
-                <IconButton
-                  aria-label="more"
-                  aria-controls="long-menu"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                >
-                  <MoreVert />
-                </IconButton>
-                <ItemOptions
-                  id={item?.id}
-                  handleClose={handleClose}
-                  anchorEl={anchorEl}
-                  setDelete={setOpen}
-                />
-              </Box>
-            </Grid>
-
-            <Grid container spacing={2} direction="row">
-              {item?.tags &&
-                item?.tags.map((item, index) => (
-                  <Grid item key={index}>
-                    <Chip label={item.name} color="primary" />
-                  </Grid>
-                ))}
-            </Grid>
-            <Box my={2}>
-              <Typography color="textSecondary">
-                {shrinkText(item?.description)}
-              </Typography>
-            </Box>
-            <Grid container direction="column" alignItems="left">
-              <Grid item>
-                <Typography>Link: </Typography>
+            <Grid container spacing={2}>
+              <Grid
+                item
+                xs={12}
+                justifyContent="space-between"
+                container
+                direction="row"
+              >
+                <Box fontSize={22} fontWeight={500} color="textPrimary">
+                  {item?.title}
+                </Box>
+                <Box>
+                  <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                  >
+                    <MoreVert />
+                  </IconButton>
+                  <ItemOptions
+                    id={item?.id}
+                    handleClose={handleClose}
+                    anchorEl={anchorEl}
+                    setDelete={setOpen}
+                  />
+                </Box>
               </Grid>
-              <Grid container direction="row">
-                {item?.links &&
-                  item.links.map((item, index) => (
+
+              <Grid
+                item
+                xs={12}
+                container
+                spacing={2}
+                direction="row"
+                alignItems="center"
+              >
+                <Grid item>
+                  <Typography>Tag/s:</Typography>
+                </Grid>
+                {item?.tags &&
+                  item?.tags.map((item, index) => (
                     <Grid item key={index}>
-                      <Box ml={0.5}>
-                        <Link>{item}</Link>
-                      </Box>
+                      <Chip label={item.name} color="primary" />
                     </Grid>
                   ))}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                container
+                spacing={2}
+                direction="row"
+                alignItems="center"
+              >
+                <Grid item>
+                  <Typography>Language/s:</Typography>
+                </Grid>
+                {item?.languages &&
+                  item?.languages.map((item, index) => (
+                    <Grid item key={index}>
+                      <Chip label={item.name} color="success" />
+                    </Grid>
+                  ))}
+              </Grid>
+              <Grid item xs={12}>
+                <Typography color="textSecondary">
+                  {shrinkText(item?.description)}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} container direction="column" alignItems="left">
+                <Grid container direction="row">
+                  <Grid item>
+                    <Typography>Link/s: </Typography>
+                  </Grid>
+                  {item?.links &&
+                    item.links.map((item, index) => (
+                      <Grid item key={index}>
+                        <Box ml={0.5}>
+                          <Link>{item}</Link>
+                        </Box>
+                      </Grid>
+                    ))}
+                </Grid>
               </Grid>
             </Grid>
           </CardContent>
