@@ -102,6 +102,7 @@ const ShowForm = (props) => {
                         xs={12}
                         container
                         justifyContent="space-between"
+                        alignItems="center"
                       >
                         <Button
                           variant="contained"
@@ -110,7 +111,7 @@ const ShowForm = (props) => {
                         >
                           Login
                         </Button>
-                        <Link href="/reset-password">
+                        <Link href="/reset-password" underline="none">
                           <Button>Forgot password</Button>
                         </Link>
                       </Grid>
