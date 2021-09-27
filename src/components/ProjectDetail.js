@@ -63,13 +63,6 @@ export default function ProjectDetail({ project, feature = false }) {
       <CardContent>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={12}>
-            {project.links.map((link, index) => (
-              <Typography key={index}>
-                <Link href={link}>{link}</Link>
-              </Typography>
-            ))}
-          </Grid>
-          <Grid item xs={12}>
             {project.tags.map((tag, index) => (
               <Chip
                 key={index}
@@ -109,7 +102,18 @@ export default function ProjectDetail({ project, feature = false }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography>{project.description}</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography>{project.description}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {project.links.map((link, index) => (
+                <Typography key={index}>
+                  <Link href={link}>{link}</Link>
+                </Typography>
+              ))}
+            </Grid>
+          </Grid>
         </CardContent>
       </Collapse>
     </Card>
