@@ -204,9 +204,8 @@ const ModifyUser = (props) => {
                         <DialogContent>
                           <DialogContentText id="alert-dialog-description">
                             Deleting your account is permanent and will remove
-                            all content including comments, avatars and profile
-                            settings. Are you sure you want to delete your
-                            account?
+                            all content including projects and profile settings.
+                            Are you sure you want to delete your account?
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
