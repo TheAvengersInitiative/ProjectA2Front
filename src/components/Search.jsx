@@ -275,7 +275,7 @@ function Search(props) {
             )}
           </Grid>
           <Box>
-            {(name !== "" || tags?.lenght > 0 || language?.length > 0) && (
+            {
               <Container>
                 {name && name.length > 0 && (
                   <ChipModify
@@ -314,7 +314,7 @@ function Search(props) {
                   </ChipContainer>
                 )}
               </Container>
-            )}
+            }
           </Box>
 
           <Box>
