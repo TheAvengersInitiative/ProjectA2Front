@@ -13,8 +13,8 @@ function VerifyEmail() {
 
   const confirmEmail = async () => {
     try {
-      await verifyEmail(user, token);
-      window.location.replace("/");
+      await verifyEmail({ id: user, confirmationToken: token });
+      window.location.replace("/login");
     } catch (e) {
       setHasError(true);
     }

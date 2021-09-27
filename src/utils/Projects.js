@@ -34,15 +34,15 @@ export const deleteProjectById = async (id) =>
 
 // RECOVER PASSWORD
 export const recoverPassword = async (data) =>
-  await axiosInstance.post("/forgot-password", data);
+  await axiosInstance.post("/user/recover/request", data);
 
 // RESET PASSWORD
 export const resetPassword = async (data) =>
-  await axiosInstance.post("/reset-password", data);
+  await axiosInstance.post("/user/recover", data);
 
 // VERIFY EMAIL
-export const verifyEmail = async (id, token) =>
-  await axiosInstance.get(`/user/confirm/${id}/${token}`);
+export const verifyEmail = async (data) =>
+  await axiosInstance.post("/user/confirm", data);
 
 // GET PROJECTS WITH FILTER
 export const searchProjectByQuery = async (body) =>

@@ -56,7 +56,7 @@ function App() {
 
               <Route
                 exact
-                path="/forgot-password/:token"
+                path="/forgot-password/:user/:token"
                 name="Recover Password"
                 render={(props) => <RecoverPassword {...props} />}
               />

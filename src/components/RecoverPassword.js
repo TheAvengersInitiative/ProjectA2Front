@@ -6,19 +6,21 @@ import TextFieldContainer from "./TextFieldContainer";
 import { withSnackbar } from "./SnackBarHOC";
 import { useParams } from "react-router-dom";
 import { recoverPassword } from "../utils/Projects";
-
+import { useHistory } from "react-router-dom";
 function RecoverPassword(props) {
   let { token } = useParams();
+  let { user } = useParams();
+  const history = useHistory();
 
   const { showMessage } = props;
 
   const initialValues = {
-    password: "",
+    newPassword: "",
     repeatPassword: "",
   };
 
   const validationSchema = Yup.object({
-    password: Yup.string()
+    newPassword: Yup.string()
       .required("Password is required")
       .min(8, "Password should be of minimum 8 characters length")
       .max(31, "Password must be less than 32 characters length")
@@ -28,14 +30,20 @@ function RecoverPassword(props) {
       .required("Password is required")
       .min(8, "Password should be of minimum 8 characters length")
       .max(31, "Password must be less than 32 characters length")
-      .oneOf([Yup.ref("password")], "Passwords do not match"),
+      .oneOf([Yup.ref("newPassword")], "Passwords do not match"),
   });
 
   const onSubmit = async (formData) => {
     try {
-      formData["token"] = token;
-      await recoverPassword(formData);
+      await recoverPassword({
+        id: user,
+        passwordRecoveryToken: token,
+        ...formData,
+      });
       showMessage("success", "Successfully updated the password");
+      setTimeout(() => {
+        history.push(`/login`);
+      }, 1000);
     } catch (e) {
       showMessage("error", "An error occured");
     }
@@ -44,7 +52,7 @@ function RecoverPassword(props) {
   return (
     <Container>
       <Box marginTop={4}>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid
             container
             item
@@ -72,7 +80,7 @@ function RecoverPassword(props) {
                     <Grid container spacing={3}>
                       <Grid item xs={12}>
                         <TextFieldContainer
-                          id="password"
+                          id="newPassword"
                           label="Password"
                           formikProps={formikProps}
                           type="password"
