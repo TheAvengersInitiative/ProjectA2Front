@@ -32,7 +32,7 @@ function ResetPassword(props) {
   return (
     <Container>
       <Box marginTop={4}>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid container item xs={6} spacing={1} alignContent="center">
             <Grid item xs={12}>
               <Typography variant="h5">Reset password</Typography>
