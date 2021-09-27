@@ -73,11 +73,19 @@ export default function ProjectDetail({ project, feature = false }) {
                 key={index}
                 variant="outlined"
                 label={tag.name}
-                style={{
-                  marginRight: "10px",
-                  color: `${feature ? "#ffba08" : "#1976D2"}`,
-                  borderColor: `${feature ? "#ffba08" : "#1976D2"}`,
-                }}
+                color="primary"
+                style={{ marginRight: "10px" }}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={12}>
+            {project.languages.map((tag, index) => (
+              <Chip
+                key={index}
+                variant="outlined"
+                label={tag.name}
+                color="success"
+                style={{ marginRight: "10px" }}
               />
             ))}
           </Grid>
