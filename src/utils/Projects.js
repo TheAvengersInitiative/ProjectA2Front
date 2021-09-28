@@ -49,7 +49,10 @@ export const verifyEmail = async (data) =>
 
 // GET PROJECTS WITH FILTER
 export const searchProjectByQuery = async (body) =>
-  await axiosInstance.post(`/project/search`, body);
+  await axiosInstance.post(`/project/search`, {
+    ...body,
+    ...{ featured: false },
+  });
 
 // GET TAGS
 export const getTags = async () => await axiosInstance.get("/project/tags");
