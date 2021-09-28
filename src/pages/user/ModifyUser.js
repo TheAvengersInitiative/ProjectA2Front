@@ -154,7 +154,7 @@ const ModifyUser = (props) => {
                       <Grid item xs={12}>
                         <TextFieldContainer
                           id="password"
-                          label="Password"
+                          label="New password"
                           formikProps={formikProps}
                           type="password"
                         />
@@ -162,7 +162,7 @@ const ModifyUser = (props) => {
                       <Grid item xs={12}>
                         <TextFieldContainer
                           id="passwordConfirmation"
-                          label="Password confirmation"
+                          label="New password confirmation"
                           formikProps={formikProps}
                           type="password"
                         />
