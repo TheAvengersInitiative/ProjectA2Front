@@ -8,23 +8,17 @@ import { useHistory } from "react-router-dom";
 import { withSnackbar } from "../../components/SnackBarHOC";
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email().required().nullable(),
-  nickname: yup.string().required().nullable().min(3).max(24),
-  biography: yup.string().nullable().max(500),
-  password: yup
-    .string()
-    .required("Password is required")
-    .min(8, "Password should be of minimum 8 characters length")
-    .max(31, "Password must be less than 32 characters length"),
-  //.oneOf([yup.ref("repeatPassword")], "Passwords do not match"),
-
+  email: yup.string().email().required().nullable().label("Email"),
+  nickname: yup.string().required().nullable().min(3).max(24).label("Nickname"),
+  biography: yup.string().nullable().max(500).label("Biography"),
+  password: yup.string().required().min(8).max(31).label("Password"),
   passwordConfirmation: yup
     .string()
-    .required("Password is required")
-    .min(8, "Password should be of minimum 8 characters length")
-    .max(31, "Password must be less than 32 characters length")
-    .oneOf([yup.ref("password")], "Passwords do not match"),
-  //chequear que las dos passwords sean iguales
+    .required()
+    .min(8)
+    .max(31)
+    .oneOf([yup.ref("password")], "Passwords do not match")
+    .label("Password confirmation"),
 });
 
 export const Register = (props) => {
