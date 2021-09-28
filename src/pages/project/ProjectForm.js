@@ -21,7 +21,13 @@ const filter = createFilterOptions();
 
 const validationSchema = yup.object().shape({
   title: yup.string().required().nullable().min(5).max(25).label("Title"),
-  description: yup.string().required().nullable(),
+  description: yup
+    .string()
+    .required()
+    .nullable()
+    .min(10)
+    .max(500)
+    .label("Description"),
   links: yup.string().required().nullable(),
 });
 
@@ -44,7 +50,7 @@ export const ProjectForm = (props) => {
         .then((res) => {
           const value = {};
           Object.keys(res.data).forEach((key) => (value[key] = res.data[key]));
-
+          value.links = value.links.join(",");
           setLanguages(res.data.languages.map((value) => value.name));
           setTags(res.data.tags.map((value) => value.name));
           setInitialValues(value);
@@ -106,7 +112,13 @@ export const ShowForm = (props) => {
         history.push(`/my-projects`);
       }, 1000);
     } catch (e) {
-      showMessage("error", e?.response?.data || "There was an error!");
+      initialValues.links = initialValues.links.join(",");
+      showMessage(
+        "error",
+        typeof e?.response?.data === "string"
+          ? e?.response?.data
+          : "There was an error!"
+      );
     }
   };
 
@@ -131,9 +143,6 @@ export const ShowForm = (props) => {
   useEffect(() => {
     fetchTags();
   }, []);
-
-  console.log("LANGUAGES", selectedLanguages);
-  console.log("TAGS", selectedTags);
 
   return (
     <Container>
