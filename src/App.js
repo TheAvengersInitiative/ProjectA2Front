@@ -27,7 +27,7 @@ function App() {
       <AppBarMenu />
 
       <Container>
-        <Box mt={6}>
+        <Box mt={6} mb={4}>
           <Router>
             <Switch>
               <Route path="/register">
