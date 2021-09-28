@@ -29,7 +29,7 @@ function VerifyEmail() {
       {hasError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          You need to confirm your email <strong>check it out!</strong>
+          Something went wrong
         </Alert>
       ) : (
         <LinearProgress />
