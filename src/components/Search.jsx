@@ -97,7 +97,7 @@ function Search(props) {
       tags: tags,
       languages: language,
       page: 0,
-      featured: true,
+      featured: false,
     };
     if (filtername === "name") {
       setName("");
@@ -169,7 +169,7 @@ function Search(props) {
         tags: array,
         languages: language,
         page: 0,
-        featured: true,
+        featured: false,
       };
       const response = await searchProjectByQuery(body);
       setState(response.data);
