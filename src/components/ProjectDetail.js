@@ -63,6 +63,11 @@ export default function ProjectDetail({ project, feature = false }) {
       <CardContent>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={12}>
+            <Typography variant="body2" color="textSecondary">
+              Tag/s:
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
             {project.tags.map((tag, index) => (
               <Chip
                 key={index}
@@ -72,6 +77,11 @@ export default function ProjectDetail({ project, feature = false }) {
                 style={{ marginRight: "10px" }}
               />
             ))}
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" color="textSecondary">
+              Language/s:
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             {project.languages.map((tag, index) => (
