@@ -28,7 +28,6 @@ const validationSchema = yup.object().shape({
     .min(10)
     .max(500)
     .label("Description"),
-  links: yup.string().required().nullable(),
 });
 
 export const ProjectForm = (props) => {
@@ -94,13 +93,15 @@ export const ShowForm = (props) => {
   const history = useHistory();
 
   const onSubmit = async (values) => {
-    const array2 = values.links.split(",");
-    values.links = array2;
-
-    values.languages = selectedLanguages;
-    values.tags = selectedTags;
-
     try {
+      if (!Array.isArray(values.links)) {
+        const array2 = values.links.split(",");
+        values.links = array2;
+      }
+
+      values.languages = selectedLanguages;
+      values.tags = selectedTags;
+
       id ? await submit(id, values) : await submit(values);
 
       showMessage(
@@ -112,7 +113,6 @@ export const ShowForm = (props) => {
         history.push(`/my-projects`);
       }, 1000);
     } catch (e) {
-      initialValues.links = initialValues.links.join(",");
       showMessage(
         "error",
         typeof e?.response?.data === "string"
