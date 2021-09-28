@@ -73,7 +73,7 @@ export default function ProjectDetail({ project, feature = false }) {
                 key={index}
                 variant="outlined"
                 label={tag.name}
-                color="primary"
+                color="success"
                 style={{ marginRight: "10px" }}
               />
             ))}
@@ -89,7 +89,7 @@ export default function ProjectDetail({ project, feature = false }) {
                 key={index}
                 variant="outlined"
                 label={tag.name}
-                color="success"
+                color="primary"
                 style={{ marginRight: "10px" }}
               />
             ))}
