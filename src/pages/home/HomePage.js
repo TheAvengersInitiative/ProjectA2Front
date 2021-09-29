@@ -1,36 +1,45 @@
 import React, { useEffect, useState } from "react";
 import ProjectDetail from "../../components/ProjectDetail";
-import { getAllProject } from "../../utils/Projects";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
+import { withSnackbar } from "../../components/SnackBarHOC";
+import Search from "../../components/Search";
 
-export default function HomePage() {
+function HomePage(props) {
   const [projects, setProjects] = useState([]);
-
-  async function fetchProjects() {
-    try {
-      const response = await getAllProject();
-      setProjects(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  const { showMessage } = props;
+  const filterList = [
+    { label: "Title", value: "name" },
+    { label: "Tag", value: "tag" },
+    { label: "Language", value: "language" },
+  ];
 
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    //fetchProjects(); //Delete the comments to get all projects when mount the page
+  }, [projects]);
 
   return (
-    <Grid container spacing={4} direction="row">
-      {projects.length > 0 &&
-        projects.map((item, index) => {
-          return (
-            <Grid item xs key={index}>
-              <Grid container alignItems="center" justifyContent="center">
-                <ProjectDetail project={item} />
-              </Grid>
-            </Grid>
-          );
-        })}
+    <Grid container item xs={12} spacing={3}>
+      <Grid item xs={12}>
+        <Search
+          state={projects}
+          setState={setProjects}
+          showMessage={showMessage}
+          filters={filterList}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container spacing={4} direction="row" justifyContent="flex-start">
+          {projects.length > 0 &&
+            projects.map((item, index) => {
+              return (
+                <Grid key={index} item xs={4}>
+                  <ProjectDetail project={item} feature={item.featured} />
+                </Grid>
+              );
+            })}
+        </Grid>
+      </Grid>
     </Grid>
   );
 }
+export default withSnackbar(HomePage);

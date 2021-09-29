@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, Grid } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Box, Card, CardContent, Grid } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import React from "react";
 
 const ShimmerItemProject = () => {

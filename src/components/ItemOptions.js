@@ -1,5 +1,6 @@
 import React from "react";
-import { Menu, MenuItem, withStyles } from "@material-ui/core";
+import { Menu, MenuItem } from "@mui/material";
+import { withStyles } from "@mui/styles";
 import { useHistory } from "react-router-dom";
 
 function ItemOptions(props) {

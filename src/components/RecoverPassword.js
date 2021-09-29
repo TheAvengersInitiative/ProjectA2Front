@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Grid, Button, Typography, Container, Box } from "@material-ui/core";
+import { Grid, Button, Typography, Container, Box } from "@mui/material";
 import TextFieldContainer from "./TextFieldContainer";
 import { withSnackbar } from "./SnackBarHOC";
 import { useParams } from "react-router-dom";

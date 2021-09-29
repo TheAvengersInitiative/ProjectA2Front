@@ -3,23 +3,20 @@ import {
   Box,
   Grid,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import React from "react";
-import { AccountCircle } from "@material-ui/icons";
+import { AccountCircle } from "@mui/icons-material";
 import { useAuth } from "../contexts/AuthContext";
 
 export const AppBarMenu = () => {
   const { isLoggedIn, logOut } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  /*const handleChange = (event) => {
-        setAuth(event.target.checked);
-    };*/
 
   const handleLogOut = () => {
     logOut();
@@ -45,7 +42,7 @@ export const AppBarMenu = () => {
             <Grid item>
               {isLoggedIn && (
                 <div>
-                  <IconButton size="large" onClick={handleMenu} color="inherit">
+                  <IconButton onClick={handleMenu} color="inherit">
                     <AccountCircle />
                   </IconButton>
                   <Menu
@@ -63,7 +60,16 @@ export const AppBarMenu = () => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <Link href="/profile" color={"inherit"} underline={"none"}>
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    </Link>
+                    <Link
+                      href="/my-projects"
+                      color={"inherit"}
+                      underline={"none"}
+                    >
+                      <MenuItem onClick={handleClose}>My Projects</MenuItem>
+                    </Link>
                     <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
                   </Menu>
                 </div>
