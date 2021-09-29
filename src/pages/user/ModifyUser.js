@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
 import { getUserInfoById, deleteUser } from "../../utils/Projects";
+import { useAuth } from "../../contexts/AuthContext";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().nullable().label("Email"),
@@ -37,6 +38,8 @@ const validationSchema = yup.object().shape({
 const ModifyUser = (props) => {
   const [user, setUser] = useState(true);
   const [loading, setLoading] = useState(true);
+
+  const { logOut } = useAuth();
   const initialValues = {
     email: "",
     nickname: "",
@@ -76,6 +79,8 @@ const ModifyUser = (props) => {
       await deleteUser();
       showMessage("success", `Succesfully deleted your account`);
 
+      logOut();
+
       setTimeout(() => {
         history.push("/");
       }, 1000);
@@ -91,13 +96,13 @@ const ModifyUser = (props) => {
     try {
       await submit(values);
 
-      showMessage("success", `Succesfully modified user`);
+      showMessage("success", "Succesfully modified user");
 
       setTimeout(() => {
         history.push(`/login`);
       }, 1000);
     } catch (e) {
-      showMessage("error", e.response?.data?.errors || "An error ocurred");
+      showMessage("error", e.response?.data || "An error ocurred");
     }
   };
 
@@ -149,7 +154,7 @@ const ModifyUser = (props) => {
                       <Grid item xs={12}>
                         <TextFieldContainer
                           id="password"
-                          label="Password"
+                          label="New password"
                           formikProps={formikProps}
                           type="password"
                         />
@@ -157,7 +162,7 @@ const ModifyUser = (props) => {
                       <Grid item xs={12}>
                         <TextFieldContainer
                           id="passwordConfirmation"
-                          label="Password confirmation"
+                          label="New password confirmation"
                           formikProps={formikProps}
                           type="password"
                         />
@@ -199,9 +204,8 @@ const ModifyUser = (props) => {
                         <DialogContent>
                           <DialogContentText id="alert-dialog-description">
                             Deleting your account is permanent and will remove
-                            all content including comments, avatars and profile
-                            settings. Are you sure you want to delete your
-                            account?
+                            all content including projects and profile settings.
+                            Are you sure you want to delete your account?
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>

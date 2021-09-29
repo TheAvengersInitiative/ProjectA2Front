@@ -5,9 +5,11 @@ import { Grid, Button, Typography, Container, Box } from "@mui/material";
 import TextFieldContainer from "./TextFieldContainer";
 import { withSnackbar } from "./SnackBarHOC";
 import { resetPassword } from "../utils/Projects";
+import { useHistory } from "react-router";
 
 function ResetPassword(props) {
   const { showMessage } = props;
+  const history = useHistory();
 
   const initialValues = {
     email: "",
@@ -20,9 +22,9 @@ function ResetPassword(props) {
   const onSubmit = async (formData) => {
     try {
       await resetPassword(formData);
-      showMessage("success", "Your password was successfuly reseted");
+      showMessage("success", "Successfully sent recover password email");
       setTimeout(() => {
-        history.push("my-proyects");
+        history.push("/login");
       }, 1000);
     } catch (e) {
       showMessage("error", "An error occured");
@@ -32,7 +34,7 @@ function ResetPassword(props) {
   return (
     <Container>
       <Box marginTop={4}>
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid container item xs={6} spacing={1} alignContent="center">
             <Grid item xs={12}>
               <Typography variant="h5">Reset password</Typography>

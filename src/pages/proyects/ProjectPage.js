@@ -5,7 +5,7 @@ import ProjectItem from "../../components/ProjectItem";
 import ShimmerItemProject from "../../components/ShimmerItemProject";
 import { withSnackbar } from "../../components/SnackBarHOC";
 import { useHistory } from "react-router-dom";
-import { getAllProject } from "../../utils/Projects";
+import { getMyProjects } from "../../utils/Projects";
 
 function ProjectPage(props) {
   const { showMessage } = props;
@@ -14,8 +14,7 @@ function ProjectPage(props) {
 
   async function fetchProjects() {
     try {
-      const response = await getAllProject();
-      console.log(response.data);
+      const response = await getMyProjects();
       setProject(response.data);
     } catch (e) {
       showMessage("error", "Opss... Something went wrong");

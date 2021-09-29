@@ -5,13 +5,13 @@ import {
   Chip,
   Card,
   CardHeader,
-  CardMedia,
   CardContent,
   CardActions,
   Collapse,
   IconButton,
   Typography,
-  Box,
+  ImageListItem,
+  ImageListItemBar,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Star } from "@mui/icons-material";
@@ -28,10 +28,6 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const CardMediaModify = styled(CardMedia)`
-  height: 80px;
-`;
-
 export default function ProjectDetail({ project, feature = false }) {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -40,20 +36,26 @@ export default function ProjectDetail({ project, feature = false }) {
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{ maxWidth: 345 }}
-      style={feature ? { borderColor: "#ffba08" } : {}}
-    >
-      {feature && (
-        <Box style={{ backgroundColor: "#ffba08" }} p={0.5}>
-          <Grid container alignItems="center" direction="row">
-            <Star style={{ height: "15px" }} />
-            <Typography style={{ marginLeft: "2px" }}>Feature</Typography>
-          </Grid>
-        </Box>
-      )}
-      <CardMediaModify image="https://cdn.slidemodel.com/wp-content/uploads/13081-01-gradient-designs-powerpoint-backgrounds-16x9-5.jpg" />
+    <Card variant="outlined">
+      <ImageListItem style={{ height: "100px", width: "400px" }}>
+        <img
+          src="https://cdn.slidemodel.com/wp-content/uploads/13081-01-gradient-designs-powerpoint-backgrounds-16x9-5.jpg"
+          loading="lazy"
+        />
+        {feature && (
+          <ImageListItemBar
+            title="Featured"
+            position="top"
+            actionPosition="left"
+            actionIcon={
+              <IconButton sx={{ color: "white" }}>
+                <Star />
+              </IconButton>
+            }
+          />
+        )}
+      </ImageListItem>
+
       <CardHeader
         title={project.title}
         subheader={"Owner: " + project.owner.nickname}
@@ -61,11 +63,9 @@ export default function ProjectDetail({ project, feature = false }) {
       <CardContent>
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={12}>
-            {project.links.map((link, index) => (
-              <Typography key={index}>
-                <Link href={link}>{link}</Link>
-              </Typography>
-            ))}
+            <Typography variant="body2" color="textSecondary">
+              Tag/s:
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             {project.tags.map((tag, index) => (
@@ -73,11 +73,24 @@ export default function ProjectDetail({ project, feature = false }) {
                 key={index}
                 variant="outlined"
                 label={tag.name}
-                style={{
-                  marginRight: "10px",
-                  color: `${feature ? "#ffba08" : "#1976D2"}`,
-                  borderColor: `${feature ? "#ffba08" : "#1976D2"}`,
-                }}
+                color="success"
+                style={{ marginRight: "10px" }}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body2" color="textSecondary">
+              Language/s:
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            {project.languages.map((tag, index) => (
+              <Chip
+                key={index}
+                variant="outlined"
+                label={tag.name}
+                color="primary"
+                style={{ marginRight: "10px" }}
               />
             ))}
           </Grid>
@@ -99,7 +112,18 @@ export default function ProjectDetail({ project, feature = false }) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography>{project.description}</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography>{project.description}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {project.links.map((link, index) => (
+                <Typography key={index}>
+                  <Link href={link}>{link}</Link>
+                </Typography>
+              ))}
+            </Grid>
+          </Grid>
         </CardContent>
       </Collapse>
     </Card>
