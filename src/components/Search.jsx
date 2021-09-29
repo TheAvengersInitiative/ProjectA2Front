@@ -243,7 +243,7 @@ function Search(props) {
                     onKeyUp={(event) =>
                       handler(event, filter, name, tags, language)
                     }
-                    InputProps={{ ...params.InputProps}}
+                    InputProps={{ ...params.InputProps }}
                   />
                 )}
               />
