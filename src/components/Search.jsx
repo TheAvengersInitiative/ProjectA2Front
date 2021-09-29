@@ -97,7 +97,7 @@ function Search(props) {
       tags: tags,
       languages: language,
       page: 0,
-      featured: true,
+      featured: false,
     };
     if (filtername === "name") {
       setName("");
@@ -169,7 +169,7 @@ function Search(props) {
         tags: array,
         languages: language,
         page: 0,
-        featured: true,
+        featured: false,
       };
       const response = await searchProjectByQuery(body);
       setState(response.data);
@@ -243,7 +243,7 @@ function Search(props) {
                     onKeyUp={(event) =>
                       handler(event, filter, name, tags, language)
                     }
-                    InputProps={{ ...params.InputProps, type: "search" }}
+                    InputProps={{ ...params.InputProps }}
                   />
                 )}
               />
@@ -275,7 +275,7 @@ function Search(props) {
             )}
           </Grid>
           <Box>
-            {(name !== "" || tags?.lenght > 0 || language?.length > 0) && (
+            {
               <Container>
                 {name && name.length > 0 && (
                   <ChipModify
@@ -314,7 +314,7 @@ function Search(props) {
                   </ChipContainer>
                 )}
               </Container>
-            )}
+            }
           </Box>
 
           <Box>

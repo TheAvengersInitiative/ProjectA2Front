@@ -28,7 +28,13 @@ function HomePage(props) {
         />
       </Grid>
       <Grid item xs={12}>
-        <Grid container spacing={4} direction="row" justifyContent="flex-start">
+        <Grid
+          container
+          spacing={4}
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="stretch"
+        >
           {projects.length > 0 &&
             projects.map((item, index) => {
               return (

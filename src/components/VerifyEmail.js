@@ -13,8 +13,8 @@ function VerifyEmail() {
 
   const confirmEmail = async () => {
     try {
-      await verifyEmail(user, token);
-      window.location.replace("/");
+      await verifyEmail({ id: user, confirmationToken: token });
+      window.location.replace("/login");
     } catch (e) {
       setHasError(true);
     }
@@ -29,7 +29,7 @@ function VerifyEmail() {
       {hasError ? (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          You need to confirm your email <strong>check it out!</strong>
+          Something went wrong
         </Alert>
       ) : (
         <LinearProgress />

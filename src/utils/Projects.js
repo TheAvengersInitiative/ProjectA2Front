@@ -28,25 +28,31 @@ export const addProject = async (data) =>
 // GET ALL PROJECTS
 export const getAllProject = async () => await axiosInstance.get("/project");
 
+export const getMyProjects = async () =>
+  await axiosInstance.get("/project/my-projects");
+
 // DELETE PROJECT BY ID
 export const deleteProjectById = async (id) =>
   await axiosInstance.delete(`/project/${id}`);
 
 // RECOVER PASSWORD
 export const recoverPassword = async (data) =>
-  await axiosInstance.post("/forgot-password", data);
+  await axiosInstance.post("/user/recover/request", data);
 
 // RESET PASSWORD
 export const resetPassword = async (data) =>
-  await axiosInstance.post("/reset-password", data);
+  await axiosInstance.post("/user/recover", data);
 
 // VERIFY EMAIL
-export const verifyEmail = async (id, token) =>
-  await axiosInstance.get(`/user/confirm/${id}/${token}`);
+export const verifyEmail = async (data) =>
+  await axiosInstance.post("/user/confirm", data);
 
 // GET PROJECTS WITH FILTER
 export const searchProjectByQuery = async (body) =>
-  await axiosInstance.post(`/project/search`, body);
+  await axiosInstance.post(`/project/search`, {
+    ...body,
+    ...{ featured: false },
+  });
 
 // GET TAGS
 export const getTags = async () => await axiosInstance.get("/project/tags");
