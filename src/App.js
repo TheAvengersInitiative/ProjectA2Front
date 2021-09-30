@@ -20,6 +20,7 @@ import { AppBarMenu } from "./components/AppBarMenu";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
+import ProjectDetails from "./pages/project/ProjectDetails";
 
 function App() {
   return (
@@ -71,6 +72,12 @@ function App() {
                 path="/verify/:user/:token"
                 name="Verify Email"
                 render={(props) => <VerifyEmail {...props} />}
+              />
+              <Route
+                exact
+                path="/project/:id"
+                name="Project Detail"
+                render={(props) => <ProjectDetails {...props} />}
               />
               <PrivateRoute exact path="/my-projects" name="My projects">
                 <ProjectPage />
