@@ -8,7 +8,6 @@ import {
   Link,
   ListItem,
   ListItemAvatar,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -24,15 +23,17 @@ const Container = styled(Grid)`
   width: 100%;
 `;
 
+const CollaboratorName = styled(Typography)`
+  font-weight: 500;
+`
+
 const ProjectDetails = (props) => {
     const { showMessage } = props;
     const [data] = useState({ loading: true, joined: false });
     const [details,setDetails] = useState({})
-    const [tags] = useState([0, 1, 2, 3, 4, 5, 6]);
     const {id} = useParams();
 
     const fetchProject = async () =>{
-        details && console.log(details)
         try{
             const response = await getProjectById(id);
             setDetails(response.data);
@@ -45,12 +46,16 @@ const ProjectDetails = (props) => {
         fetchProject();
     },[id])
 
+    useEffect(() =>{
+
+    },[details])
+
   return (
     <Container>
       <Box mt={10} mb={5}>
         <Grid container direction="row" justifyContent="space-between">
           <Grid item>
-            <Typography variant="h4">Project Name</Typography>
+            <Typography variant="h4">{details.title}</Typography>
           </Grid>
           <Grid item>
             <LoadingButton
@@ -67,15 +72,7 @@ const ProjectDetails = (props) => {
 
       <Grid>
         <Typography>
-          It is a long established fact that a reader will be distracted by the
-          readable content of a page when looking at its layout. The point of
-          using Lorem Ipsum is that it has a more-or-less normal distribution of
-          letters, as opposed to using, making it look like readable English.
-          Many desktop publishing packages and web page editors now use Lorem
-          Ipsum as their default model text, and a search for will uncover many
-          web sites still in their infancy. Various versions have evolved over
-          the years, sometimes by accident, sometimes on purpose (injected
-          humour and the like).
+            {details.description}
         </Typography>
       </Grid>
       <Grid container direction="row">
@@ -87,9 +84,9 @@ const ProjectDetails = (props) => {
               </Grid>
               <Grid item>
                 <Grid container direction="row">
-                  {tags.map((item, index) => (
+                  {(details?.tags && details?.tags.length > 0) && details?.tags.map((item, index) => (
                     <Box ml={1} key={index}>
-                      <Chip color="primary" label={item} />
+                      <Chip color="primary" label={item.name} />
                     </Box>
                   ))}
                 </Grid>
@@ -103,9 +100,9 @@ const ProjectDetails = (props) => {
               </Grid>
               <Grid item>
                 <Grid container direction="row">
-                  {tags.map((item, index) => (
+                  {(details?.languages && details?.languages.length > 0) && details?.languages.map((item, index) => (
                     <Box ml={1} key={index}>
-                      <Chip color="primary" label={item} />
+                      <Chip color="primary" label={item.name} />
                     </Box>
                   ))}
                 </Grid>
@@ -119,9 +116,9 @@ const ProjectDetails = (props) => {
               </Grid>
               <Grid item>
                 <Grid container direction="row">
-                  {tags.map((item, index) => (
+                  {(details?.links && details?.links.length > 0) && details?.links.map((item, index) => (
                     <Box ml={1} key={index}>
-                      <Link href="" label={item} />
+                        <Link href={item} >{item}</Link>
                     </Box>
                   ))}
                 </Grid>
@@ -129,7 +126,7 @@ const ProjectDetails = (props) => {
             </Grid>
           </Box>
           <Box mt={4}>
-            <Typography>Owner: CARLOS</Typography>
+            <Typography>Owner: {details?.owner?.nickname}</Typography>
           </Box>
         </Grid>
         <Grid item xs={6}>
@@ -137,14 +134,14 @@ const ProjectDetails = (props) => {
             Collaborators(15)
           </Typography>
           <List dense={true}>
-            {tags.map((index) => (
+            {(details?.applicants && details?.applicants.length > 0) && details?.applicants.map((item,index) => (
               <ListItem key={index}>
                 <ListItemAvatar>
                   <Avatar sx={{ width: 24, height: 24 }}>
                     <AccountCircle />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="Single-line item" />
+                  <CollaboratorName>{item.nickname}</CollaboratorName>
               </ListItem>
             ))}
           </List>
