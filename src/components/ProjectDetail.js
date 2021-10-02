@@ -79,7 +79,7 @@ export default function ProjectDetail({ project, feature = false }) {
               <Chip
                 key={index}
                 variant="outlined"
-                label={tag.name}
+                label={tag.name || tag}
                 color="success"
                 style={{ marginRight: "10px" }}
               />
@@ -95,7 +95,7 @@ export default function ProjectDetail({ project, feature = false }) {
               <Chip
                 key={index}
                 variant="outlined"
-                label={tag.name}
+                label={tag.name || tag}
                 color="primary"
                 style={{ marginRight: "10px" }}
               />

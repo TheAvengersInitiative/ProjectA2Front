@@ -32,40 +32,30 @@ const Profile = (props) => {
   return (
     <Grid container item xs={12} spacing={3}>
       <Grid item xs={12}>
-        <Typography variant="h4">{userInfo.nickname}</Typography>
+        <Typography variant="h4">{userInfo?.nickname}</Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h6">{userInfo?.biography}</Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Grid
-          item
-          xs={12}
-          direction="row"
-          alignItems="stretch"
-          justifyContent="flex-start"
-        >
-          <Grid item xs={12}>
-            <Typography variant="h6">{"Tags: "}</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <ChipGroup
-              array={userInfo?.preferredTags}
-              color={"success"}
-            ></ChipGroup>
-          </Grid>
-        </Grid>
 
-        <Grid item xs={12}>
-          <Typography variant="h6">{"Language: "}</Typography>
-          <Grid item xs={12}>
-            <ChipGroup
-              array={userInfo?.preferredLanguages}
-              color={"primary"}
-            ></ChipGroup>
-          </Grid>
+      <Grid item container xs={12} spacing={2} alignItems={"center"}>
+        <Grid item>
+          <Typography>{"Tags: "}</Typography>
+        </Grid>
+        <Grid item>
+          <ChipGroup array={userInfo?.preferredTags} color={"success"} />
         </Grid>
       </Grid>
+
+      <Grid item container xs={12} spacing={2} alignItems={"center"}>
+        <Grid item>
+          <Typography>{"Languages: "}</Typography>
+        </Grid>
+        <Grid item>
+          <ChipGroup array={userInfo?.preferredLanguages} color={"primary"} />
+        </Grid>
+      </Grid>
+
       <Grid item xs={12}>
         <Grid item xs={12}>
           <Typography variant="h6">{"Owned Projects"}</Typography>

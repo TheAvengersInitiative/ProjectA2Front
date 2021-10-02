@@ -10,7 +10,7 @@ const ChipGroup = (props) => {
         <Chip
           key={index}
           variant="outlined"
-          label={a.name}
+          label={a}
           color={color}
           style={{ marginRight: "10px" }}
         />
