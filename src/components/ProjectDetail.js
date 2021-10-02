@@ -16,6 +16,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Star } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
+import { useHistory } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
   const { ...other } = props;
@@ -30,13 +31,19 @@ const ExpandMore = styled((props) => {
 
 export default function ProjectDetail({ project, feature = false }) {
   const [expanded, setExpanded] = React.useState(false);
+  const history = useHistory();
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card variant="outlined">
+    <Card
+      variant="outlined"
+      onClick={() => {
+        history.push(`/project/${project.id}`);
+      }}
+    >
       <ImageListItem style={{ height: "100px", width: "400px" }}>
         <img
           src="https://cdn.slidemodel.com/wp-content/uploads/13081-01-gradient-designs-powerpoint-backgrounds-16x9-5.jpg"
