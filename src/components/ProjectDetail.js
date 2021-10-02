@@ -58,7 +58,10 @@ export default function ProjectDetail({ project, feature = false }) {
 
       <CardHeader
         title={project.title}
-        subheader={"Owner: " + project.owner.nickname}
+        subheader={<Typography>
+          Owner:{" "}
+          <Link href={`/user/${project.owner.id}`}>{project.owner.nickname}</Link>
+        </Typography>}
       />
       <CardContent>
         <Grid container item xs={12} spacing={2}>

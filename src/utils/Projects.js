@@ -64,3 +64,7 @@ export const getUserInfoById = async () => await axiosInstance.get("/user");
 export const editUserInfo = async (data) =>
   await axiosInstance.put("/user", data);
 export const deleteUser = async () => await axiosInstance.delete("/user");
+export const getOtherUsersInfoById = async (id) => await axiosInstance.get(`/user/${id}`);
+
+
+
