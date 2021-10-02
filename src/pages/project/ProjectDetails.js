@@ -49,6 +49,7 @@ const ProjectDetails = (props) => {
       const profile = await getUserInfoById();
       setUser(profile.data);
       setDetails(response.data);
+      showMessage("success","Request sent successfully!");
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
     }
