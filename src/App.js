@@ -55,10 +55,10 @@ function App() {
                 render={(props) => <HomePage {...props} />}
               />
               <Route
-                  exact
-                  path="/user/:id"
-                  name="Profile"
-                  render={(props) => <Profile {...props} />}
+                exact
+                path="/user/:id"
+                name="Profile"
+                render={(props) => <Profile {...props} />}
               />
               <Route
                 exact
