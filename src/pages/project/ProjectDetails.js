@@ -46,6 +46,14 @@ const ProjectDetails = (props) => {
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
 
+  useEffect(() => {
+    setUserLogged(isUserLoggedIn());
+  }, []);
+
+  useEffect(() => {
+    fetchProject();
+  }, [userLogged, id]);
+
   const fetchProject = async () => {
     try {
       const response = await getProjectById(id);
@@ -54,19 +62,11 @@ const ProjectDetails = (props) => {
         setUser(profile.data);
       }
       setDetails(response.data);
-      showMessage("success", "Request sent successfully!");
     } catch (e) {
+      console.log(e);
       showMessage("error", "Oops... Something went wrong!");
     }
   };
-
-  useEffect(() => {
-    fetchProject();
-  }, [id, userLogged]);
-
-  useEffect(() => {
-    setUserLogged(isUserLoggedIn());
-  }, []);
 
   useEffect(() => {
     if (user && details && userLogged) {
@@ -96,6 +96,7 @@ const ProjectDetails = (props) => {
     try {
       setButtonType({ ...buttonType, loading: true });
       await putJoinToProject(id);
+      showMessage("success", "Request sent successfully!");
       setButtonType({ type: "applicant", loading: false });
     } catch (e) {
       setButtonType({ ...buttonType, loading: false });
@@ -165,7 +166,7 @@ const ProjectDetails = (props) => {
 
   return (
     <>
-      {details && (
+      {isUserLoggedIn() && (
         <Container>
           <Box mt={10} mb={5}>
             <Grid container direction="row" justifyContent="space-between">
