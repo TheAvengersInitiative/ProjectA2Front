@@ -20,6 +20,7 @@ import { AppBarMenu } from "./components/AppBarMenu";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
+import Profile from "./pages/user/Profile";
 
 function App() {
   return (
@@ -53,7 +54,12 @@ function App() {
                 name="Home Page"
                 render={(props) => <HomePage {...props} />}
               />
-
+              <Route
+                exact
+                path="/user/:id"
+                name="Profile"
+                render={(props) => <Profile {...props} />}
+              />
               <Route
                 exact
                 path="/forgot-password/:user/:token"
