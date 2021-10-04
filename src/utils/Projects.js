@@ -74,3 +74,5 @@ export const editUserInfo = async (data) =>
 
 // DELETE USER
 export const deleteUser = async () => await axiosInstance.delete("/user");
+export const getOtherUsersInfoById = async (id) =>
+  await axiosInstance.get(`/user/${id}`);

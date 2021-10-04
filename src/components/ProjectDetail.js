@@ -65,7 +65,14 @@ export default function ProjectDetail({ project, feature = false }) {
 
       <CardHeader
         title={project.title}
-        subheader={"Owner: " + project.owner.nickname}
+        subheader={
+          <Typography>
+            Owner:{" "}
+            <Link href={`/user/${project.owner.id}`}>
+              {project.owner.nickname}
+            </Link>
+          </Typography>
+        }
       />
       <CardContent>
         <Grid container item xs={12} spacing={2}>
@@ -79,7 +86,7 @@ export default function ProjectDetail({ project, feature = false }) {
               <Chip
                 key={index}
                 variant="outlined"
-                label={tag.name}
+                label={tag.name || tag}
                 color="success"
                 style={{ marginRight: "10px" }}
               />
@@ -95,7 +102,7 @@ export default function ProjectDetail({ project, feature = false }) {
               <Chip
                 key={index}
                 variant="outlined"
-                label={tag.name}
+                label={tag.name || tag}
                 color="primary"
                 style={{ marginRight: "10px" }}
               />
