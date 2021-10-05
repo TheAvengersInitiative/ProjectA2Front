@@ -21,6 +21,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
 import Profile from "./pages/user/Profile";
+import NewQuestion from "./components/NewQuestion";
 
 function App() {
   return (
@@ -77,6 +78,12 @@ function App() {
                 path="/verify/:user/:token"
                 name="Verify Email"
                 render={(props) => <VerifyEmail {...props} />}
+              />
+              <Route
+                exact
+                path="/new-question"
+                name="NewQuestion"
+                render={(props) => <NewQuestion {...props} />}
               />
               <PrivateRoute exact path="/my-projects" name="My projects">
                 <ProjectPage />
