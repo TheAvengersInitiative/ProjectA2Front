@@ -22,6 +22,7 @@ import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
 import Profile from "./pages/user/Profile";
 import NewQuestion from "./components/NewQuestion";
+import ProjectDetails from "./pages/project/ProjectDetails";
 
 function App() {
   return (
@@ -81,9 +82,9 @@ function App() {
               />
               <Route
                 exact
-                path="/new-question"
-                name="NewQuestion"
-                render={(props) => <NewQuestion {...props} />}
+                path="/project/:id"
+                name="Project Detail"
+                render={(props) => <ProjectDetails {...props} />}
               />
               <PrivateRoute exact path="/my-projects" name="My projects">
                 <ProjectPage />
