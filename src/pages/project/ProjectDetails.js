@@ -21,6 +21,7 @@ import {
   putJoinToProject,
 } from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
+import DiscussionsList from "../../components/DiscussionsList";
 
 const Container = styled(Grid)`
   min-height: available;
@@ -39,17 +40,12 @@ const ProjectButton = styled(LoadingButton)`
 
 const ProjectDetails = (props) => {
   const { isUserLoggedIn } = useAuth();
-  const [userLogged, setUserLogged] = useState();
+  const [userLogged] = useState(isUserLoggedIn());
   const { showMessage } = props;
   const [details, setDetails] = useState();
   const { id } = useParams();
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
-
-  useEffect(() => {
-    setUserLogged(isUserLoggedIn());
-  }, []);
-
   useEffect(() => {
     fetchProject();
   }, [userLogged, id]);
@@ -165,113 +161,109 @@ const ProjectDetails = (props) => {
   };
 
   return (
-    <>
-      {isUserLoggedIn() && (
-        <Container>
-          <Box mt={10} mb={5}>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item>
-                <Typography variant="h4">{details?.title}</Typography>
+    <Container>
+      <Box mt={10} mb={5}>
+        <Grid container direction="row" justifyContent="space-between">
+          <Grid item>
+            <Typography variant="h4">{details?.title}</Typography>
+          </Grid>
+          <Grid item>
+            {details && userLogged && user && getTypeOfButton(buttonType.type)}
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Grid>
+        <Typography>{details?.description}</Typography>
+      </Grid>
+      <Grid container direction="row" spacing={3}>
+        <Grid item xs={6}>
+          <Box mt={4}>
+            <Grid container direction="row">
+              <Grid>
+                <Typography>Tags: </Typography>
               </Grid>
               <Grid item>
-                {details &&
-                  userLogged &&
-                  user &&
-                  getTypeOfButton(buttonType.type)}
+                <Grid container direction="row">
+                  {details?.tags &&
+                    details?.tags.length > 0 &&
+                    details?.tags.map((item, index) => (
+                      <Box ml={1} key={index}>
+                        <Chip color="primary" label={item.name} />
+                      </Box>
+                    ))}
+                </Grid>
               </Grid>
             </Grid>
           </Box>
-
-          <Grid>
-            <Typography>{details?.description}</Typography>
-          </Grid>
-          <Grid container direction="row">
-            <Grid item xs={6}>
-              <Box mt={4}>
+          <Box mt={4}>
+            <Grid container direction="row">
+              <Grid>
+                <Typography>Languages: </Typography>
+              </Grid>
+              <Grid item>
                 <Grid container direction="row">
-                  <Grid>
-                    <Typography>Tags: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="row">
-                      {details?.tags &&
-                        details?.tags.length > 0 &&
-                        details?.tags.map((item, index) => (
-                          <Box ml={1} key={index}>
-                            <Chip color="primary" label={item.name} />
-                          </Box>
-                        ))}
-                    </Grid>
-                  </Grid>
+                  {details?.languages &&
+                    details?.languages.length > 0 &&
+                    details?.languages.map((item, index) => (
+                      <Box ml={1} key={index}>
+                        <Chip color="primary" label={item.name} />
+                      </Box>
+                    ))}
                 </Grid>
-              </Box>
-              <Box mt={4}>
-                <Grid container direction="row">
-                  <Grid>
-                    <Typography>Languages: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="row">
-                      {details?.languages &&
-                        details?.languages.length > 0 &&
-                        details?.languages.map((item, index) => (
-                          <Box ml={1} key={index}>
-                            <Chip color="primary" label={item.name} />
-                          </Box>
-                        ))}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Box mt={4}>
-                <Grid container direction="row">
-                  <Grid>
-                    <Typography>Links: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="row">
-                      {details?.links &&
-                        details?.links.length > 0 &&
-                        details?.links.map((item, index) => (
-                          <Box ml={1} key={index}>
-                            <Link href={item}>{item}</Link>
-                          </Box>
-                        ))}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Box mt={4}>
-                <Typography>Owner: {details?.owner?.nickname}</Typography>
-              </Box>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              {details?.collaborators?.length > 0 && (
-                <>
-                  <Typography sx={{ mt: 4, mb: 1 }} component="div">
-                    Collaborators({details?.collaborators.length})
-                  </Typography>
-                  <List dense={true}>
-                    {details?.collaborators &&
-                      details?.collaborators.length > 0 &&
-                      details?.collaborators.map((item, index) => (
-                        <ListItem key={index}>
-                          <ListItemAvatar>
-                            <Avatar sx={{ width: 24, height: 24 }}>
-                              <AccountCircle />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <CollaboratorName>{item.nickname}</CollaboratorName>
-                        </ListItem>
-                      ))}
-                  </List>
-                </>
-              )}
+          </Box>
+          <Box mt={4}>
+            <Grid container direction="row">
+              <Grid>
+                <Typography>Links: </Typography>
+              </Grid>
+              <Grid item>
+                <Grid container direction="row">
+                  {details?.links &&
+                    details?.links.length > 0 &&
+                    details?.links.map((item, index) => (
+                      <Box ml={1} key={index}>
+                        <Link href={item}>{item}</Link>
+                      </Box>
+                    ))}
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
-      )}
-    </>
+          </Box>
+          <Box mt={4}>
+            <Typography>Owner: {details?.owner?.nickname}</Typography>
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          {details?.collaborators?.length > 0 && (
+            <>
+              <Typography sx={{ mt: 4, mb: 1 }} component="div">
+                Collaborators({details?.collaborators.length})
+              </Typography>
+              <List dense={true}>
+                {details?.collaborators &&
+                  details?.collaborators.length > 0 &&
+                  details?.collaborators.map((item, index) => (
+                    <ListItem key={index}>
+                      <ListItemAvatar>
+                        <Avatar sx={{ width: 24, height: 24 }}>
+                          <AccountCircle />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <CollaboratorName>{item.nickname}</CollaboratorName>
+                    </ListItem>
+                  ))}
+              </List>
+            </>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          <DiscussionsList discussions={details?.discussions} />
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

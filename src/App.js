@@ -21,7 +21,6 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
 import Profile from "./pages/user/Profile";
-import NewQuestion from "./components/NewQuestion";
 import ProjectDetails from "./pages/project/ProjectDetails";
 
 function App() {
