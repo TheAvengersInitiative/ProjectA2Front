@@ -1,10 +1,10 @@
 import {
     Box,
     Container,
-    Grid, LinearProgress,
+    Grid,
     Typography,
 } from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React  from "react";
 
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -12,41 +12,20 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 
 import { withSnackbar } from "../../components/SnackBarHOC";
-import ApplicantList from "../../components/ApplicantList";
+import ApplicantList from "./ApplicantList";
 
-import {getApplicants} from "../../utils/Projects";
 import {useParams} from "react-router-dom";
 
 const ManageProject = (props) => {
 
-    const [applicants, setApplicants] = useState();
 
 
     const { showMessage } = props;
-    const [loading, setLoading] = useState(true);
+
 
     let { id } = useParams();
     console.log(id);
-    async function fetchApplicants() {
-
-        try {
-            const response = await getApplicants(id);
-            console.log(response.data);
-            setApplicants(response.data);
-        } catch (e) {
-            showMessage("error", "Opss... Something went wrong");
-        }
-        setLoading(false);
-    }
-
-    useEffect(() => {
-        fetchApplicants();
-    }, []);
-
-    if (loading) return <LinearProgress />;
-
-
-
+    console.log(showMessage)
 
 
 
@@ -67,7 +46,7 @@ const ManageProject = (props) => {
                             <Tab label="Collaborators" value="3" />
                         </TabList>
                     </Box>
-                    <TabPanel value="1"><ApplicantList applicants={applicants}/></TabPanel>
+                    <TabPanel value="1"><ApplicantList projID={id}/></TabPanel>
                     <TabPanel value="2">Item Two</TabPanel>
                     <TabPanel value="3">Item Three</TabPanel>
                 </TabContext>
