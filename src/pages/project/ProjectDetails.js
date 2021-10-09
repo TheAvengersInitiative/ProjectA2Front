@@ -73,9 +73,6 @@ const ProjectDetails = (props) => {
       const UserIsCollaborator = details?.collaborators.find(
         (item) => item.id === user.id
       );
-      const UserIsRejected = details?.rejectedApplicants.find(
-        (item) => item.id === user.id
-      );
       const UserIsApplicant = details?.applicants.find(
         (item) => item.id === user.id
       );
@@ -84,8 +81,6 @@ const ProjectDetails = (props) => {
         ? setButtonType({ type: "owner", loading: false })
         : UserIsCollaborator
         ? setButtonType({ type: "collaborator", loading: false })
-        : UserIsRejected
-        ? setButtonType({ type: "rejected", loading: false })
         : UserIsApplicant
         ? setButtonType({ type: "applicant", loading: false })
         : setButtonType({ type: "join", loading: false });
@@ -126,17 +121,6 @@ const ProjectDetails = (props) => {
             disableElevation
           >
             You are a collaborator
-          </ProjectButton>
-        );
-      case "rejected":
-        return (
-          <ProjectButton
-            variant="contained"
-            loading={buttonType.loading}
-            disableElevation
-            color="error"
-          >
-            You cant collaborate
           </ProjectButton>
         );
       case "applicant":
