@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, MenuItem } from "@mui/material";
+import {Link, Menu, MenuItem} from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useHistory } from "react-router-dom";
 
@@ -34,6 +34,8 @@ function ItemOptions(props) {
 
   function handleDelete() {
     setDelete(true);
+
+
   }
 
   return (
@@ -52,6 +54,10 @@ function ItemOptions(props) {
     >
       <MenuItem onClick={() => handleOpenEdit(id)}>Edit</MenuItem>
       <MenuItem onClick={() => handleDelete(id)}>Delete</MenuItem>
+        <Link href={`/project/${id}/manage`} color={"inherit"} underline={"none"}>
+            <MenuItem onClick={handleClose}>Manage</MenuItem>
+        </Link>
+
     </StyledMenu>
   );
 }
