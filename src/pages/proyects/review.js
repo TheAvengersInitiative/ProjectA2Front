@@ -136,7 +136,7 @@ const AddNewReview = (props) => {
     >
       <Box p={1}>
         <DialogTitle id="alert-dialog-title">
-          {`Qualify ${userInfo.data.nickname} work in `}
+          {`Qualify ${userInfo.data.nickname} `}
         </DialogTitle>
         <DialogContent>
           <Grid container direction="column" alignItems="center">
@@ -238,7 +238,7 @@ const ReviewOfCollaborators = (props) => {
     >
       <Box p={1}>
         <DialogTitle id="alert-dialog-title">
-          {`Qualification history for ${userInfo.data.nickname} in `}
+          {`Qualification history for ${userInfo.data.nickname} `}
         </DialogTitle>
         <DialogContent>
           <Button onClick={openAdd}>Add new review</Button>
