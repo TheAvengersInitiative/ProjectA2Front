@@ -58,15 +58,25 @@ export const searchProjectByQuery = async (body) =>
     ...{ featured: false },
   });
 
+// JOIN TO PROJECT
+export const putJoinToProject = async (id) =>
+  await axiosInstance.put(`/project/apply/${id}`);
+
 // GET TAGS
 export const getTags = async () => await axiosInstance.get("/project/tags");
 
 // GET LANGUAGES
 export const getLanguages = async () =>
   await axiosInstance.get("/project/languages");
+
+// GET USER
 export const getUserInfoById = async () => await axiosInstance.get("/user");
+
+// EDIT USER
 export const editUserInfo = async (data) =>
   await axiosInstance.put("/user", data);
+
+// DELETE USER
 export const deleteUser = async () => await axiosInstance.delete("/user");
 export const getOtherUsersInfoById = async (id) =>
   await axiosInstance.get(`/user/${id}`);
