@@ -19,7 +19,7 @@ import styled from "styled-components";
 import { AddReviewById, getReviewById } from "../../utils/Projects";
 import { Rating } from "@mui/lab";
 import { useParams } from "react-router-dom";
-import {withSnackbar} from "../../components/SnackBarHOC";
+import { withSnackbar } from "../../components/SnackBarHOC";
 
 const Review = (props) => {
   const { data, projectId, showMessage } = props;
@@ -49,15 +49,15 @@ const Review = (props) => {
 
   return (
     <>
-        <Grid container direction="column">
-          {info?.collaborators?.map((item, index) => (
-            <CollaboratorItem
-              key={index}
-              data={item}
-              setModalReview={openModalAndShowReviews}
-            />
-          ))}
-        </Grid>
+      <Grid container direction="column">
+        {info?.collaborators?.map((item, index) => (
+          <CollaboratorItem
+            key={index}
+            data={item}
+            setModalReview={openModalAndShowReviews}
+          />
+        ))}
+      </Grid>
       {modalReview && (
         <ReviewOfCollaborators
           userInfo={userInfo}
@@ -67,7 +67,11 @@ const Review = (props) => {
         />
       )}
       {modalAddReview && (
-        <AddNewReview setModalReview={setModalAddReview} userInfo={userInfo} showMessage={showMessage}/>
+        <AddNewReview
+          setModalReview={setModalAddReview}
+          userInfo={userInfo}
+          showMessage={showMessage}
+        />
       )}
     </>
   );
@@ -119,7 +123,6 @@ const AddNewReview = (props) => {
       setModalReview(false);
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
-
     }
   };
 
@@ -240,10 +243,9 @@ const ReviewOfCollaborators = (props) => {
         <DialogContent>
           <Button onClick={openAdd}>Add new review</Button>
           <Grid maxHeight={400}>
-            {userInfo.review
-              .map((item, index) => (
-                <ReviewItem key={index} data={item} />
-              ))}
+            {userInfo.review.map((item, index) => (
+              <ReviewItem key={index} data={item} />
+            ))}
           </Grid>
         </DialogContent>
         <DialogActions>

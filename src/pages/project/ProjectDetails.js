@@ -50,8 +50,8 @@ const ProjectDetails = (props) => {
     fetchUser();
   }, []);
 
-  const fetchUser = async () =>{
-    try{
+  const fetchUser = async () => {
+    try {
       if (isUserLoggedIn()) {
         const profile = await getUserInfoByIdWithToken(isUserLoggedIn());
         setUser(profile.data);
@@ -59,8 +59,7 @@ const ProjectDetails = (props) => {
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
     }
-
-  }
+  };
 
   const fetchProject = async () => {
     try {
@@ -154,109 +153,106 @@ const ProjectDetails = (props) => {
 
   return (
     <>
-
-        <Container>
-          <Box mt={10} mb={5}>
-            <Grid container direction="row" justifyContent="space-between">
-              <Grid item>
-                <Typography variant="h4">{details?.title}</Typography>
-              </Grid>
-              <Grid item>
-                {details &&
-                  user &&
-                  getTypeOfButton(buttonType.type)}
-              </Grid>
+      <Container>
+        <Box mt={10} mb={5}>
+          <Grid container direction="row" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h4">{details?.title}</Typography>
             </Grid>
-          </Box>
-
-          <Grid>
-            <Typography>{details?.description}</Typography>
+            <Grid item>
+              {details && user && getTypeOfButton(buttonType.type)}
+            </Grid>
           </Grid>
-          <Grid container direction="row">
-            <Grid item xs={6}>
-              <Box mt={4}>
-                <Grid container direction="row">
-                  <Grid>
-                    <Typography>Tags: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="row">
-                      {details?.tags &&
-                        details?.tags.length > 0 &&
-                        details?.tags.map((item, index) => (
-                          <Box ml={1} key={index}>
-                            <Chip color="primary" label={item.name} />
-                          </Box>
-                        ))}
-                    </Grid>
-                  </Grid>
+        </Box>
+
+        <Grid>
+          <Typography>{details?.description}</Typography>
+        </Grid>
+        <Grid container direction="row">
+          <Grid item xs={6}>
+            <Box mt={4}>
+              <Grid container direction="row">
+                <Grid>
+                  <Typography>Tags: </Typography>
                 </Grid>
-              </Box>
-              <Box mt={4}>
-                <Grid container direction="row">
-                  <Grid>
-                    <Typography>Languages: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="row">
-                      {details?.languages &&
-                        details?.languages.length > 0 &&
-                        details?.languages.map((item, index) => (
-                          <Box ml={1} key={index}>
-                            <Chip color="primary" label={item.name} />
-                          </Box>
-                        ))}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Box mt={4}>
-                <Grid container direction="row">
-                  <Grid>
-                    <Typography>Links: </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Grid container direction="row">
-                      {details?.links &&
-                        details?.links.length > 0 &&
-                        details?.links.map((item, index) => (
-                          <Box ml={1} key={index}>
-                            <Link href={item}>{item}</Link>
-                          </Box>
-                        ))}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Box mt={4}>
-                <Typography>Owner: {details?.owner?.nickname}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              {details?.collaborators?.length > 0 && (
-                <>
-                  <Typography sx={{ mt: 4, mb: 1 }} component="div">
-                    Collaborators({details?.collaborators.length})
-                  </Typography>
-                  <List dense={true}>
-                    {details?.collaborators &&
-                      details?.collaborators.length > 0 &&
-                      details?.collaborators.map((item, index) => (
-                        <ListItem key={index}>
-                          <ListItemAvatar>
-                            <Avatar sx={{ width: 24, height: 24 }}>
-                              <AccountCircle />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <CollaboratorName>{item.nickname}</CollaboratorName>
-                        </ListItem>
+                <Grid item>
+                  <Grid container direction="row">
+                    {details?.tags &&
+                      details?.tags.length > 0 &&
+                      details?.tags.map((item, index) => (
+                        <Box ml={1} key={index}>
+                          <Chip color="primary" label={item.name} />
+                        </Box>
                       ))}
-                  </List>
-                </>
-              )}
-            </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box mt={4}>
+              <Grid container direction="row">
+                <Grid>
+                  <Typography>Languages: </Typography>
+                </Grid>
+                <Grid item>
+                  <Grid container direction="row">
+                    {details?.languages &&
+                      details?.languages.length > 0 &&
+                      details?.languages.map((item, index) => (
+                        <Box ml={1} key={index}>
+                          <Chip color="primary" label={item.name} />
+                        </Box>
+                      ))}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box mt={4}>
+              <Grid container direction="row">
+                <Grid>
+                  <Typography>Links: </Typography>
+                </Grid>
+                <Grid item>
+                  <Grid container direction="row">
+                    {details?.links &&
+                      details?.links.length > 0 &&
+                      details?.links.map((item, index) => (
+                        <Box ml={1} key={index}>
+                          <Link href={item}>{item}</Link>
+                        </Box>
+                      ))}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box mt={4}>
+              <Typography>Owner: {details?.owner?.nickname}</Typography>
+            </Box>
           </Grid>
-        </Container>
+          <Grid item xs={6}>
+            {details?.collaborators?.length > 0 && (
+              <>
+                <Typography sx={{ mt: 4, mb: 1 }} component="div">
+                  Collaborators({details?.collaborators.length})
+                </Typography>
+                <List dense={true}>
+                  {details?.collaborators &&
+                    details?.collaborators.length > 0 &&
+                    details?.collaborators.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemAvatar>
+                          <Avatar sx={{ width: 24, height: 24 }}>
+                            <AccountCircle />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <CollaboratorName>{item.nickname}</CollaboratorName>
+                      </ListItem>
+                    ))}
+                </List>
+              </>
+            )}
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };
