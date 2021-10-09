@@ -16,7 +16,7 @@ import ApplicantList from "./ApplicantList";
 
 import {useParams} from "react-router-dom";
 import Review from "./review";
-import { getProjectById} from "../../utils/Projects";
+import {getProjectById} from "../../utils/Projects";
 
 const ManageProject = (props) => {
     const { showMessage } = props;
@@ -27,8 +27,7 @@ const ManageProject = (props) => {
     console.log(id);
     console.log(showMessage)
 
-    async function fetchApplicants() {
-
+    async function fetchProjectData() {
         try {
             const response = await getProjectById(id);
             setData(response.data);
@@ -39,7 +38,7 @@ const ManageProject = (props) => {
     }
 
     useEffect(() => {
-        fetchApplicants();
+        fetchProjectData();
     }, []);
 
 

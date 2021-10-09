@@ -19,9 +19,10 @@ import styled from "styled-components";
 import { AddReviewById, getReviewById } from "../../utils/Projects";
 import { Rating } from "@mui/lab";
 import { useParams } from "react-router-dom";
+import {withSnackbar} from "../../components/SnackBarHOC";
 
 const Review = (props) => {
-  const { show = true, data, projectId } = props;
+  const { data, projectId, showMessage } = props;
   const [info] = useState(data);
   const [modalReview, setModalReview] = useState(false);
   const [modalAddReview, setModalAddReview] = useState(false);
@@ -38,7 +39,7 @@ const Review = (props) => {
       });
       setModalReview(true);
     } catch (e) {
-      console.log(e);
+      showMessage("error", "Oops... Something went wrong!");
     }
   };
   const openModalAddReview = () => {
@@ -46,13 +47,8 @@ const Review = (props) => {
     setModalAddReview(true);
   };
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
-
   return (
     <>
-      {show && (
         <Grid container direction="column">
           {info?.collaborators?.map((item, index) => (
             <CollaboratorItem
@@ -62,16 +58,16 @@ const Review = (props) => {
             />
           ))}
         </Grid>
-      )}
       {modalReview && (
         <ReviewOfCollaborators
           userInfo={userInfo}
           setModalReview={setModalReview}
           openAdd={openModalAddReview}
+          showMessage={showMessage}
         />
       )}
       {modalAddReview && (
-        <AddNewReview setModalReview={setModalAddReview} userInfo={userInfo} />
+        <AddNewReview setModalReview={setModalAddReview} userInfo={userInfo} showMessage={showMessage}/>
       )}
     </>
   );
@@ -103,7 +99,7 @@ const CollaboratorItem = (props) => {
 };
 
 const AddNewReview = (props) => {
-  const { userInfo, setModalReview } = props;
+  const { userInfo, setModalReview, showMessage } = props;
   const [value, setValue] = useState(0);
   const [text, setText] = useState("");
   let { id } = useParams();
@@ -118,9 +114,12 @@ const AddNewReview = (props) => {
         },
         id
       );
+      showMessage("success", "Review added!");
+
       setModalReview(false);
     } catch (e) {
-      console.log(e);
+      showMessage("error", "Oops... Something went wrong!");
+
     }
   };
 
@@ -194,8 +193,8 @@ const ReviewOfCollaborators = (props) => {
     const [date, setDate] = useState();
 
     useEffect(() => {
-      if (data && data.time) {
-        const time = new Date(data.time);
+      if (data && data.date) {
+        const time = new Date(data.date);
         setDate(
           `${time.getDate()}-${time.getMonth() + 1}-${time.getFullYear()}`
         );
@@ -216,9 +215,9 @@ const ReviewOfCollaborators = (props) => {
               <Rating name="read-only" value={data.score} readOnly />
             </Grid>
           </AccordionSummary>
-          {data?.comment.length > 0 && (
+          {data?.comment?.length > 0 && (
             <AccordionDetails>
-              <Typography>{data.comment}</Typography>
+              <Typography>{data?.comment}</Typography>
             </AccordionDetails>
           )}
         </AccordionItem>
@@ -240,14 +239,8 @@ const ReviewOfCollaborators = (props) => {
         </DialogTitle>
         <DialogContent>
           <Button onClick={openAdd}>Add new review</Button>
-          <Grid maxHeight={600}>
-            {[
-              { time: "2021-10-09T13:48:31.1886002", score: 2, comment: "" },
-              { time: "2021-05-09T13:48:31.1886002", score: 5, comment: "DDDDDDDDDDDDDDDDDDDD" },
-              { time: "2021-08-09T13:48:31.1886002", score: 1, comment: "SSSSSSSSSSSSSSSSSSSSSSs" },
-              { time: "2021-12-09T13:48:31.1886002", score: 0, comment: "" },
-            ]
-              .sort()
+          <Grid maxHeight={400}>
+            {userInfo.review
               .map((item, index) => (
                 <ReviewItem key={index} data={item} />
               ))}
@@ -265,4 +258,4 @@ const ReviewOfCollaborators = (props) => {
   );
 };
 
-export default Review;
+export default withSnackbar(Review);

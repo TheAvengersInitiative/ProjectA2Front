@@ -100,3 +100,11 @@ export const editUserInfo = async (data) =>
 export const deleteUser = async () => await axiosInstance.delete("/user");
 export const getOtherUsersInfoById = async (id) =>
   await axiosInstance.get(`/user/${id}`);
+
+// BLACKLIS OF ENDPOINTS
+
+// GET USER WITH TOKEN
+export const getUserInfoByIdWithToken = async (token) => await axios.create({
+    baseURL: "http://localhost:8080",
+    headers: { Authorization: token },
+}).get("/user");

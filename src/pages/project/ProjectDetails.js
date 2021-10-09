@@ -17,7 +17,7 @@ import { withSnackbar } from "../../components/SnackBarHOC";
 import { useParams } from "react-router-dom";
 import {
   getProjectById,
-  getUserInfoById,
+  getUserInfoByIdWithToken,
   putJoinToProject,
 } from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
@@ -39,7 +39,6 @@ const ProjectButton = styled(LoadingButton)`
 
 const ProjectDetails = (props) => {
   const { isUserLoggedIn } = useAuth();
-  const [userLogged, setUserLogged] = useState();
   const { showMessage } = props;
   const [details, setDetails] = useState();
   const { id } = useParams();
@@ -47,20 +46,25 @@ const ProjectDetails = (props) => {
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
 
   useEffect(() => {
-    setUserLogged(isUserLoggedIn());
+    fetchProject();
+    fetchUser();
   }, []);
 
-  useEffect(() => {
-    fetchProject();
-  }, [userLogged, id]);
+  const fetchUser = async () =>{
+    try{
+      if (isUserLoggedIn()) {
+        const profile = await getUserInfoByIdWithToken(isUserLoggedIn());
+        setUser(profile.data);
+      }
+    } catch (e) {
+      showMessage("error", "Oops... Something went wrong!");
+    }
+
+  }
 
   const fetchProject = async () => {
     try {
       const response = await getProjectById(id);
-      if (userLogged) {
-        const profile = await getUserInfoById();
-        setUser(profile.data);
-      }
       setDetails(response.data);
     } catch (e) {
       console.log(e);
@@ -69,7 +73,7 @@ const ProjectDetails = (props) => {
   };
 
   useEffect(() => {
-    if (user && details && userLogged) {
+    if (user && details) {
       const UserIsCollaborator = details?.collaborators.find(
         (item) => item.id === user.id
       );
@@ -150,7 +154,7 @@ const ProjectDetails = (props) => {
 
   return (
     <>
-      {isUserLoggedIn() && (
+
         <Container>
           <Box mt={10} mb={5}>
             <Grid container direction="row" justifyContent="space-between">
@@ -159,7 +163,6 @@ const ProjectDetails = (props) => {
               </Grid>
               <Grid item>
                 {details &&
-                  userLogged &&
                   user &&
                   getTypeOfButton(buttonType.type)}
               </Grid>
@@ -254,7 +257,6 @@ const ProjectDetails = (props) => {
             </Grid>
           </Grid>
         </Container>
-      )}
     </>
   );
 };
