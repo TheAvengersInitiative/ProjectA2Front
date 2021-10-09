@@ -51,7 +51,7 @@ function App() {
                 <ModifyUser title="Profile" subtitle="" submit={editUserInfo} />
               </PrivateRoute>
               <PrivateRoute path="/project/:id/manage">
-                <ManageProject/>
+                <ManageProject />
               </PrivateRoute>
 
               <Route
