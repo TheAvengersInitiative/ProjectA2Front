@@ -104,7 +104,7 @@ const CollaboratorItem = (props) => {
 
 const AddNewReview = (props) => {
   const { userInfo, setModalReview, showMessage } = props;
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
   const [text, setText] = useState("");
   let { id } = useParams();
 
