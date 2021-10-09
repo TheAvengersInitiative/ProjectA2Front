@@ -21,6 +21,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
 import Profile from "./pages/user/Profile";
+import ManageProject from "./pages/proyects/ManageProject";
 
 function App() {
   return (
@@ -48,6 +49,10 @@ function App() {
               <PrivateRoute path="/profile">
                 <ModifyUser title="Profile" subtitle="" submit={editUserInfo} />
               </PrivateRoute>
+              <PrivateRoute path="/project/:id/manage">
+                <ManageProject/>
+              </PrivateRoute>
+
               <Route
                 exact
                 path="/"
