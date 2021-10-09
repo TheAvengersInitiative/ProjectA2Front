@@ -37,6 +37,10 @@ const ApplicantList =(props)=>{
         fetchApplicants();
     }, []);
 
+    useEffect(() => {
+
+    }, [applicants]);
+
 
     console.log("aaaa",applicants)
 
@@ -48,6 +52,8 @@ const ApplicantList =(props)=>{
                 "success",
                 `User was rejected succesfully`
             );
+
+             fetchApplicants()
 
 
         } catch (e) {
@@ -67,6 +73,8 @@ const ApplicantList =(props)=>{
                 "success",
                 `User was rejected succesfully`
             );
+
+            fetchApplicants()
 
 
         } catch (e) {
