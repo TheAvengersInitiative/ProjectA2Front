@@ -1,16 +1,18 @@
 import { withSnackbar } from "../../components/SnackBarHOC";
 import {
+  IconButton,
   Grid,
   LinearProgress,
+  Link,
   ListItem,
-  ListItemButton,
-  ListItemIcon,
   ListItemText,
+  List,
+  Stack,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-//import {List} from "@mui/icons-material";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckIcon from "@mui/icons-material/Check";
+
+import { Close, Check } from "@mui/icons-material";
+
 import {
   acceptApplicant,
   getApplicants,
@@ -19,8 +21,6 @@ import {
 
 const ApplicantList = (props) => {
   const { showMessage, projID } = props;
-  console.log(showMessage);
-  console.log(projID);
 
   const [applicants, setApplicants] = useState();
 
@@ -29,7 +29,7 @@ const ApplicantList = (props) => {
   async function fetchApplicants() {
     try {
       const response = await getApplicants(projID);
-      console.log(response.data);
+
       setApplicants(response.data);
     } catch (e) {
       showMessage("error", "Opss... Something went wrong");
@@ -42,8 +42,6 @@ const ApplicantList = (props) => {
   }, []);
 
   useEffect(() => {}, [applicants]);
-
-  console.log("aaaa", applicants);
 
   const onReject = async (values) => {
     try {
@@ -87,35 +85,35 @@ const ApplicantList = (props) => {
       justifyContent="flex-start"
       alignItems="stretch"
     >
-      <div>
-        {applicants.length > 0 &&
+      <List container direction="column">
+        {applicants?.length ? (
           applicants.map((item, index) => {
-            console.log(item);
             return (
-              <ListItem disablePadding key={index}>
-                <ListItemText primary={`${item.nickname}`} />
-                <ListItemButton
-                  onClick={() => {
-                    onReject(item.id);
-                  }}
-                >
-                  <ListItemIcon>
-                    <CancelIcon />
-                  </ListItemIcon>
-                </ListItemButton>
-                <ListItemButton
-                  onClick={() => {
-                    onAccept(item.id);
-                  }}
-                >
-                  <ListItemIcon>
-                    <CheckIcon />
-                  </ListItemIcon>
-                </ListItemButton>
+              <ListItem
+                key={index}
+                secondaryAction={
+                  <Stack direction="row" spacing={2}>
+                    <IconButton onClick={() => onReject(item.id)}>
+                      <Close />
+                    </IconButton>
+                    <IconButton onClick={() => onAccept(item.id)}>
+                      <Check />
+                    </IconButton>
+                  </Stack>
+                }
+              >
+                <Link href={`/user/${item.id}`}>
+                  <ListItemText primary={`${item.nickname}`} />
+                </Link>
               </ListItem>
             );
-          })}
-      </div>
+          })
+        ) : (
+          <ListItem>
+            <ListItemText primary={`There are no applicants`} />
+          </ListItem>
+        )}
+      </List>
     </Grid>
   );
 };
