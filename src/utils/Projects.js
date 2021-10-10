@@ -35,6 +35,20 @@ export const getMyProjects = async () =>
 export const deleteProjectById = async (id) =>
   await axiosInstance.delete(`/project/${id}`);
 
+// GET APPLICANTS
+export const getApplicants = async (id) =>
+  await axiosInstance.get(`/project/applicants/${id}`);
+
+// ACCEPT APPLICANTS
+
+export const acceptApplicant = async (userId, projId) =>
+  await axiosInstance.put(`/project/accept/${projId}/${userId}/`);
+
+// REJECT APPLICANTS
+
+export const rejectApplicant = async (userId, projId) =>
+  await axiosInstance.put(`/project/reject/${projId}/${userId}/`);
+
 // RECOVER PASSWORD
 export const recoverPassword = async (data) =>
   await axiosInstance.post("/user/recover/request", data);
