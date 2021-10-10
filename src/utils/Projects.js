@@ -49,6 +49,16 @@ export const acceptApplicant = async (userId, projId) =>
 export const rejectApplicant = async (userId, projId) =>
   await axiosInstance.put(`/project/reject/${projId}/${userId}/`);
 
+// GET REVIEWS BY ID OF PROJECT AND USER
+
+export const getReviewById = async (userId, projId) =>
+  await axiosInstance.get(`/project/reviews/${projId}/${userId}/`);
+
+// PUT REVIEWS BY ID OF PROJECT AND USER
+
+export const AddReviewById = async (body, projId) =>
+  await axiosInstance.put(`/project/review/${projId}`, body);
+
 // RECOVER PASSWORD
 export const recoverPassword = async (data) =>
   await axiosInstance.post("/user/recover/request", data);
@@ -90,3 +100,14 @@ export const editUserInfo = async (data) =>
 export const deleteUser = async () => await axiosInstance.delete("/user");
 export const getOtherUsersInfoById = async (id) =>
   await axiosInstance.get(`/user/${id}`);
+
+// BLACKLIS OF ENDPOINTS
+
+// GET USER WITH TOKEN
+export const getUserInfoByIdWithToken = async (token) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .get("/user");
