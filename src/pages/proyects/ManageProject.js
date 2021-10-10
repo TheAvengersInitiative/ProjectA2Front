@@ -5,16 +5,6 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-
-import ApplicantList from "./ApplicantList";
-
-import { useParams } from "react-router-dom";
-
-const ManageProject = () => {
-  let { id } = useParams();
-
-  const LabTabs = () => {
-import { withSnackbar } from "../../components/SnackBarHOC";
 import ApplicantList from "./ApplicantList";
 
 import { useParams } from "react-router-dom";
