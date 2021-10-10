@@ -37,7 +37,9 @@ export const AppBarMenu = () => {
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
-              <Typography variant="h6">A2</Typography>
+              <Link href="/" color={"inherit"} underline={"none"}>
+                <Typography variant="h6">A2</Typography>
+              </Link>
             </Grid>
             <Grid item>
               {isLoggedIn && (
