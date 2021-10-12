@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Form, Formik } from "formik";
 import TextFieldContainer from "./TextFieldContainer";
 import { withSnackbar } from "./SnackBarHOC";
@@ -14,10 +15,12 @@ import {
   TextField,
 } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
-import { recoverPassword } from "../utils/Projects";
+import { startDiscussion } from "../utils/Projects";
 
 function SubmitDialog(props) {
   const { handleClose, open, showMessage } = props;
+
+  let { id } = useParams();
 
   const [tags] = useState([]);
 
@@ -40,7 +43,7 @@ function SubmitDialog(props) {
   const onSubmit = async (formData) => {
     try {
       formData.tags = selectedTags;
-      await recoverPassword(formData);
+      await startDiscussion(id, formData);
       showMessage("success", "Successfully created a new discusion");
     } catch (e) {
       showMessage("error", "An error occured");
@@ -53,7 +56,7 @@ function SubmitDialog(props) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Start a discusion</DialogTitle>
+      <DialogTitle id="form-dialog-title">Start a discussion</DialogTitle>
       <DialogContent>
         <Formik
           initialValues={initialValues}
@@ -111,7 +114,7 @@ function SubmitDialog(props) {
                         {...params}
                         variant="filled"
                         label="Tags"
-                        helperText="Choose a maximum of three tags"
+                        helperText="Choose a minimum of 1 and a maximum of 5 tags"
                       />
                     )}
                   />

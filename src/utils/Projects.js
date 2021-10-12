@@ -76,3 +76,7 @@ export const editUserInfo = async (data) =>
 export const deleteUser = async () => await axiosInstance.delete("/user");
 export const getOtherUsersInfoById = async (id) =>
   await axiosInstance.get(`/user/${id}`);
+
+// START A DISCUSSION
+export const startDiscussion = async (id, data) =>
+  await axiosInstance.post(`/project/${id}/discussion`, data);

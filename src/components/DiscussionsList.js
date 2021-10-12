@@ -24,9 +24,9 @@ function DiscussionsList(props) {
         direction="row"
         alignItems="center"
       >
-        <Typography>Discussions (3)</Typography>
+        <Typography>Discussions (0)</Typography>
         <Button variant="outlined" disableElevation onClick={handleClickOpen}>
-          Start a discusion
+          Start a discussion
         </Button>
       </Grid>
       <Grid item xs={12}>
