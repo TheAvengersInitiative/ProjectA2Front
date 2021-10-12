@@ -52,7 +52,7 @@ const ManageProject = (props) => {
             </TabList>
           </Box>
           <TabPanel value="1">
-            <ApplicantList projID={id} />
+            <ApplicantList projID={id} updateList={fetchProjectData} />
           </TabPanel>
           <TabPanel value="2">Item Two</TabPanel>
           <TabPanel value="3">
