@@ -18,7 +18,7 @@ import { useParams } from "react-router-dom";
 import {
   getProjectById,
   getUserInfoByIdWithToken,
-  putJoinToProject,
+  putJoinToProjectWithToken,
 } from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -93,7 +93,7 @@ const ProjectDetails = (props) => {
   const handleJoinToProject = async () => {
     try {
       setButtonType({ ...buttonType, loading: true });
-      await putJoinToProject(id);
+      await putJoinToProjectWithToken(id, isUserLoggedIn());
       showMessage("success", "Request sent successfully!");
       setButtonType({ type: "applicant", loading: false });
     } catch (e) {

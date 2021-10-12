@@ -111,3 +111,12 @@ export const getUserInfoByIdWithToken = async (token) =>
       headers: { Authorization: token },
     })
     .get("/user");
+
+// JOIN TO PROJECT WITH TOKEN
+export const putJoinToProjectWithToken = async (id, token) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .put(`/project/apply/${id}`);
