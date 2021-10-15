@@ -113,17 +113,14 @@ const AddNewReview = (props) => {
       let body = {
         collaboratorID: userInfo.data.id,
         score: value,
-      }
+      };
       if (text) {
         body = {
           ...body,
-          comment:text
-        }
+          comment: text,
+        };
       }
-      await AddReviewById(
-        body,
-        id
-      );
+      await AddReviewById(body, id);
       showMessage("success", "Review added!");
 
       setModalReview(false);
@@ -133,13 +130,12 @@ const AddNewReview = (props) => {
   };
 
   const changeValue = (event, newValue) => {
-    if(newValue === 0) {
-      setValue(1)
-    }else{
+    if (newValue === 0) {
+      setValue(1);
+    } else {
       setValue(newValue);
     }
-
-  }
+  };
 
   return (
     <Dialog
