@@ -110,12 +110,18 @@ const AddNewReview = (props) => {
 
   const addReview = async () => {
     try {
+      let body = {
+        collaboratorID: userInfo.data.id,
+        score: value,
+      }
+      if (text) {
+        body = {
+          ...body,
+          comment:text
+        }
+      }
       await AddReviewById(
-        {
-          collaboratorID: userInfo.data.id,
-          comment: text,
-          score: value,
-        },
+        body,
         id
       );
       showMessage("success", "Review added!");
@@ -125,6 +131,15 @@ const AddNewReview = (props) => {
       showMessage("error", "Oops... Something went wrong!");
     }
   };
+
+  const changeValue = (event, newValue) => {
+    if(newValue === 0) {
+      setValue(1)
+    }else{
+      setValue(newValue);
+    }
+
+  }
 
   return (
     <Dialog
@@ -144,9 +159,7 @@ const AddNewReview = (props) => {
               <Rating
                 name="simple-controlled"
                 value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
+                onChange={(event, newValue) => changeValue(event, newValue)}
               />
             </Grid>
             <Grid item minWidth={530}>
