@@ -20,7 +20,7 @@ import {
 } from "../../utils/Projects";
 
 const ApplicantList = (props) => {
-  const { showMessage, projID } = props;
+  const { showMessage, projID, updateList } = props;
 
   const [applicants, setApplicants] = useState();
 
@@ -62,7 +62,7 @@ const ApplicantList = (props) => {
   const onAccept = async (values) => {
     try {
       await acceptApplicant(values, projID);
-
+      await updateList();
       showMessage("success", `User was rejected succesfully`);
 
       fetchApplicants();
