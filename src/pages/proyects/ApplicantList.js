@@ -62,7 +62,7 @@ const ApplicantList = (props) => {
   const onAccept = async (values) => {
     try {
       await acceptApplicant(values, projID);
-
+      await updateList();
       showMessage("success", `User was rejected succesfully`);
 
       setTimeout(() => {
