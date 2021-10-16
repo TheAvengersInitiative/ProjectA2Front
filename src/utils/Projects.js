@@ -103,7 +103,12 @@ export const getOtherUsersInfoById = async (id) =>
 
 // START A DISCUSSION
 export const startDiscussion = async (id, data) =>
-  await axiosInstance.post(`/project/${id}/discussion`, data);
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+    .post(`/project/${id}/discussion`, data);
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN

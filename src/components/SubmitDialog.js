@@ -42,9 +42,10 @@ function SubmitDialog(props) {
 
   const onSubmit = async (formData) => {
     try {
-      formData.tags = selectedTags;
+      formData.forumTags = selectedTags;
       await startDiscussion(id, formData);
       showMessage("success", "Successfully created a new discusion");
+      handleClose();
     } catch (e) {
       showMessage("error", "An error occured");
     }

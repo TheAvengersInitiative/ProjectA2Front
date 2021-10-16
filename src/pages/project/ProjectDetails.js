@@ -41,7 +41,7 @@ const ProjectButton = styled(LoadingButton)`
 const ProjectDetails = (props) => {
   const { isUserLoggedIn } = useAuth();
   const { showMessage } = props;
-  const [details, setDetails] = useState(); 
+  const [details, setDetails] = useState();
   const { id } = useParams();
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
