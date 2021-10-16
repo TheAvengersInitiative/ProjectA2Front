@@ -110,19 +110,30 @@ const AddNewReview = (props) => {
 
   const addReview = async () => {
     try {
-      await AddReviewById(
-        {
-          collaboratorID: userInfo.data.id,
+      let body = {
+        collaboratorID: userInfo.data.id,
+        score: value,
+      };
+      if (text) {
+        body = {
+          ...body,
           comment: text,
-          score: value,
-        },
-        id
-      );
+        };
+      }
+      await AddReviewById(body, id);
       showMessage("success", "Review added!");
 
       setModalReview(false);
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
+    }
+  };
+
+  const changeValue = (event, newValue) => {
+    if (newValue === 0) {
+      setValue(1);
+    } else {
+      setValue(newValue);
     }
   };
 
@@ -144,9 +155,7 @@ const AddNewReview = (props) => {
               <Rating
                 name="simple-controlled"
                 value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
+                onChange={(event, newValue) => changeValue(event, newValue)}
               />
             </Grid>
             <Grid item minWidth={530}>
