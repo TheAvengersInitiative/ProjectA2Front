@@ -40,7 +40,7 @@ const Profile = (props) => {
 
       <Grid item container xs={12} spacing={2} alignItems={"center"}>
         <Grid item>
-          <Typography>{"Tags: "}</Typography>
+          {userInfo?.preferredTags && <Typography>{"Tags: "}</Typography>}
         </Grid>
         <Grid item>
           <ChipGroup array={userInfo?.preferredTags} color={"success"} />
@@ -49,7 +49,9 @@ const Profile = (props) => {
 
       <Grid item container xs={12} spacing={2} alignItems={"center"}>
         <Grid item>
-          <Typography>{"Languages: "}</Typography>
+          {userInfo?.preferredLanguages && (
+            <Typography>{"Languages: "}</Typography>
+          )}
         </Grid>
         <Grid item>
           <ChipGroup array={userInfo?.preferredLanguages} color={"primary"} />

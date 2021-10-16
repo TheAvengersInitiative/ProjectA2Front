@@ -35,6 +35,30 @@ export const getMyProjects = async () =>
 export const deleteProjectById = async (id) =>
   await axiosInstance.delete(`/project/${id}`);
 
+// GET APPLICANTS
+export const getApplicants = async (id) =>
+  await axiosInstance.get(`/project/applicants/${id}`);
+
+// ACCEPT APPLICANTS
+
+export const acceptApplicant = async (userId, projId) =>
+  await axiosInstance.put(`/project/accept/${projId}/${userId}/`);
+
+// REJECT APPLICANTS
+
+export const rejectApplicant = async (userId, projId) =>
+  await axiosInstance.put(`/project/reject/${projId}/${userId}/`);
+
+// GET REVIEWS BY ID OF PROJECT AND USER
+
+export const getReviewById = async (userId, projId) =>
+  await axiosInstance.get(`/project/reviews/${projId}/${userId}/`);
+
+// PUT REVIEWS BY ID OF PROJECT AND USER
+
+export const AddReviewById = async (body, projId) =>
+  await axiosInstance.put(`/project/review/${projId}`, body);
+
 // RECOVER PASSWORD
 export const recoverPassword = async (data) =>
   await axiosInstance.post("/user/recover/request", data);
@@ -80,3 +104,22 @@ export const getOtherUsersInfoById = async (id) =>
 // START A DISCUSSION
 export const startDiscussion = async (id, data) =>
   await axiosInstance.post(`/project/${id}/discussion`, data);
+// BLACKLIST OF ENDPOINTS
+
+// GET USER WITH TOKEN
+export const getUserInfoByIdWithToken = async (token) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .get("/user");
+
+// JOIN TO PROJECT WITH TOKEN
+export const putJoinToProjectWithToken = async (id, token) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .put(`/project/apply/${id}`);
