@@ -17,8 +17,6 @@ import { withSnackbar } from "../../components/SnackBarHOC";
 import { useParams } from "react-router-dom";
 import {
   getProjectById,
-  getUserInfoById,
-  putJoinToProject,
   getUserInfoByIdWithToken,
   putJoinToProjectWithToken,
 } from "../../utils/Projects";
@@ -42,9 +40,8 @@ const ProjectButton = styled(LoadingButton)`
 
 const ProjectDetails = (props) => {
   const { isUserLoggedIn } = useAuth();
-  const [userLogged] = useState(isUserLoggedIn());
   const { showMessage } = props;
-  const [details, setDetails] = useState();
+  const [details, setDetails] = useState(); 
   const { id } = useParams();
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
