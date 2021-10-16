@@ -101,7 +101,7 @@ export const deleteUser = async () => await axiosInstance.delete("/user");
 export const getOtherUsersInfoById = async (id) =>
   await axiosInstance.get(`/user/${id}`);
 
-// BLACKLIS OF ENDPOINTS
+// BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN
 export const getUserInfoByIdWithToken = async (token) =>

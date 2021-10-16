@@ -49,7 +49,7 @@ const ApplicantList = (props) => {
 
       showMessage("success", `User was rejected succesfully`);
 
-      fetchApplicants();
+      await fetchApplicants();
     } catch (e) {
       showMessage(
         "error",
@@ -65,7 +65,10 @@ const ApplicantList = (props) => {
       await updateList();
       showMessage("success", `User was rejected succesfully`);
 
-      fetchApplicants();
+      setTimeout(() => {
+        updateList();
+        fetchApplicants();
+      }, 1000);
     } catch (e) {
       showMessage(
         "error",
