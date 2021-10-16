@@ -1,39 +1,95 @@
 import React, { useEffect, useState } from "react";
 
-import { Grid, LinearProgress, Typography } from "@mui/material";
+import {
+    Button, Dialog,
+
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Grid,
+    LinearProgress,
+    Typography
+} from "@mui/material";
 import { withSnackbar } from "../../components/SnackBarHOC";
 import ProjectDetail from "../../components/ProjectDetail";
-import { getOtherUsersInfoById } from "../../utils/Projects";
+import { getOtherUsersInfoById} from "../../utils/Projects";
 import { useParams } from "react-router-dom";
 import ChipGroup from "../../components/ChipGroup";
+import ReviewTable from "./ReviewTable";
 
 const Profile = (props) => {
   const { showMessage } = props;
   const [userInfo, setUserinfo] = useState();
   const [loading, setLoading] = useState(true);
 
+
   let { id } = useParams();
-  console.log(id);
+
   async function fetchUserInfo() {
     try {
       const response = await getOtherUsersInfoById(id);
       setUserinfo(response.data);
+      console.log("aaaa", response.data);
     } catch (e) {
       showMessage("error", "Opss... Something went wrong");
     }
     setLoading(false);
   }
 
-  useEffect(() => {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
+    useEffect(() => {
     fetchUserInfo();
+
   }, []);
 
+    console.log(userInfo?.collaboratedProjects?.flatMap
+    ((project)=>project?.reviews));
   if (loading) return <LinearProgress />;
   return (
     <Grid container item xs={12} spacing={3}>
       <Grid item xs={12}>
         <Typography variant="h4">{userInfo?.nickname}</Typography>
       </Grid>
+        <Button variant="outlined" onClick={handleClickOpen}>
+            Check user reputation
+        </Button>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            maxWidth='lg'
+        >
+            <DialogTitle >
+                {`${userInfo?.nickname} reputation`}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Let Google help apps determine location. This means sending anonymous
+                    location data to Google, even when no apps are running.
+
+                </DialogContentText>
+            </DialogContent>
+            <DialogTitle >
+                {`${userInfo?.nickname} last reviews`}
+            </DialogTitle>
+            <DialogContent>
+                    <ReviewTable rows={userInfo.collaboratedProjects.flatMap
+                    ((project)=>     {
+                        let review = project.reviews
+                        review.title=project.title
+                        console.log("rrrrr",review)
+                        return review}      )}/>
+            </DialogContent>
+        </Dialog>
       <Grid item xs={12}>
         <Typography variant="h6">{userInfo?.biography}</Typography>
       </Grid>
@@ -60,7 +116,7 @@ const Profile = (props) => {
 
       <Grid item xs={12}>
         <Grid item xs={12}>
-          <Typography variant="h6">{"Owned Projects"}</Typography>
+            {userInfo?.ownedProjects && <Typography variant="h6">{"Owned Projects"}</Typography>}
         </Grid>
         <Grid
           container
@@ -82,9 +138,9 @@ const Profile = (props) => {
       </Grid>
       <Grid item xs={12}>
         <Grid item xs={12}>
-          <Typography variant="h6">
+            {userInfo?.collaboratedProjects && <Typography variant="h6">
             {"Projects that the user has collaborated in"}
-          </Typography>
+          </Typography>}
         </Grid>
         <Grid
           container
