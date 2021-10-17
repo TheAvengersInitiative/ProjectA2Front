@@ -10,13 +10,21 @@ import {
   Typography,
 } from "@mui/material";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { AccountCircle } from "@mui/icons-material";
 import { useAuth } from "../contexts/AuthContext";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useHistory, withRouter } from "react-router-dom";
+import styled from "styled-components";
 
-export const AppBarMenu = () => {
+const IconBack = styled(ArrowBackIosNewIcon)`
+  cursor: pointer;
+`;
+
+const AppBarMenu = ({ location }) => {
   const { isLoggedIn, logOut } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let history = useHistory();
 
   const handleLogOut = () => {
     logOut();
@@ -31,15 +39,29 @@ export const AppBarMenu = () => {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    console.log(location);
+  }, [location]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item>
-              <Link href="/" color={"inherit"} underline={"none"}>
-                <Typography variant="h6">A2</Typography>
-              </Link>
+            <Grid item container alignItems="center">
+              {location.pathname !== "/" && location.pathname !== "/login" && (
+                <Grid item alignItems="center">
+                  <IconBack
+                    onClick={history.goBack}
+                    style={{ marginRight: "20px" }}
+                  />
+                </Grid>
+              )}
+              <Grid item>
+                <Link href="/" color={"inherit"} underline={"none"}>
+                  <Typography variant="h6">A2</Typography>
+                </Link>
+              </Grid>
             </Grid>
             <Grid item>
               {isLoggedIn && (
@@ -83,3 +105,4 @@ export const AppBarMenu = () => {
     </Box>
   );
 };
+export default withRouter(AppBarMenu);
