@@ -16,7 +16,7 @@ import ResetPassword from "./components/ResetPassword";
 import Register from "./pages/session/Register";
 import VerifyEmail from "./components/VerifyEmail";
 import Login from "./pages/session/Login";
-import { AppBarMenu } from "./components/AppBarMenu";
+import AppBarMenu from "./components/AppBarMenu";
 import { AuthProvider } from "./contexts/AuthContext";
 import PrivateRoute from "./contexts/PrivateRoute";
 import ModifyUser from "./pages/user/ModifyUser";
@@ -27,11 +27,11 @@ import ProjectDetails from "./pages/project/ProjectDetails";
 function App() {
   return (
     <AuthProvider>
-      <AppBarMenu />
+      <Router>
+        <AppBarMenu />
 
-      <Container>
-        <Box mt={6} mb={4}>
-          <Router>
+        <Container>
+          <Box mt={6} mb={4}>
             <Switch>
               <Route path="/register">
                 <Register
@@ -108,9 +108,9 @@ function App() {
                 />
               </PrivateRoute>
             </Switch>
-          </Router>
-        </Box>
-      </Container>
+          </Box>
+        </Container>
+      </Router>
     </AuthProvider>
   );
 }
