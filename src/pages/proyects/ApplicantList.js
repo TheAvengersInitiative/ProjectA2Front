@@ -65,7 +65,6 @@ const ApplicantList = (props) => {
       showMessage("success", `User was rejected succesfully`);
       await updateList();
 
-
       setTimeout(() => {
         //updateList();
         fetchApplicants();
