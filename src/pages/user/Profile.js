@@ -30,7 +30,6 @@ const Profile = (props) => {
     try {
       const response = await getOtherUsersInfoById(id);
       setUserinfo(response.data);
-      console.log("aaaa", response.data);
     } catch (e) {
       showMessage("error", "Opss... Something went wrong");
     }
@@ -51,12 +50,6 @@ const Profile = (props) => {
     fetchUserInfo();
   }, []);
 
-  console.log(
-    "dfdfdfd",
-    userInfo?.collaboratedProjects?.map(
-      (project) => project?.reviews[project?.reviews?.length - 1]?.score
-    )
-  );
   if (loading) return <LinearProgress />;
   return (
     <Grid container item xs={12} spacing={3}>
@@ -80,7 +73,7 @@ const Profile = (props) => {
             <Stack direction="row" spacing={2}>
               <Typography>
                 {mean(
-                  userInfo.collaboratedProjects.map(
+                  userInfo?.collaboratedProjects?.map(
                     (project) =>
                       project.reviews[project.reviews.length - 1].score
                   )
@@ -89,7 +82,7 @@ const Profile = (props) => {
               <Rating
                 name="read-only"
                 value={mean(
-                  userInfo.collaboratedProjects.map(
+                  userInfo?.collaboratedProjects?.map(
                     (project) =>
                       project.reviews[project.reviews.length - 1].score
                   )
@@ -102,10 +95,10 @@ const Profile = (props) => {
         <DialogTitle>{`${userInfo?.nickname} last reviews`}</DialogTitle>
         <DialogContent>
           <ReviewTable
-            rows={userInfo.collaboratedProjects.flatMap((project) => {
+            rows={userInfo?.collaboratedProjects?.flatMap((project) => {
               let review = project.reviews;
               review.title = project.title;
-              console.log("rrrrr", review);
+
               return review;
             })}
           />
@@ -115,25 +108,31 @@ const Profile = (props) => {
         <Typography variant="h6">{userInfo?.biography}</Typography>
       </Grid>
 
-      <Grid item container xs={12} spacing={2} alignItems={"center"}>
-        <Grid item>
-          {userInfo?.preferredTags && <Typography>{"Tags: "}</Typography>}
+      {userInfo?.preferredTags && userInfo?.preferredTags?.length > 0 && (
+        <Grid item container xs={12} spacing={2} alignItems={"center"}>
+          <Grid item>
+            <Typography>{"Tags: "}</Typography>
+          </Grid>
+          <Grid item>
+            <ChipGroup array={userInfo?.preferredTags} color={"success"} />
+          </Grid>
         </Grid>
-        <Grid item>
-          <ChipGroup array={userInfo?.preferredTags} color={"success"} />
-        </Grid>
-      </Grid>
+      )}
 
-      <Grid item container xs={12} spacing={2} alignItems={"center"}>
-        <Grid item>
-          {userInfo?.preferredLanguages && (
-            <Typography>{"Languages: "}</Typography>
-          )}
-        </Grid>
-        <Grid item>
-          <ChipGroup array={userInfo?.preferredLanguages} color={"primary"} />
-        </Grid>
-      </Grid>
+      {userInfo?.preferredLanguages &&
+        userInfo?.preferredLanguages?.length > 0 && (
+          <Grid item container xs={12} spacing={2} alignItems={"center"}>
+            <Grid item>
+              <Typography>{"Languages: "}</Typography>
+            </Grid>
+            <Grid item>
+              <ChipGroup
+                array={userInfo?.preferredLanguages}
+                color={"primary"}
+              />
+            </Grid>
+          </Grid>
+        )}
 
       <Grid item xs={12}>
         <Grid item xs={12}>
