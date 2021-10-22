@@ -109,6 +109,16 @@ export const startDiscussion = async (id, data) =>
       headers: { Authorization: localStorage.getItem("token") },
     })
     .post(`/project/${id}/discussion`, data);
+
+// DELETE A DISCUSSION
+export const deleteDiscussion = async (id) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+    .delete(`/project/${id}/discussion`);
+
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN

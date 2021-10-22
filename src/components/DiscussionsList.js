@@ -9,8 +9,10 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardActions,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
+import DeleteDiscussion from "./DeleteDiscussion";
 
 function DiscussionsList(props) {
   const { discussions, fetchProject } = props;
@@ -72,6 +74,13 @@ function DiscussionsList(props) {
                   </Typography>
                 </Box>
               </CardContent>
+              <CardActions>
+              <Button size="small" onClick={handleClickOpen}>
+                Delete 
+              </Button>
+              <DeleteDiscussion open={open} handle={handleClose}/>
+              <Button size="small">Edit</Button>
+              </CardActions>
             </Card>
           ))
         ) : (
