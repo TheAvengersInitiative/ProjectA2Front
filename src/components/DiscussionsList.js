@@ -10,7 +10,10 @@ import {
   CardContent,
   CardHeader,
   CardActions,
+  IconButton,
 } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import SubmitDialog from "./SubmitDialog";
 import DeleteDiscussion from "./DeleteDiscussion";
 
@@ -45,8 +48,10 @@ function DiscussionsList(props) {
         direction="row"
         alignItems="center"
       >
-        <Typography>Discussions ({discussions?.length})</Typography>
-        <Button variant="outlined" disableElevation onClick={handleClickOpenSubmitD}>
+        <Typography>
+          Discussions ({discussions?.length})
+        </Typography>
+        <Button variant="contained" onClick={handleClickOpenSubmitD}>
           Start a discussion
         </Button>
       </Grid>
@@ -85,11 +90,13 @@ function DiscussionsList(props) {
                 </Box>
               </CardContent>
               <CardActions>
-              <Button size="small" onClick={handleClickOpenDelete}>
-                Delete 
-              </Button>
-              <DeleteDiscussion open={openDelete} handle={handleCloseDelete}/>
-              <Button size="small">Edit</Button>
+              <IconButton aria-label="delete" color="primary" size="small" onClick={handleClickOpenDelete}>
+                <DeleteIcon />
+              </IconButton>
+              <DeleteDiscussion open={openDelete} handleClose={handleCloseDelete}/>
+              <IconButton aria-label="edit" color="primary" size="small">
+                <EditIcon/>
+              </IconButton>
               </CardActions>
             </Card>
           ))
