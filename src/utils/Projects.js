@@ -101,6 +101,14 @@ export const deleteUser = async () => await axiosInstance.delete("/user");
 export const getOtherUsersInfoById = async (id) =>
   await axiosInstance.get(`/user/${id}`);
 
+// START A DISCUSSION
+export const startDiscussion = async (id, data) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+    .post(`/project/${id}/discussion`, data);
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN

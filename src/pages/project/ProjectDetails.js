@@ -20,6 +20,7 @@ import {
   getUserInfoByIdWithToken,
   putJoinToProjectWithToken,
 } from "../../utils/Projects";
+import DiscussionsList from "../../components/DiscussionsList";
 import { useAuth } from "../../contexts/AuthContext";
 
 const Container = styled(Grid)`
@@ -251,6 +252,12 @@ const ProjectDetails = (props) => {
               </>
             )}
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <DiscussionsList
+            discussions={details?.discussions}
+            fetchProject={fetchProject}
+          />
         </Grid>
       </Container>
     </>

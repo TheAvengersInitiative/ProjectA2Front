@@ -163,7 +163,7 @@ function Search(props) {
   const searchByTags = async (query, save, name, tags, language) => {
     try {
       let array = [...tags, query];
-      console.log("Hola carlos");
+
       const body = {
         title: name,
         tags: array,
