@@ -47,8 +47,13 @@ const AppBarMenu = ({ location }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item container alignItems="center">
+          <Grid
+            container
+            justifyContent="space-between"
+            alignItems="center"
+            direction="row"
+          >
+            <Grid item container alignItems="center" direction="row" xs={2}>
               {location.pathname !== "/" && location.pathname !== "/login" && (
                 <Grid item alignItems="center">
                   <IconBack

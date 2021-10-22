@@ -11,6 +11,16 @@ import {
   CardHeader,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
+import styled from "styled-components";
+
+const DiscussionContainer = styled.div`
+  padding-top: 30px;
+  border-top-width: 1px;
+  border-top-color: lightgrey;
+  border-top-style: solid;
+  margin-top: 100px;
+  padding-bottom: 30px;
+`;
 
 function DiscussionsList(props) {
   const { discussions, fetchProject } = props;
@@ -26,14 +36,14 @@ function DiscussionsList(props) {
   };
 
   return (
-    <div>
+    <DiscussionContainer>
       <Grid
         justifyContent="space-between"
         container
         direction="row"
         alignItems="center"
       >
-        <Typography>Discussions ({discussions.length})</Typography>
+        <Typography>Discussions ({discussions?.length})</Typography>
         <Button variant="outlined" disableElevation onClick={handleClickOpen}>
           Start a discussion
         </Button>
@@ -41,7 +51,7 @@ function DiscussionsList(props) {
       <Grid item xs={12}>
         {discussions ? (
           discussions.map((discussion, index) => (
-            <Card variant="outlined" key={index}>
+            <Card variant="outlined" key={index} style={{ margin: "20px 0" }}>
               <CardHeader title={discussion.title} />
               <CardContent>
                 <Box ml={1}>
@@ -83,7 +93,7 @@ function DiscussionsList(props) {
         handleClose={handleClose}
         fetchProject={fetchProject}
       />
-    </div>
+    </DiscussionContainer>
   );
 }
 
