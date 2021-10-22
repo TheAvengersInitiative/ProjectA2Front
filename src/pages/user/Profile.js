@@ -29,6 +29,7 @@ const Profile = (props) => {
   async function fetchUserInfo() {
     try {
       const response = await getOtherUsersInfoById(id);
+
       setUserinfo(response.data);
     } catch (e) {
       showMessage("error", "Opss... Something went wrong");
@@ -41,6 +42,24 @@ const Profile = (props) => {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  function getRows() {
+    let a = [];
+
+    userInfo?.collaboratedProjects?.forEach((project) =>
+      project.reviews.forEach((review) =>
+        a.push({
+          id: review.id,
+          title: project.title,
+          date: review.date,
+          comment: review.comment,
+          score: review.score,
+        })
+      )
+    );
+
+    return a;
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -61,9 +80,11 @@ const Profile = (props) => {
         alignItems="center"
       >
         <Typography variant="h4">{userInfo?.nickname}</Typography>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Check user reputation
-        </Button>
+        {userInfo?.collaboratedProjects && (
+          <Button variant="outlined" onClick={handleClickOpen}>
+            Check user reputation
+          </Button>
+        )}
       </Grid>
 
       <Dialog open={open} onClose={handleClose} maxWidth="lg">
@@ -95,12 +116,12 @@ const Profile = (props) => {
         <DialogTitle>{`${userInfo?.nickname} last reviews`}</DialogTitle>
         <DialogContent>
           <ReviewTable
-            rows={userInfo?.collaboratedProjects?.flatMap((project) => {
+            /*rows={userInfo?.collaboratedProjects?.flatMap((project) => {
               let review = project.reviews;
               review.title = project.title;
-
               return review;
-            })}
+            })}*/
+            rows={getRows()}
           />
         </DialogContent>
       </Dialog>
