@@ -254,7 +254,7 @@ const ProjectDetails = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <DiscussionsList discussions={details?.discussions} />
+          <DiscussionsList discussions={details?.discussions} fetchProject={fetchProject} />
         </Grid>
       </Container>
     </>

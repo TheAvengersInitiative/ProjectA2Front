@@ -18,7 +18,7 @@ import { createFilterOptions } from "@mui/material/Autocomplete";
 import { startDiscussion } from "../utils/Projects";
 
 function SubmitDialog(props) {
-  const { handleClose, open, showMessage } = props;
+  const { handleClose, open, showMessage, fetchProject } = props;
 
   let { id } = useParams();
 
@@ -31,19 +31,20 @@ function SubmitDialog(props) {
   const initialValues = {
     title: "",
     tags: "",
-    description: "",
+    body: "",
   };
 
   const validationSchema = Yup.object({
     title: Yup.string().required().min(3).max(32).label("Title"),
 
-    description: Yup.string().min(10).max(750).label("Description"),
+    body: Yup.string().min(10).max(750).label("Body"),
   });
 
   const onSubmit = async (formData) => {
     try {
       formData.forumTags = selectedTags;
       await startDiscussion(id, formData);
+      fetchProject();
       showMessage("success", "Successfully created a new discusion");
       handleClose();
     } catch (e) {
@@ -122,10 +123,10 @@ function SubmitDialog(props) {
                 </Grid>
                 <Grid item xs={12}>
                   <TextFieldContainer
-                    id="description"
-                    label="Description"
+                    id="body"
+                    label="Body"
                     formikProps={formikProps}
-                    type="description"
+                    type="body"
                     multiline
                     rows={5}
                   />
