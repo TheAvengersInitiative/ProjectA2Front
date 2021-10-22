@@ -17,14 +17,24 @@ import DeleteDiscussion from "./DeleteDiscussion";
 function DiscussionsList(props) {
   const { discussions, fetchProject } = props;
 
-  const [open, setOpen] = useState(false);
+  const [openSubmitD, setOpenSubmitD] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [openDelete, setOpenDelete] = useState(false);
+
+  const handleClickOpenSubmitD = () => {
+    setOpenSubmitD(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseSumbmitD = () => {
+    setOpenSubmitD(false);
+  };
+
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
 
   return (
@@ -36,7 +46,7 @@ function DiscussionsList(props) {
         alignItems="center"
       >
         <Typography>Discussions ({discussions?.length})</Typography>
-        <Button variant="outlined" disableElevation onClick={handleClickOpen}>
+        <Button variant="outlined" disableElevation onClick={handleClickOpenSubmitD}>
           Start a discussion
         </Button>
       </Grid>
@@ -75,10 +85,10 @@ function DiscussionsList(props) {
                 </Box>
               </CardContent>
               <CardActions>
-              <Button size="small" onClick={handleClickOpen}>
+              <Button size="small" onClick={handleClickOpenDelete}>
                 Delete 
               </Button>
-              <DeleteDiscussion open={open} handle={handleClose}/>
+              <DeleteDiscussion open={openDelete} handle={handleCloseDelete}/>
               <Button size="small">Edit</Button>
               </CardActions>
             </Card>
@@ -88,8 +98,8 @@ function DiscussionsList(props) {
         )}
       </Grid>
       <SubmitDialog
-        open={open}
-        handleClose={handleClose}
+        open={openSubmitD}
+        handleClose={handleCloseSumbmitD}
         fetchProject={fetchProject}
       />
     </div>

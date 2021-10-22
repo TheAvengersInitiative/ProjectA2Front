@@ -117,7 +117,7 @@ export const deleteDiscussion = async (id) =>
       baseURL: "http://localhost:8080",
       headers: { Authorization: localStorage.getItem("token") },
     })
-    .delete(`/project/${id}/discussion`);
+    .delete(`/discussion/${id}`);
 
 // BLACKLIST OF ENDPOINTS
 

@@ -12,14 +12,16 @@ import {
 import { deleteDiscussion } from "../utils/Projects";
 
 function DeleteDiscussion(props) {
-  const { handleClose, open, showMessage } = props;
+  const { handleClose, open, showMessage, fetchProject } = props;
 
   let { id } = useParams();
 
   const onSubmit = async () => {
     try {
       await deleteDiscussion(id);
+      fetchProject();
       showMessage("success", "Successfully deleted the discussion");
+      handleClose();
     } catch (e) {
       showMessage("error", "An error occured");
     }
@@ -33,12 +35,12 @@ function DeleteDiscussion(props) {
       </DialogContentText>
       <Grid container spacing={20}>
         <Grid item xs={6}>
-          <Button onClick={() => handleClose()}>
+          <Button onClick={handleClose}>
             Cancel
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <Button type="submit" onSubmit={onSubmit}>
+          <Button type="submit" onClick={onSubmit}>
             Delete
           </Button>
         </Grid>
