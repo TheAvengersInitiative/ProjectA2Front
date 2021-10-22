@@ -12,8 +12,8 @@ import {
   CardActions,
   IconButton,
 } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import SubmitDialog from "./SubmitDialog";
 import DeleteDiscussion from "./DeleteDiscussion";
 
@@ -48,9 +48,7 @@ function DiscussionsList(props) {
         direction="row"
         alignItems="center"
       >
-        <Typography>
-          Discussions ({discussions?.length})
-        </Typography>
+        <Typography>Discussions ({discussions?.length})</Typography>
         <Button variant="contained" onClick={handleClickOpenSubmitD}>
           Start a discussion
         </Button>
@@ -83,20 +81,27 @@ function DiscussionsList(props) {
                   </Grid>
                   <Grid>
                     <Typography>Body: {discussion.body} </Typography>
+                    <Typography>User: ???</Typography>
                   </Grid>
-                  <Typography>
-                    User: {discussion.project.owner.nickname}
-                  </Typography>
                 </Box>
               </CardContent>
               <CardActions>
-              <IconButton aria-label="delete" color="primary" size="small" onClick={handleClickOpenDelete}>
-                <DeleteIcon />
-              </IconButton>
-              <DeleteDiscussion open={openDelete} handleClose={handleCloseDelete}/>
-              <IconButton aria-label="edit" color="primary" size="small">
-                <EditIcon/>
-              </IconButton>
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  size="small"
+                  onClick={handleClickOpenDelete}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <DeleteDiscussion
+                  open={openDelete}
+                  handleClose={handleCloseDelete}
+                  id={discussion.id}
+                />
+                <IconButton aria-label="edit" color="primary" size="small">
+                  <EditIcon />
+                </IconButton>
               </CardActions>
             </Card>
           ))
