@@ -33,7 +33,7 @@ function DiscussionsList(props) {
         direction="row"
         alignItems="center"
       >
-        <Typography>Discussions (?)</Typography>
+        <Typography>Discussions ({discussions.length})</Typography>
         <Button variant="outlined" disableElevation onClick={handleClickOpen}>
           Start a discussion
         </Button>
