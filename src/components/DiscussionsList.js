@@ -65,7 +65,7 @@ function DiscussionsList(props) {
                     </Grid>
                   </Grid>
                   <Grid>
-                    <Typography>Body: EMPTY BODY {discussion.body} </Typography>
+                    <Typography>Body: {discussion.body} </Typography>
                   </Grid>
                   <Typography>
                     User: {discussion.project.owner.nickname}
