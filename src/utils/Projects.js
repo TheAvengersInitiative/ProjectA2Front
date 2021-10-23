@@ -128,3 +128,21 @@ export const putJoinToProjectWithToken = async (id, token) =>
       headers: { Authorization: token },
     })
     .put(`/project/apply/${id}`);
+
+// ADD COMMENT TO DISCUSSION BY ID WITH TOKEN
+export const putCommentDiscussionWithToken = async (body, id, token) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .put(`/discussion/comment/${id}`, body);
+
+// ADD COMMENT TO DISCUSSION BY ID WITH TOKEN
+export const putCommentEditDiscussionWithToken = async (body, id, token) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .put(`/discussion/comment-update/${id}`, body);
