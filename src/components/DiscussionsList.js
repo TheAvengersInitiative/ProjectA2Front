@@ -27,7 +27,6 @@ import { withSnackbar } from "./SnackBarHOC";
 import EditIcon from "@mui/icons-material/Edit";
 import ModifyDiscussion from "./ModifyDiscussion";
 
-
 const DiscussionContainer = styled.div`
   padding-top: 30px;
   border-top-width: 1px;
@@ -194,7 +193,12 @@ function DiscussionsList(props) {
                           </TextLink>
                         </Grid>
                       )}
-                      <IconButton aria-label="edit" color="primary" size="small" onClick={handleClickOpenUpdate} >
+                      <IconButton
+                        aria-label="edit"
+                        color="primary"
+                        size="small"
+                        onClick={handleClickOpenUpdate}
+                      >
                         <EditIcon />
                       </IconButton>
                       <ModifyDiscussion
