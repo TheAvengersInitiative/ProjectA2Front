@@ -1,7 +1,10 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Card, CardContent, Grid, Stack} from "@mui/material";
 import styled from "styled-components";
+import {
 
+    hideComment, highlightComment
+} from "../utils/Projects";
 
 const TextLink = styled.p`
   color: dodgerblue;
@@ -45,32 +48,53 @@ const DetailsContainer = styled.div`
   }
 `;
 const LilComment = (props) => {
-    const { key, item, user,openModal } = props;
+    const { key, item, user,openModal, fetchProject } = props;
     const [hideActivated, setHideActivated] = useState("outlined");
     const [highlightActivated, setHighlightActivated] = useState("outlined");
-    const onHide = () => {
-        if (hideActivated === "outlined") {
+
+    console.log(item)
+
+    useEffect(() => {
+        if(item.hidden){
+            setHideActivated("contained")
+        }
+        if(item.highlighted){
+            setHighlightActivated("contained")
+        }
+    }, []);
+
+    const onHide = async () =>{
+        try{if (hideActivated === "outlined") {
             setHideActivated("contained");
-            setHighlightActivated("outlined");
+
         } else {
             setHideActivated("outlined");
-            setHighlightActivated("contained");
+
         }
+            await hideComment(item.id);
+        fetchProject()
+        } catch (e) {
+            console.log(e);
+        }
+
     };
 
-    const onHighlight = () => {
-        if (highlightActivated === "outlined") {
-            setHideActivated("outlined");
-            setHighlightActivated("contained");
-        } else {
-            setHideActivated("contained");
-            setHighlightActivated("outlined");
+    const onHighlight = async () =>{
+        try{
+            if (highlightActivated === "outlined") {
+                setHighlightActivated("contained");
+                await highlightComment(item.id);
+            } else {
+                setHighlightActivated("outlined");
+                await highlightComment(item.id);
+            }
+            fetchProject()
+        }catch (e) {
+            console.log(e);
         }
     };
-
 
     return (
-
             <CardComment variant="outlined" key={key}>
                 <CardContent>
                     <Grid>
@@ -99,7 +123,7 @@ const LilComment = (props) => {
                                 )}
                             </Stack>
 
-                            <Stack direction={"column"} spacing={1}>
+                            {user && user?.id === item.user.id &&(<Stack direction={"column"} spacing={1}>
                                 <Button
                                     variant={hideActivated}
                                     disableElevation
@@ -114,7 +138,7 @@ const LilComment = (props) => {
                                 >
                                     Highlight
                                 </Button>
-                            </Stack>
+                            </Stack>)}
                         </Stack>
                     </Grid>
                 </CardContent>

@@ -19,6 +19,7 @@ import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import {
+
   putCommentDiscussionWithToken,
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
@@ -57,6 +58,7 @@ function DiscussionsList(props) {
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
 
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -70,6 +72,13 @@ function DiscussionsList(props) {
     discussion && setDefaultText(text);
     setModalAddComment(!modalAddComment);
   };
+
+
+  useEffect(() => {
+    discussions?.sort(value => {
+      return value.props.item.highlighted ? -1 : 1 // `true` values first
+    })
+  }, []);
 
   return (
     <>
@@ -134,8 +143,10 @@ function DiscussionsList(props) {
                 </Card>
                 <CommentContainer>
                   {discussion?.comments.map((item, index) => (
-                      <LilComment key={index} item={item} user={user} openModal={openModal}/>
-                  ))}
+                      <LilComment key={index} item={item} user={user} openModal={openModal} fetchProject={fetchProject}/>
+                  )).sort(value => {
+                    return value.props.item.highlighted ? -1 : 1 // `true` values first
+                  })}
                 </CommentContainer>
               </>
             ))
