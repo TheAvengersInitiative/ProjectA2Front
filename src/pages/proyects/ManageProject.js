@@ -7,14 +7,16 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import ApplicantList from "./ApplicantList";
 
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Review from "./review";
-import { getProjectById } from "../../utils/Projects";
+import { getProjectById, getUserInfoById } from "../../utils/Projects";
+import { withSnackbar } from "../../components/SnackBarHOC";
 
 const ManageProject = (props) => {
   const { showMessage } = props;
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState();
+  let history = useHistory();
 
   let { id } = useParams();
   console.log(id);
@@ -23,6 +25,11 @@ const ManageProject = (props) => {
   async function fetchProjectData() {
     try {
       const response = await getProjectById(id);
+      const user = await getUserInfoById();
+
+      if (user.data.id !== response.data.owner.id) {
+        history.push("/");
+      }
       setData(response.data);
       setLoading(false);
     } catch (e) {
@@ -83,4 +90,4 @@ const ManageProject = (props) => {
   );
 };
 
-export default ManageProject;
+export default withSnackbar(ManageProject);

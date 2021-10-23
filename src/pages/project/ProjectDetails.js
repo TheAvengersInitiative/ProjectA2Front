@@ -257,6 +257,7 @@ const ProjectDetails = (props) => {
           <DiscussionsList
             discussions={details?.discussions}
             fetchProject={fetchProject}
+            user={user}
           />
         </Grid>
       </Container>
