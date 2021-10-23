@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogContent,
   TextField,
-  Stack,
+
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
@@ -23,6 +23,7 @@ import {
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
 import { withSnackbar } from "./SnackBarHOC";
+import LilComment from "./LilComment";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -46,9 +47,9 @@ const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
 
-const CardComment = styled(Card)`
+/*const CardComment = styled(Card)`
   margin: 10px 0;
-`;
+`;*/
 
 const DateText = styled.p`
   font-size: 13px;
@@ -57,7 +58,7 @@ const DateText = styled.p`
   color: lightgrey;
 `;
 
-const AuthorText = styled(DateText)`
+/*const AuthorText = styled(DateText)`
   color: coral;
 `;
 
@@ -76,7 +77,7 @@ const DetailsContainer = styled.div`
   p {
     margin-right: 10px;
   }
-`;
+`;*/
 
 function DiscussionsList(props) {
   const { discussions, fetchProject, showMessage, user } = props;
@@ -97,7 +98,7 @@ function DiscussionsList(props) {
     setOpen(false);
   };
 
-  const onHide = () => {
+  /*const onHide = () => {
     if (hideActivated === "outlined") {
       setHideActivated("contained");
       setHighlightActivated("outlined");
@@ -115,7 +116,7 @@ function DiscussionsList(props) {
       setHideActivated("contained");
       setHighlightActivated("outlined");
     }
-  };
+  };*/
 
   const openModal = (id, discussion, text) => {
     setDiscussionId(id);
@@ -186,7 +187,8 @@ function DiscussionsList(props) {
                 </Card>
                 <CommentContainer>
                   {discussion?.comments.map((item, index) => (
-                    <CardComment variant="outlined" key={index}>
+                      <LilComment key={index} item={item} user={user}/>
+                    /*<CardComment variant="outlined" key={index}>
                       <CardContent>
                         <Grid>
                           <Stack direction={"row"}>
@@ -233,7 +235,7 @@ function DiscussionsList(props) {
                           </Stack>
                         </Grid>
                       </CardContent>
-                    </CardComment>
+                    </CardComment>*/
                   ))}
                 </CommentContainer>
               </>

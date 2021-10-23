@@ -228,14 +228,14 @@ const Profile = (props) => {
           </Carousel>
         )}
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} >
         <Grid item xs={12}>
           {userInfo?.collaboratedProjects && (
             <Typography variant="h6">
               {"Projects that the user has collaborated in"}
             </Typography>
           )}
-        </Grid>
+        </Grid >
         {userInfo?.collaboratedProjects?.length && (
           <Carousel
             swipeable={false}
