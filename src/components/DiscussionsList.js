@@ -14,6 +14,7 @@ import {
   DialogContent,
   TextField,
   Stack,
+  IconButton,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
@@ -23,6 +24,9 @@ import {
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
 import { withSnackbar } from "./SnackBarHOC";
+import EditIcon from "@mui/icons-material/Edit";
+import ModifyDiscussion from "./ModifyDiscussion";
+
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -83,6 +87,7 @@ function DiscussionsList(props) {
   const { isUserLoggedIn } = useAuth();
 
   const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
@@ -95,6 +100,14 @@ function DiscussionsList(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickOpenUpdate = () => {
+    setOpenUpdate(true);
+  };
+
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
   };
 
   const onHide = () => {
@@ -181,6 +194,15 @@ function DiscussionsList(props) {
                           </TextLink>
                         </Grid>
                       )}
+                      <IconButton aria-label="edit" color="primary" size="small" onClick={handleClickOpenUpdate} >
+                        <EditIcon />
+                      </IconButton>
+                      <ModifyDiscussion
+                        open={openUpdate}
+                        handleClose={handleCloseUpdate}
+                        id={discussion.id}
+                        fetchProject={fetchProject}
+                      />
                     </Box>
                   </CardContent>
                 </Card>
