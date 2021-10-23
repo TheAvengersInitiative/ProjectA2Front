@@ -25,7 +25,9 @@ import {
 } from "../utils/Projects";
 import { withSnackbar } from "./SnackBarHOC";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ModifyDiscussion from "./ModifyDiscussion";
+import DeleteDiscussion from "./DeleteDiscussion";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -87,6 +89,7 @@ function DiscussionsList(props) {
 
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
@@ -107,6 +110,14 @@ function DiscussionsList(props) {
 
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
+  };
+
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
   };
 
   const onHide = () => {
@@ -193,6 +204,20 @@ function DiscussionsList(props) {
                           </TextLink>
                         </Grid>
                       )}
+                      <IconButton
+                        aria-label="delete"
+                        color="primary"
+                        size="small"
+                        onClick={handleClickOpenDelete}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                      <DeleteDiscussion
+                        open={openDelete}
+                        handleClose={handleCloseDelete}
+                        id={discussion.id}
+                        fetchProject={fetchProject}
+                      />
                       <IconButton
                         aria-label="edit"
                         color="primary"
