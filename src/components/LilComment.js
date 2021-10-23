@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Card, CardContent, Chip, Grid, Stack} from "@mui/material";
+import {Button, Card, CardContent, Grid, Stack} from "@mui/material";
 import styled from "styled-components";
 
 
@@ -45,7 +45,7 @@ const DetailsContainer = styled.div`
   }
 `;
 const LilComment = (props) => {
-    const { key, item, user } = props;
+    const { key, item, user,openModal } = props;
     const [hideActivated, setHideActivated] = useState("outlined");
     const [highlightActivated, setHighlightActivated] = useState("outlined");
     const onHide = () => {
@@ -68,18 +68,13 @@ const LilComment = (props) => {
         }
     };
 
-    const openModal = (id, discussion, text) => {
-        setDiscussionId(id);
-        discussion && setDefaultText(text);
-        setModalAddComment(!modalAddComment);
-    };
 
     return (
 
             <CardComment variant="outlined" key={key}>
                 <CardContent>
                     <Grid>
-                        <Stack direction={"row"}>
+                        <Stack direction={"row"} justifyContent='space-between'>
                             <Stack>
                                 <Grid>{item.comment}</Grid>
                                 <DetailsContainer direction="row">
@@ -99,7 +94,7 @@ const LilComment = (props) => {
                                             onClick={() =>
                                                 openModal(item.id, true, item.comment)
                                             }
-                                        ></TextLink>
+                                        >Edit</TextLink>
                                     </OptionsComment>
                                 )}
                             </Stack>
