@@ -98,6 +98,7 @@ function DiscussionsList(props) {
                   open={openDelete}
                   handleClose={handleCloseDelete}
                   id={discussion.id}
+                  fetchProject={fetchProject}
                 />
                 <IconButton aria-label="edit" color="primary" size="small">
                   <EditIcon />
