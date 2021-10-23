@@ -12,7 +12,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  TextField, Stack,
+  TextField,
+  Stack,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
@@ -97,22 +98,22 @@ function DiscussionsList(props) {
   };
 
   const onHide = () => {
-    if(hideActivated==="outlined"){
-    setHideActivated("contained")
-      setHighlightActivated("outlined")
-    }else{
-      setHideActivated("outlined")
-      setHighlightActivated("contained")
+    if (hideActivated === "outlined") {
+      setHideActivated("contained");
+      setHighlightActivated("outlined");
+    } else {
+      setHideActivated("outlined");
+      setHighlightActivated("contained");
     }
   };
 
   const onHighlight = () => {
-    if(highlightActivated==="outlined"){
-      setHideActivated("outlined")
-      setHighlightActivated("contained")
-    }else{
-      setHideActivated("contained")
-      setHighlightActivated("outlined")
+    if (highlightActivated === "outlined") {
+      setHideActivated("outlined");
+      setHighlightActivated("contained");
+    } else {
+      setHideActivated("contained");
+      setHighlightActivated("outlined");
     }
   };
 
@@ -187,44 +188,49 @@ function DiscussionsList(props) {
                   {discussion?.comments.map((item, index) => (
                     <CardComment variant="outlined" key={index}>
                       <CardContent>
-                        <Grid >
+                        <Grid>
                           <Stack direction={"row"}>
                             <Stack>
                               <Grid>{item.comment}</Grid>
                               <DetailsContainer direction="row">
                                 <DateText>
                                   {`${new Date(item.date).getDate()}/${new Date(
-                                      item.date
+                                    item.date
                                   ).getMonth()}/${new Date(
-                                      item.date
+                                    item.date
                                   ).getFullYear()}`}
                                 </DateText>
                                 <DateText>-</DateText>
                                 <AuthorText>{item.user.nickname}</AuthorText>
                               </DetailsContainer>
                               {user && user?.id === item.user.id && (
-                                  <OptionsComment>
-                                    <TextLink
-                                        onClick={() =>
-                                            openModal(item.id, true, item.comment)
-                                        }
-                                    >
-                                    </TextLink>
-                                  </OptionsComment>
+                                <OptionsComment>
+                                  <TextLink
+                                    onClick={() =>
+                                      openModal(item.id, true, item.comment)
+                                    }
+                                  ></TextLink>
+                                </OptionsComment>
                               )}
                             </Stack>
 
-                            <Stack direction={"column"} spacing={1} >
-                              <Button variant={hideActivated} disableElevation onClick={onHide}>
+                            <Stack direction={"column"} spacing={1}>
+                              <Button
+                                variant={hideActivated}
+                                disableElevation
+                                onClick={onHide}
+                              >
                                 Hide
                               </Button>
-                              <Button variant={highlightActivated} disableElevation onClick={onHighlight}>
+                              <Button
+                                variant={highlightActivated}
+                                disableElevation
+                                onClick={onHighlight}
+                              >
                                 Highlight
                               </Button>
                             </Stack>
-
                           </Stack>
-
                         </Grid>
                       </CardContent>
                     </CardComment>
