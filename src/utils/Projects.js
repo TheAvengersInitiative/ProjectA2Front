@@ -119,6 +119,15 @@ export const modifyDiscussion = async (id, data) =>
     })
     .put(`discussion/${id}`, data);
 
+// DELETE A DISCUSSION
+export const deleteDiscussion = async (id) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+    .delete(`/discussion/${id}`);
+
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN
