@@ -81,7 +81,7 @@ function DiscussionsList(props) {
                   </Grid>
                   <Grid>
                     <Typography>Body: {discussion.body} </Typography>
-                    <Typography>User: ???</Typography>
+                    <Typography>User: ??? </Typography>
                   </Grid>
                 </Box>
               </CardContent>
