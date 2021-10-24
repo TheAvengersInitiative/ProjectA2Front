@@ -16,7 +16,6 @@ import { getOtherUsersInfoById } from "../../utils/Projects";
 import { useParams } from "react-router-dom";
 import ChipGroup from "../../components/ChipGroup";
 import ReviewTable from "./ReviewTable";
-import { mean } from "lodash";
 import { Rating } from "@mui/lab";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -64,21 +63,25 @@ const Profile = (props) => {
   };
 
   function getRows() {
-    let a = [];
+    let array = [];
 
     userInfo?.collaboratedProjects?.forEach((project) =>
-      project.reviews.forEach((review) =>
-        a.push({
-          id: review.id,
-          title: project.title,
-          date: review.date,
-          comment: review.comment,
-          score: review.score,
-        })
+      project.reviews.forEach(
+        (review) =>
+          review.collaborator.id === id &&
+          array.push({
+            id: review.id,
+            title: project.title,
+            date: review.date,
+            comment: review.comment,
+            score: review.score,
+          })
       )
     );
 
-    return a;
+    return array.sort(function (a, b) {
+      return new Date(b.date) - new Date(a.date);
+    });
   }
 
   const handleClose = () => {
@@ -100,7 +103,7 @@ const Profile = (props) => {
         alignItems="center"
       >
         <Typography variant="h4">{userInfo?.nickname}</Typography>
-        {userInfo?.collaboratedProjects && (
+        {userInfo && (
           <Button variant="outlined" onClick={handleClickOpen}>
             Check user reputation
           </Button>
@@ -112,38 +115,26 @@ const Profile = (props) => {
         <DialogContent>
           <Grid container justifyContent="center">
             <Stack direction="row" spacing={2}>
-              <Typography>
-                {mean(
-                  userInfo?.collaboratedProjects?.map(
-                    (project) =>
-                      project.reviews[project.reviews.length - 1].score
-                  )
-                )}
-              </Typography>
-              <Rating
-                name="read-only"
-                value={mean(
-                  userInfo?.collaboratedProjects?.map(
-                    (project) =>
-                      project.reviews[project.reviews.length - 1].score
-                  )
-                )}
-                readOnly
-              />
+              <Typography>{userInfo?.reputation}</Typography>
+              <Rating name="read-only" value={userInfo?.reputation} readOnly />
             </Stack>
           </Grid>
         </DialogContent>
-        <DialogTitle>{`${userInfo?.nickname} last reviews`}</DialogTitle>
-        <DialogContent>
-          <ReviewTable
-            /*rows={userInfo?.collaboratedProjects?.flatMap((project) => {
-              let review = project.reviews;
-              review.title = project.title;
-              return review;
-            })}*/
-            rows={getRows()}
-          />
-        </DialogContent>
+        {userInfo?.collaboratedProjects && (
+          <>
+            <DialogTitle>{`${userInfo?.nickname} last reviews`}</DialogTitle>
+            <DialogContent>
+              <ReviewTable
+                /*rows={userInfo?.collaboratedProjects?.flatMap((project) => {
+                    let review = project.reviews;
+                    review.title = project.title;
+                    return review;
+                  })}*/
+                rows={getRows()}
+              />
+            </DialogContent>
+          </>
+        )}
       </Dialog>
       <Grid item xs={12}>
         <Typography variant="h6">{userInfo?.biography}</Typography>

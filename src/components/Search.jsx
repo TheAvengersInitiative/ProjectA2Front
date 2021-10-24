@@ -144,9 +144,9 @@ function Search(props) {
   const searchByName = async (query, save, name, tags, language) => {
     try {
       const body = {
-        title: query,
-        tags: tags,
-        languages: language,
+        title: query.length > 0 ? query : null,
+        tags: tags.length > 0 ? tags : null,
+        languages: language.length > 0 ? language : null,
         page: 0,
         featured: false,
       };
@@ -165,9 +165,9 @@ function Search(props) {
       let array = [...tags, query];
 
       const body = {
-        title: name,
-        tags: array,
-        languages: language,
+        title: name ?? null,
+        tags: array.length > 0 ? array : null,
+        languages: language.length > 0 ? language : null,
         page: 0,
         featured: false,
       };
@@ -185,9 +185,9 @@ function Search(props) {
     try {
       let array = [...language, query];
       const body = {
-        title: name,
-        tags: tags,
-        languages: array,
+        title: name ?? null,
+        tags: tags.length > 0 ? tags : null,
+        languages: array.length > 0 ? array : null,
         page: 0,
         featured: false,
       };

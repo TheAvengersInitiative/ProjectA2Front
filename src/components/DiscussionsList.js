@@ -10,6 +10,7 @@ import {
   CardContent,
   CardHeader,
   Dialog,
+  Link,
   DialogTitle,
   DialogContent,
   TextField,
@@ -141,7 +142,10 @@ function DiscussionsList(props) {
                         <Typography>Body: {discussion.body} </Typography>
                       </Grid>
                       <Typography>
-                        User: {discussion.project.owner.nickname}
+                        User:
+                        <Link href={`/user/${discussion.project.owner.id}`}>
+                          {discussion.project.owner.nickname}
+                        </Link>
                       </Typography>
                       {isUserLoggedIn() && (
                         <Grid>
@@ -193,6 +197,7 @@ function DiscussionsList(props) {
                             openModal={openModal}
                             fetchProject={fetchProject}
                             projectOwner={owner}
+                            isUserLoggedIn={isUserLoggedIn}
                           />
                         )
                     )
