@@ -48,11 +48,11 @@ const DetailsContainer = styled.div`
   }
 `;
 const LilComment = (props) => {
-    const { key, item, user,openModal, fetchProject } = props;
+    const { key, item, user,openModal, fetchProject, projectOwner } = props;
     const [hideActivated, setHideActivated] = useState("outlined");
     const [highlightActivated, setHighlightActivated] = useState("outlined");
 
-    console.log(item)
+
 
     useEffect(() => {
         if(item.hidden){
@@ -123,7 +123,7 @@ const LilComment = (props) => {
                                 )}
                             </Stack>
 
-                            {user && user?.id === item.user.id &&(<Stack direction={"column"} spacing={1}>
+                            {user && user?.id === projectOwner?.id &&(<Stack direction={"column"} spacing={1}>
                                 <Button
                                     variant={hideActivated}
                                     disableElevation

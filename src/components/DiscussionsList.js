@@ -50,7 +50,7 @@ const CommentContainer = styled(Grid)`
 
 
 function DiscussionsList(props) {
-  const { discussions, fetchProject, showMessage, user } = props;
+  const { discussions, fetchProject, showMessage, user, owner } = props;
   const { isUserLoggedIn } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -67,6 +67,7 @@ function DiscussionsList(props) {
     setOpen(false);
   };
 
+
   const openModal = (id, discussion, text) => {
     setDiscussionId(id);
     discussion && setDefaultText(text);
@@ -74,11 +75,12 @@ function DiscussionsList(props) {
   };
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     discussions?.sort(value => {
       return value.props.item.highlighted ? -1 : 1 // `true` values first
     })
-  }, []);
+
+  }, []);*/
 
   return (
     <>
@@ -143,9 +145,10 @@ function DiscussionsList(props) {
                 </Card>
                 <CommentContainer>
                   {discussion?.comments.map((item, index) => (
-                      <LilComment key={index} item={item} user={user} openModal={openModal} fetchProject={fetchProject}/>
+                      ((user && user?.id === owner?.id)||(!item?.hidden))&&
+                      <LilComment key={index} item={item} user={user} openModal={openModal} fetchProject={fetchProject} projectOwner={owner}/>
                   )).sort(value => {
-                    return value.props.item.highlighted ? -1 : 1 // `true` values first
+                    return value?.props?.item?.highlighted ? -1 : 1 // `true` values first
                   })}
                 </CommentContainer>
               </>
