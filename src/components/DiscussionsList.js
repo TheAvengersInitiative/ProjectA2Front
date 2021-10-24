@@ -12,8 +12,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  TextField
-
+  TextField,
+  IconButton,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
@@ -50,8 +50,6 @@ const TextLink = styled.p`
 const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
-
-
 
 function DiscussionsList(props) {
   const { discussions, fetchProject, showMessage, user, owner } = props;
@@ -184,12 +182,23 @@ function DiscussionsList(props) {
                   </CardContent>
                 </Card>
                 <CommentContainer>
-                  {discussion?.comments.map((item, index) => (
-                      ((user && user?.id === owner?.id)||(!item?.hidden))&&
-                      <LilComment key={index} item={item} user={user} openModal={openModal} fetchProject={fetchProject} projectOwner={owner}/>
-                  )).sort(value => {
-                    return value?.props?.item?.highlighted ? -1 : 1 // `true` values first
-                  })}
+                  {discussion?.comments
+                    .map(
+                      (item, index) =>
+                        ((user && user?.id === owner?.id) || !item?.hidden) && (
+                          <LilComment
+                            key={index}
+                            item={item}
+                            user={user}
+                            openModal={openModal}
+                            fetchProject={fetchProject}
+                            projectOwner={owner}
+                          />
+                        )
+                    )
+                    .sort((value) => {
+                      return value?.props?.item?.highlighted ? -1 : 1; // `true` values first
+                    })}
                 </CommentContainer>
               </>
             ))
