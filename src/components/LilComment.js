@@ -44,7 +44,15 @@ const DetailsContainer = styled.div`
   }
 `;
 const LilComment = (props) => {
-  const { key, item, user, openModal, fetchProject, projectOwner } = props;
+  const {
+    key,
+    item,
+    user,
+    openModal,
+    fetchProject,
+    projectOwner,
+    isUserLoggedIn,
+  } = props;
   const [hideActivated, setHideActivated] = useState("outlined");
   const [highlightActivated, setHighlightActivated] = useState("outlined");
 
@@ -59,12 +67,12 @@ const LilComment = (props) => {
 
   const onHide = async () => {
     try {
+      await hideComment(item.id, isUserLoggedIn());
       if (hideActivated === "outlined") {
         setHideActivated("contained");
       } else {
         setHideActivated("outlined");
       }
-      await hideComment(item.id);
       fetchProject();
     } catch (e) {
       console.log(e);
@@ -73,12 +81,11 @@ const LilComment = (props) => {
 
   const onHighlight = async () => {
     try {
+      await highlightComment(item.id, isUserLoggedIn());
       if (highlightActivated === "outlined") {
         setHighlightActivated("contained");
-        await highlightComment(item.id);
       } else {
         setHighlightActivated("outlined");
-        await highlightComment(item.id);
       }
       fetchProject();
     } catch (e) {
