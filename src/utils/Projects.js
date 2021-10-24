@@ -110,6 +110,14 @@ export const startDiscussion = async (id, data) =>
     })
     .post(`/project/${id}/discussion`, data);
 
+// HIGHLIGHT DISCUSSION COMMENT
+export const highlightComment = async (commentId) =>
+  await axiosInstance.put(`/discussion/highlight/${commentId}`);
+
+// HIDE DISCUSSION COMMENT
+export const hideComment = async (commentId) =>
+  await axiosInstance.put(`/discussion/hide/${commentId}`);
+
 // MODIFY DISCUSSION
 export const modifyDiscussion = async (id, data) =>
   await axios
