@@ -12,19 +12,22 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  TextField,
+  TextField
 
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import {
-
   putCommentDiscussionWithToken,
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
 import { withSnackbar } from "./SnackBarHOC";
 import LilComment from "./LilComment";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModifyDiscussion from "./ModifyDiscussion";
+import DeleteDiscussion from "./DeleteDiscussion";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -49,15 +52,17 @@ const CommentContainer = styled(Grid)`
 `;
 
 
+
 function DiscussionsList(props) {
   const { discussions, fetchProject, showMessage, user, owner } = props;
   const { isUserLoggedIn } = useAuth();
 
   const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -67,20 +72,27 @@ function DiscussionsList(props) {
     setOpen(false);
   };
 
+  const handleClickOpenUpdate = () => {
+    setOpenUpdate(true);
+  };
+
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
+
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
 
   const openModal = (id, discussion, text) => {
     setDiscussionId(id);
     discussion && setDefaultText(text);
     setModalAddComment(!modalAddComment);
   };
-
-
-  /*useEffect(() => {
-    discussions?.sort(value => {
-      return value.props.item.highlighted ? -1 : 1 // `true` values first
-    })
-
-  }, []);*/
 
   return (
     <>
@@ -140,6 +152,34 @@ function DiscussionsList(props) {
                           </TextLink>
                         </Grid>
                       )}
+                      <IconButton
+                        aria-label="delete"
+                        color="primary"
+                        size="small"
+                        onClick={handleClickOpenDelete}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                      <DeleteDiscussion
+                        open={openDelete}
+                        handleClose={handleCloseDelete}
+                        id={discussion.id}
+                        fetchProject={fetchProject}
+                      />
+                      <IconButton
+                        aria-label="edit"
+                        color="primary"
+                        size="small"
+                        onClick={handleClickOpenUpdate}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <ModifyDiscussion
+                        open={openUpdate}
+                        handleClose={handleCloseUpdate}
+                        id={discussion.id}
+                        fetchProject={fetchProject}
+                      />
                     </Box>
                   </CardContent>
                 </Card>

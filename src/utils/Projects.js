@@ -118,6 +118,25 @@ export const highlightComment = async (commentId) =>
 export const hideComment = async (commentId) =>
     await axiosInstance.put(`/discussion/hide/${commentId}`);
 
+// MODIFY DISCUSSION
+export const modifyDiscussion = async (id, data) =>
+    await axios
+        .create({
+          baseURL: "http://localhost:8080",
+          headers: { Authorization: localStorage.getItem("token") },
+        })
+        .put(`discussion/${id}`, data);
+
+// DELETE A DISCUSSION
+export const deleteDiscussion = async (id) =>
+    await axios
+        .create({
+          baseURL: "http://localhost:8080",
+          headers: { Authorization: localStorage.getItem("token") },
+        })
+        .delete(`/discussion/${id}`);
+
+
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN
