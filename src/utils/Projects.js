@@ -192,3 +192,12 @@ export const deleteComment = async (id) =>
       headers: { Authorization: localStorage.getItem("token") },
     })
     .delete(`/discussion/comment/${id}`);
+
+// GET COMMENTS
+export const getComments = async (discussionId) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+    .get(`/discussion/comments/${discussionId}`);

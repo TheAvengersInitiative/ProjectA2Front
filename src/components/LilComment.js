@@ -133,7 +133,7 @@ const LilComment = (props) => {
               <DeleteComment
               open={openDelete}
               handleClose={handleCloseDelete}
-              id={item.comment.id}
+              id={item.id}
               fetchProject={fetchProject}
               >
               </DeleteComment>

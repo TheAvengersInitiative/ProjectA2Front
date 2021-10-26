@@ -20,6 +20,7 @@ import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import {
+  getComments,
   putCommentDiscussionWithToken,
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
@@ -265,6 +266,7 @@ const AddComment = (props) => {
         showMessage("success", "Review added!");
         setDefaultText("");
         fetchProject();
+        getComments(id);
         setModalReview(false);
       } catch (e) {
         showMessage("error", "Oops... Something went wrong!");
