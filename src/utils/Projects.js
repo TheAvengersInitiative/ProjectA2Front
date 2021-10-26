@@ -183,3 +183,12 @@ export const putCommentEditDiscussionWithToken = async (body, id, token) =>
       headers: { Authorization: token },
     })
     .put(`/discussion/comment-update/${id}`, body);
+
+// DELETE COMMENT
+export const deleteComment = async (id) =>
+  await axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: localStorage.getItem("token") },
+    })
+    .delete(`/discussion/comment/${id}`);
