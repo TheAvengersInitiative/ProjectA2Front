@@ -46,6 +46,7 @@ function SubmitDialog(props) {
       await startDiscussion(id, formData);
       fetchProject();
       showMessage("success", "Successfully created a new discusion");
+      window.location.reload();
       handleClose();
     } catch (e) {
       showMessage("error", "An error occured");
