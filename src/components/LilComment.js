@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, CardContent, Grid, IconButton, Stack } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  IconButton,
+  Stack,
+} from "@mui/material";
 import styled from "styled-components";
 import { hideComment, highlightComment } from "../utils/Projects";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -58,7 +65,6 @@ const LilComment = (props) => {
   const [hideActivated, setHideActivated] = useState("outlined");
   const [highlightActivated, setHighlightActivated] = useState("outlined");
   const [openDelete, setOpenDelete] = useState(false);
-
 
   useEffect(() => {
     if (item.hidden) {
@@ -123,30 +129,29 @@ const LilComment = (props) => {
               </DetailsContainer>
               <Grid>
                 <IconButton
-                aria-label="delete"
-                color="primary"
-                size="small"
-                onClick={handleClickOpenDelete}
+                  aria-label="delete"
+                  color="primary"
+                  size="small"
+                  onClick={handleClickOpenDelete}
                 >
-                <DeleteIcon />
-              </IconButton>
-              <DeleteComment
-              open={openDelete}
-              handleClose={handleCloseDelete}
-              id={item.id}
-              fetchProject={fetchProject}
-              >
-              </DeleteComment>
-            
-              {user && user?.id === item.user.id && (
-                <OptionsComment>
-                  <TextLink
-                    onClick={() => openModal(item.id, true, item.comment)}
-                  >
-                    Edit
-                  </TextLink>
-                </OptionsComment>
-              )}
+                  <DeleteIcon />
+                </IconButton>
+                <DeleteComment
+                  open={openDelete}
+                  handleClose={handleCloseDelete}
+                  id={item.id}
+                  fetchProject={fetchProject}
+                ></DeleteComment>
+
+                {user && user?.id === item.user.id && (
+                  <OptionsComment>
+                    <TextLink
+                      onClick={() => openModal(item.id, true, item.comment)}
+                    >
+                      Edit
+                    </TextLink>
+                  </OptionsComment>
+                )}
               </Grid>
             </Stack>
 
