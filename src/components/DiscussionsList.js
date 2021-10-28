@@ -143,8 +143,8 @@ function DiscussionsList(props) {
                       </Grid>
                       <Typography>
                         User:
-                        <Link href={`/user/${discussion.project.owner.id}`}>
-                          {discussion.project.owner.nickname}
+                        <Link href={`/user/${discussion?.owner?.id}`}>
+                          {discussion?.owner?.nickname}
                         </Link>
                       </Typography>
                       {isUserLoggedIn() && (

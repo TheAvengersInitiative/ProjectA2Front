@@ -77,7 +77,6 @@ function ModifyDiscussion(props) {
                 <Grid item xs={12}>
                   <Autocomplete
                     noOptionsText="Tag must have at least 1 character and at most 24 charaters"
-                    defaultValue={selectedTags}
                     multiple
                     size="medium"
                     options={tags}
