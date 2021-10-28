@@ -104,11 +104,15 @@ function DiscussionsList(props) {
         >
           <Typography>Discussions ({discussions?.length})</Typography>
           {isUserLoggedIn() && (
-          <Grid>
-          <Button variant="outlined" disableElevation onClick={handleClickOpen}>
-            Start a discussion
-          </Button>
-          </Grid>
+            <Grid>
+              <Button
+                variant="outlined"
+                disableElevation
+                onClick={handleClickOpen}
+              >
+                Start a discussion
+              </Button>
+            </Grid>
           )}
         </Grid>
         <Grid item xs={12}>
