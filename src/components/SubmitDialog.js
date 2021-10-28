@@ -48,7 +48,12 @@ function SubmitDialog(props) {
       showMessage("success", "Successfully created a new discusion");
       handleClose();
     } catch (e) {
-      showMessage("error", "An error occured");
+      showMessage(
+        "error",
+        typeof e?.response?.data === "string"
+          ? e?.response?.data
+          : "There was an error!"
+      );
     }
   };
 
@@ -79,7 +84,6 @@ function SubmitDialog(props) {
                 <Grid item xs={12}>
                   <Autocomplete
                     noOptionsText="Tag must have at least 1 character and at most 24 charaters"
-                    defaultValue={selectedTags}
                     multiple
                     size="medium"
                     options={tags}

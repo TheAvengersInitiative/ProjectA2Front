@@ -45,8 +45,12 @@ function ModifyDiscussion(props) {
       showMessage("success", "Successfully modified the discussion");
       handleClose();
     } catch (e) {
-      showMessage("error", "An error occured");
-      handleClose();
+      showMessage(
+        "error",
+        typeof e?.response?.data === "string"
+          ? e?.response?.data
+          : "There was an error!"
+      );
     }
   };
 
@@ -77,7 +81,6 @@ function ModifyDiscussion(props) {
                 <Grid item xs={12}>
                   <Autocomplete
                     noOptionsText="Tag must have at least 1 character and at most 24 charaters"
-                    defaultValue={selectedTags}
                     multiple
                     size="medium"
                     options={tags}
