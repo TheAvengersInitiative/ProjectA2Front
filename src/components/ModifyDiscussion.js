@@ -46,7 +46,6 @@ function ModifyDiscussion(props) {
       handleClose();
     } catch (e) {
       showMessage("error", "An error occured");
-      handleClose();
     }
   };
 
