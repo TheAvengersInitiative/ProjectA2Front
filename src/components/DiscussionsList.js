@@ -53,7 +53,8 @@ const CommentContainer = styled(Grid)`
 `;
 
 function DiscussionsList(props) {
-  const { discussions, fetchProject, showMessage, user, owner } = props;
+  const { discussions, fetchProject, showMessage, user, owner, collaborators } =
+    props;
   const { isUserLoggedIn } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -62,6 +63,14 @@ function DiscussionsList(props) {
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
+
+  function isCollaborator() {
+    if (collaborators?.find((item) => item?.id === user?.id)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,12 +112,17 @@ function DiscussionsList(props) {
           alignItems="center"
         >
           <Typography>Discussions ({discussions?.length})</Typography>
-          {isUserLoggedIn() && (
-          <Grid>
-          <Button variant="outlined" disableElevation onClick={handleClickOpen}>
-            Start a discussion
-          </Button>
-          </Grid>
+          {((isUserLoggedIn() && user && user?.id === owner?.id) ||
+            isCollaborator()) && (
+            <Grid>
+              <Button
+                variant="outlined"
+                disableElevation
+                onClick={handleClickOpen}
+              >
+                Start a discussion
+              </Button>
+            </Grid>
           )}
         </Grid>
         <Grid item xs={12}>
