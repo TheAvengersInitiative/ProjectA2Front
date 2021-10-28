@@ -154,34 +154,41 @@ function DiscussionsList(props) {
                           </TextLink>
                         </Grid>
                       )}
-                      <IconButton
-                        aria-label="delete"
-                        color="primary"
-                        size="small"
-                        onClick={handleClickOpenDelete}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <DeleteDiscussion
-                        open={openDelete}
-                        handleClose={handleCloseDelete}
-                        id={discussion.id}
-                        fetchProject={fetchProject}
-                      />
-                      <IconButton
-                        aria-label="edit"
-                        color="primary"
-                        size="small"
-                        onClick={handleClickOpenUpdate}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <ModifyDiscussion
-                        open={openUpdate}
-                        handleClose={handleCloseUpdate}
-                        id={discussion.id}
-                        fetchProject={fetchProject}
-                      />
+                      {((isUserLoggedIn() &&
+                        user &&
+                        user?.id === discussion?.owner?.id) ||
+                        (user && user?.id === discussion.project.owner.id)) && (
+                        <Grid>
+                          <IconButton
+                            aria-label="delete"
+                            color="primary"
+                            size="small"
+                            onClick={handleClickOpenDelete}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                          <DeleteDiscussion
+                            open={openDelete}
+                            handleClose={handleCloseDelete}
+                            id={discussion.id}
+                            fetchProject={fetchProject}
+                          />
+                          <IconButton
+                            aria-label="edit"
+                            color="primary"
+                            size="small"
+                            onClick={handleClickOpenUpdate}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <ModifyDiscussion
+                            open={openUpdate}
+                            handleClose={handleCloseUpdate}
+                            id={discussion?.id}
+                            fetchProject={fetchProject}
+                          />
+                        </Grid>
+                      )}
                     </Box>
                   </CardContent>
                 </Card>
