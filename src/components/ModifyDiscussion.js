@@ -45,7 +45,12 @@ function ModifyDiscussion(props) {
       showMessage("success", "Successfully modified the discussion");
       handleClose();
     } catch (e) {
-      showMessage("error", "An error occured");
+      showMessage(
+        "error",
+        typeof e?.response?.data === "string"
+          ? e?.response?.data
+          : "There was an error!"
+      );
     }
   };
 

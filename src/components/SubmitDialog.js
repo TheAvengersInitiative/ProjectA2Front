@@ -37,7 +37,7 @@ function SubmitDialog(props) {
   const validationSchema = Yup.object({
     title: Yup.string().required().min(3).max(32).label("Title"),
 
-    body: Yup.string().min(10).max(750).label("Body"),
+    body: Yup.string().required().min(10).max(750).label("Body"),
   });
 
   const onSubmit = async (formData) => {
@@ -48,7 +48,12 @@ function SubmitDialog(props) {
       showMessage("success", "Successfully created a new discusion");
       handleClose();
     } catch (e) {
-      showMessage("error", "An error occured");
+      showMessage(
+        "error",
+        typeof e?.response?.data === "string"
+          ? e?.response?.data
+          : "There was an error!"
+      );
     }
   };
 

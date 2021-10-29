@@ -278,6 +278,7 @@ const ProjectDetails = (props) => {
             fetchProject={fetchProject}
             user={user}
             owner={details?.owner}
+            collaborators={details?.collaborators}
           />
         </Grid>
       </Container>
