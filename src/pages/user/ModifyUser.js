@@ -6,9 +6,12 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle, Divider,
+  DialogTitle,
+  Divider,
   Grid,
-  LinearProgress, Stack, Switch,
+  LinearProgress,
+  Stack,
+  Switch,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -18,7 +21,11 @@ import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
-import {getUserInfoById, deleteUser, editUserPrivacy} from "../../utils/Projects";
+import {
+  getUserInfoById,
+  deleteUser,
+  editUserPrivacy,
+} from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
 
 const validationSchema = yup.object().shape({
@@ -50,54 +57,62 @@ const ModifyUser = (props) => {
 
   const { showMessage, submit, subtitle, title } = props;
 
-
-
   const history = useHistory();
 
   const [open, setOpen] = useState(false);
   const [checkedTags, setCheckedTags] = React.useState(true);
   const [checkedLanguages, setCheckedLanguages] = React.useState(true);
   const [checkedOwnedProjects, setCheckedOwnedProjects] = React.useState(true);
-  const [checkedCollabProjects, setCheckedCollabProjects] = React.useState(true);
+  const [checkedCollabProjects, setCheckedCollabProjects] =
+    React.useState(true);
   const [checkedEmail, setCheckedEmail] = React.useState(true);
 
   useEffect(() => {
     getUserInfoById()
-        .then((res) => {
-          setUser(res.data);
-          console.log("holaa",user["tagsPrivacy"])
-          const response = res.data;
-          setCheckedTags(response["tagsPrivacy"]==="PRIVATE"? false: true)
-          setCheckedLanguages(response["languagesPrivacy"]==="PRIVATE"? false: true)
-          setCheckedOwnedProjects(response["ownedProjectsPrivacy"]==="PRIVATE"? false: true)
-          setCheckedCollabProjects(response["collabProjectsPrivacy"]==="PRIVATE"? false: true)
-          setLoading(false);
-        })
-        .catch((e) => {
-          showMessage("error", e.response?.data?.errors || "An error ocurred");
-        });
-  }, [setLoading, setCheckedCollabProjects,setCheckedOwnedProjects,setCheckedLanguages,setCheckedTags]);
+      .then((res) => {
+        setUser(res.data);
+        console.log("holaa", user["tagsPrivacy"]);
+        const response = res.data;
+        setCheckedTags(response["tagsPrivacy"] === "PRIVATE" ? false : true);
+        setCheckedLanguages(
+          response["languagesPrivacy"] === "PRIVATE" ? false : true
+        );
+        setCheckedOwnedProjects(
+          response["ownedProjectsPrivacy"] === "PRIVATE" ? false : true
+        );
+        setCheckedCollabProjects(
+          response["collabProjectsPrivacy"] === "PRIVATE" ? false : true
+        );
+        setLoading(false);
+      })
+      .catch((e) => {
+        showMessage("error", e.response?.data?.errors || "An error ocurred");
+      });
+  }, [
+    setLoading,
+    setCheckedCollabProjects,
+    setCheckedOwnedProjects,
+    setCheckedLanguages,
+    setCheckedTags,
+  ]);
 
   if (user) {
     Object.keys(initialValues).forEach(
-        (key) => (initialValues[key] = user[key])
+      (key) => (initialValues[key] = user[key])
     );
-
   }
 
-
-  const backCall = async (a,b,c,d) => {
-    console.log(checkedTags)
+  const backCall = async (a, b, c, d) => {
+    console.log(checkedTags);
     try {
       let body = {
-        "tagsPrivacy": a ? "PUBLIC": "PRIVATE",
-        "languagesPrivacy": b ? "PUBLIC": "PRIVATE",
-        "ownedProjectsPrivacy": c ? "PUBLIC": "PRIVATE",
-        "collaboratedProjectsPrivacy": d ? "PUBLIC": "PRIVATE"
+        tagsPrivacy: a ? "PUBLIC" : "PRIVATE",
+        languagesPrivacy: b ? "PUBLIC" : "PRIVATE",
+        ownedProjectsPrivacy: c ? "PUBLIC" : "PRIVATE",
+        collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE",
       };
-      await editUserPrivacy(body)
+      await editUserPrivacy(body);
       showMessage("success", "Review added!");
-
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
     }
@@ -107,20 +122,39 @@ const ModifyUser = (props) => {
     console.log(event.target.checked);
     setCheckedTags(event.target.checked);
     console.log(checkedTags);
-    await backCall(event.target.checked, checkedLanguages, checkedOwnedProjects, checkedCollabProjects);
-
+    await backCall(
+      event.target.checked,
+      checkedLanguages,
+      checkedOwnedProjects,
+      checkedCollabProjects
+    );
   };
-  const handleChangeLanguages = async(event) => {
+  const handleChangeLanguages = async (event) => {
     setCheckedLanguages(event.target.checked);
-    await backCall(checkedTags, event.target.checked, checkedOwnedProjects, checkedCollabProjects);
+    await backCall(
+      checkedTags,
+      event.target.checked,
+      checkedOwnedProjects,
+      checkedCollabProjects
+    );
   };
-  const handleChangeOwnedProjects = async(event) => {
+  const handleChangeOwnedProjects = async (event) => {
     setCheckedOwnedProjects(event.target.checked);
-    await backCall(checkedTags, checkedLanguages, event.target.checked ,checkedCollabProjects);
+    await backCall(
+      checkedTags,
+      checkedLanguages,
+      event.target.checked,
+      checkedCollabProjects
+    );
   };
-  const handleChangeCollabProjects = async(event) => {
+  const handleChangeCollabProjects = async (event) => {
     setCheckedCollabProjects(event.target.checked);
-    await backCall(checkedTags, checkedLanguages, checkedOwnedProjects, event.target.checked );
+    await backCall(
+      checkedTags,
+      checkedLanguages,
+      checkedOwnedProjects,
+      event.target.checked
+    );
   };
   const handleChangeEmail = (event) => {
     setCheckedEmail(event.target.checked);
@@ -246,7 +280,6 @@ const ModifyUser = (props) => {
                             {"DELETE"}
                           </Button>
                         </Grid>
-
                       </Grid>
                       <Dialog
                         open={open}
@@ -278,63 +311,60 @@ const ModifyUser = (props) => {
                         </DialogActions>
                       </Dialog>
                     </Grid>
-
                   </Form>
                 )}
               </Formik>
-
-
             </Grid>
 
-            <Grid item xs={12}><Divider /></Grid>
             <Grid item xs={12}>
-              <Stack direction={"column"} spacing={2} >
+              <Divider />
+            </Grid>
+            <Grid item xs={12}>
+              <Stack direction={"column"} spacing={2}>
                 <Stack direction={"row"}>
                   <Typography variant="h5">{"Configure Profile"}</Typography>
-
                 </Stack>
                 <Stack direction={"row"} alignItems="center">
-                  <Typography >{"Tags: "}</Typography>
+                  <Typography>{"Tags: "}</Typography>
                   <Switch
-                      checked={checkedTags}
-                      onChange={handleChangeTags}
-                      inputProps={{ 'aria-label': 'controlled' }}
+                    checked={checkedTags}
+                    onChange={handleChangeTags}
+                    inputProps={{ "aria-label": "controlled" }}
                   />
                 </Stack>
                 <Stack direction={"row"} alignItems="center">
-                  <Typography >{"Languages: "}</Typography>
+                  <Typography>{"Languages: "}</Typography>
                   <Switch
-                      checked={checkedLanguages}
-                      onChange={handleChangeLanguages}
-                      inputProps={{ 'aria-label': 'controlled' }}
+                    checked={checkedLanguages}
+                    onChange={handleChangeLanguages}
+                    inputProps={{ "aria-label": "controlled" }}
                   />
                 </Stack>
                 <Stack direction={"row"} alignItems="center">
-                  <Typography >{"Owned Projects: "}</Typography>
+                  <Typography>{"Owned Projects: "}</Typography>
                   <Switch
-                      checked={checkedOwnedProjects}
-                      onChange={handleChangeOwnedProjects}
-                      inputProps={{ 'aria-label': 'controlled' }}
+                    checked={checkedOwnedProjects}
+                    onChange={handleChangeOwnedProjects}
+                    inputProps={{ "aria-label": "controlled" }}
                   />
                 </Stack>
                 <Stack direction={"row"} alignItems="center">
-                  <Typography >{"Projects that I collaborate in: "}</Typography>
+                  <Typography>{"Projects that I collaborate in: "}</Typography>
                   <Switch
-                      checked={checkedCollabProjects}
-                      onChange={handleChangeCollabProjects}
-                      inputProps={{ 'aria-label': 'controlled' }}
+                    checked={checkedCollabProjects}
+                    onChange={handleChangeCollabProjects}
+                    inputProps={{ "aria-label": "controlled" }}
                   />
                 </Stack>
                 <Stack direction={"row"} alignItems="center">
-                  <Typography >{"Allow email notifications"}</Typography>
+                  <Typography>{"Allow email notifications"}</Typography>
                   <Switch
-                      checked={checkedEmail}
-                      onChange={handleChangeEmail}
-                      inputProps={{ 'aria-label': 'controlled' }}
+                    checked={checkedEmail}
+                    onChange={handleChangeEmail}
+                    inputProps={{ "aria-label": "controlled" }}
                   />
                 </Stack>
               </Stack>
-
             </Grid>
           </Grid>
         </Grid>

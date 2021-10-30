@@ -149,8 +149,7 @@ export const deleteDiscussion = async (id) =>
 // USER PRIVACY
 
 export const editUserPrivacy = async (data) =>
-    await axiosInstance.put(`/user/privacy`, data);
-
+  await axiosInstance.put(`/user/privacy`, data);
 
 // BLACKLIST OF ENDPOINTS
 
