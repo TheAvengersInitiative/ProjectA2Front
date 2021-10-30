@@ -1,6 +1,6 @@
 import {
-  AppBar,
-  Box,
+  AppBar, Avatar, Badge,
+  Box, Button,
   Grid,
   IconButton,
   Link,
@@ -16,14 +16,62 @@ import { useAuth } from "../contexts/AuthContext";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
+import {NotificationItem} from "./NotificationItem";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const IconBack = styled(ArrowBackIosNewIcon)`
   cursor: pointer;
 `;
 
+const StyledBadge = styled(Badge)((props) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: '#ffa700',
+    color: '#ffa700',
+    boxShadow: `0 0 0 1px #ffa700`,
+    display: `${props.show ? 'block' : 'none'}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: 'ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}));
+
+const MenuNotification = styled(Menu)`
+  max-height: 450px !important;
+`
+
+const AvatarStyled = styled(Avatar)`
+  width: 30px;
+  height: 30px;
+  background-color: #1976d2;
+  &:hover {
+    background-color: #2686e3;
+    cursor: pointer;
+  }
+`
+
 const AppBarMenu = ({ location }) => {
   const { isLoggedIn, logOut } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notification, setNotification] = React.useState(null);
+
   let history = useHistory();
 
   const handleLogOut = () => {
@@ -37,6 +85,14 @@ const AppBarMenu = ({ location }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenNotification = (event) => {
+    setNotification(event.currentTarget);
+  };
+
+  const handleCloseNotification = () => {
+    setNotification(null);
   };
 
   useEffect(() => {
@@ -71,6 +127,39 @@ const AppBarMenu = ({ location }) => {
             <Grid item>
               {isLoggedIn && (
                 <div>
+                  <Button
+                      id="basic-notification"
+                      aria-controls="basic-menu"
+                      aria-haspopup="true"
+                      aria-expanded={notification ? "true" : undefined}
+                      onClick={handleOpenNotification}
+                  >
+                    <StyledBadge
+                        overlap="circular"
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                        variant="dot"
+                        show={true}
+                    >
+                      <AvatarStyled >
+                        <NotificationsIcon/>
+                      </AvatarStyled>
+                    </StyledBadge>
+                  </Button>
+                  <MenuNotification
+                      id="basic-notification"
+                      anchorEl={notification}
+                      open={notification}
+                      onClose={handleCloseNotification}
+                      PaperProps={{
+                        style: {
+                          transform: "translateX(-20px) translateY(0px)",
+                        },
+                      }}
+                  >
+                    {
+                      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map((item) => <NotificationItem key={item} item={item} />)
+                    }
+                  </MenuNotification>
                   <IconButton onClick={handleMenu} color="inherit">
                     <AccountCircle />
                   </IconButton>
