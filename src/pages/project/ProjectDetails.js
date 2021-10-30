@@ -14,7 +14,7 @@ import { LoadingButton } from "@mui/lab";
 import { List } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import { withSnackbar } from "../../components/SnackBarHOC";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {
   getProjectById,
   getUserInfoByIdWithToken,
@@ -38,6 +38,15 @@ const ProjectButton = styled(LoadingButton)`
   font-weight: 600;
 `;
 
+const ItemCollaborator = styled(ListItem)`
+  cursor: pointer;
+  margin: 5px 0;
+  padding: 10px 10px;
+  &:hover {
+    background-color: ghostwhite;
+  }
+`;
+
 const ProjectDetails = (props) => {
   const { isUserLoggedIn } = useAuth();
   const { showMessage } = props;
@@ -45,6 +54,8 @@ const ProjectDetails = (props) => {
   const { id } = useParams();
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
+
+  const history = useHistory();
 
   useEffect(() => {
     fetchProject();
@@ -226,7 +237,12 @@ const ProjectDetails = (props) => {
               </Grid>
             </Box>
             <Box mt={4}>
-              <Typography>Owner: {details?.owner?.nickname}</Typography>
+              <Typography>
+                Owner:
+                <Link href={`/user/${details?.owner?.id}`}>
+                  {details?.owner?.nickname}
+                </Link>
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={6}>
@@ -239,14 +255,17 @@ const ProjectDetails = (props) => {
                   {details?.collaborators &&
                     details?.collaborators.length > 0 &&
                     details?.collaborators.map((item, index) => (
-                      <ListItem key={index}>
+                      <ItemCollaborator
+                        key={index}
+                        onClick={() => history.push(`/user/${item.id}`)}
+                      >
                         <ListItemAvatar>
                           <Avatar sx={{ width: 24, height: 24 }}>
                             <AccountCircle />
                           </Avatar>
                         </ListItemAvatar>
                         <CollaboratorName>{item.nickname}</CollaboratorName>
-                      </ListItem>
+                      </ItemCollaborator>
                     ))}
                 </List>
               </>
@@ -259,6 +278,7 @@ const ProjectDetails = (props) => {
             fetchProject={fetchProject}
             user={user}
             owner={details?.owner}
+            collaborators={details?.collaborators}
           />
         </Grid>
       </Container>

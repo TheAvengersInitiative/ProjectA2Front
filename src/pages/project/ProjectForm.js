@@ -99,10 +99,23 @@ export const ShowForm = (props) => {
         values.links = array2;
       }
 
+      console.log("hola ", values);
+
       values.languages = selectedLanguages;
       values.tags = selectedTags;
 
-      id ? await submit(id, values) : await submit(values);
+      const data = {
+        title: values.title,
+        description: values.description,
+        tags: values.tags,
+        forumTags: values.forumTags
+          ? values.forumTags.map((item) => item.name)
+          : ["uwu"],
+        languages: values.languages,
+        links: values.links,
+      };
+
+      id ? await submit(id, data) : await submit(data);
 
       showMessage(
         "success",
