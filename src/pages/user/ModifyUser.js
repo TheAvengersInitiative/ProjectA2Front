@@ -6,9 +6,9 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
+  DialogTitle, Divider,
   Grid,
-  LinearProgress,
+  LinearProgress, Stack, Switch,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -70,6 +70,27 @@ const ModifyUser = (props) => {
   const history = useHistory();
 
   const [open, setOpen] = useState(false);
+  const [checkedTags, setCheckedTags] = React.useState(true);
+  const [checkedLanguages, setCheckedLanguages] = React.useState(true);
+  const [checkedOwnedProjects, setCheckedOwnedProjects] = React.useState(true);
+  const [checkedCollabProjects, setCheckedCollabProjects] = React.useState(true);
+  const [checkedEmail, setCheckedEmail] = React.useState(true);
+
+  const handleChangeTags = (event) => {
+    setCheckedTags(event.target.checked);
+  };
+  const handleChangeLanguages = (event) => {
+    setCheckedLanguages(event.target.checked);
+  };
+  const handleChangeOwnedProjects = (event) => {
+    setCheckedOwnedProjects(event.target.checked);
+  };
+  const handleChangeCollabProjects = (event) => {
+    setCheckedCollabProjects(event.target.checked);
+  };
+  const handleChangeEmail = (event) => {
+    setCheckedEmail(event.target.checked);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -226,6 +247,54 @@ const ModifyUser = (props) => {
                 )}
               </Formik>
             </Grid>
+
+            <Divider />
+            <Stack direction={"column"} spacing={2} >
+              <Stack direction={"row"}>
+                <Typography variant="h5">{"Configure Profile"}</Typography>
+                <Stack direction={"row"} >
+                  <Typography variant="h7">{"Allow email notifications"}</Typography>
+                  <Switch
+                      checked={checkedEmail}
+                      onChange={handleChangeEmail}
+                      inputProps={{ 'aria-label': 'controlled' }}
+                  />
+                </Stack>
+
+              </Stack>
+              <Stack direction={"row"}>
+                <Typography variant="h6">{"Tags: "}</Typography>
+                <Switch
+                    checked={checkedTags}
+                    onChange={handleChangeTags}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </Stack>
+              <Stack direction={"row"}>
+                <Typography variant="h6">{"Languages: "}</Typography>
+                <Switch
+                    checked={checkedLanguages}
+                    onChange={handleChangeLanguages}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </Stack>
+              <Stack direction={"row"}>
+                <Typography variant="h6">{"Owned Projects: "}</Typography>
+                <Switch
+                    checked={checkedOwnedProjects}
+                    onChange={handleChangeOwnedProjects}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </Stack>
+              <Stack direction={"row"}>
+                <Typography variant="h6">{"Projects that I collaborate in: "}</Typography>
+                <Switch
+                    checked={checkedCollabProjects}
+                    onChange={handleChangeCollabProjects}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+              </Stack>
+            </Stack>
           </Grid>
         </Grid>
       </Box>
