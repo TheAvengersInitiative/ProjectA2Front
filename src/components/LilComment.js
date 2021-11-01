@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  IconButton,
-  Stack,
-} from "@mui/material";
+import { Button, Card, CardContent, Grid, Stack } from "@mui/material";
 import styled from "styled-components";
 import { hideComment, highlightComment } from "../utils/Projects";
-import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteComment from "./DeleteComment";
 
 const TextLink = styled.p`
@@ -128,23 +120,15 @@ const LilComment = (props) => {
                 <AuthorText>{item.user.nickname}</AuthorText>
               </DetailsContainer>
               <Grid>
-                <IconButton
-                  aria-label="delete"
-                  color="primary"
-                  size="small"
-                  onClick={handleClickOpenDelete}
-                >
-                  <DeleteIcon />
-                </IconButton>
-                <DeleteComment
-                  open={openDelete}
-                  handleClose={handleCloseDelete}
-                  id={item.id}
-                  fetchProject={fetchProject}
-                ></DeleteComment>
-
                 {user && user?.id === item.user.id && (
                   <OptionsComment>
+                    <TextLink onClick={handleClickOpenDelete}>Delete</TextLink>
+                    <DeleteComment
+                      open={openDelete}
+                      handleClose={handleCloseDelete}
+                      id={item.id}
+                      fetchProject={fetchProject}
+                    ></DeleteComment>
                     <TextLink
                       onClick={() => openModal(item.id, true, item.comment)}
                     >
