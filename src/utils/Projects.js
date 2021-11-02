@@ -146,6 +146,11 @@ export const deleteDiscussion = async (id) =>
     })
     .delete(`/discussion/${id}`);
 
+// USER PRIVACY
+
+export const editUserPrivacy = async (data) =>
+  await axiosInstance.put(`/user/privacy`, data);
+
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN
