@@ -56,7 +56,7 @@ const CommentContainer = styled(Grid)`
 
 const highlightColor = keyframes`
   from {
-    background-color: #b0deff;
+    background-color: #d5d5d5;
   }
 
   to {
@@ -65,7 +65,7 @@ const highlightColor = keyframes`
 `;
 
 const CardDiscussion = styled(Card)`
-  box-shadow: 0px 0px 8px 3px  ${(props) => props.highlight ? "rgba(28,160,255,0.25)" : "white" };
+  box-shadow: 0px 0px 8px 3px  ${(props) => props.highlight ? "rgba(42,42,42,0.13)" : "white" };
   ${(props) =>
     {
       

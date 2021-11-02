@@ -1,23 +1,43 @@
 import React, {useEffect, useState} from 'react';
-import {MenuItem} from "@mui/material";
+import {Grid, MenuItem} from "@mui/material";
 import styled from "styled-components";
 import {
     NEW_COMMENT_CREATOR_MESSAGE,
-    NEW_COMMENT_OWNER_MESSAGE,
     NEW_DISCUSSION_MESSAGE,
-    NEW_POSTULATE_MESSAGE, NEW_REVIEW_MESSAGE
+    NEW_POSTULATE_MESSAGE,
+    NEW_REVIEW_MESSAGE
 } from "../utils/const";
 import {useHistory} from "react-router-dom";
 
 const MenuItemSeen = styled(MenuItem)`
   background-color: ${(props) => props.seen && "ghostwhite"};
-  color: ${(props) => props.seen && "darkgray"};
-  padding: 5px 20px;
+  color: ${(props) => props.seen && "darkgray !important"};
+  padding: 5px 0;
 `;
+
+const NotificationText = styled.p`
+  font-size: 18px;
+  margin: 0px;
+  max-width: 300px;
+  white-space: break-spaces;
+`
+
+const DateText = styled.p`
+  font-size: 14px !important;
+  color: lightgrey;
+  margin: 0;
+`
+
+const NotificationContainer = styled(Grid)`
+  padding: 10px 20px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: whitesmoke;
+`
 
 export const NotificationItem = (props) => {
 
-    const { item } = props;
+    const { item, setNotification } = props;
     const [ message, setMessage ] = useState('');
     const [ route, setRoute ] = useState('');
     const history = useHistory();
@@ -33,52 +53,49 @@ export const NotificationItem = (props) => {
 
     const manageBehavior = () => {
         switch ( item.type ) {
-            case 0:
+            case "DISCUSSION":
                 sendNewDiscussion();
                 break;
-            case 1:
+            case "COMMENT":
                 sendNewCommentCreator();
                 break;
-            case 2:
-                sendNewCommentOwner();
-                break;
-            case 3:
+            case "REVIEW":
                 sendNewReview();
                 break;
-            case 4:
+            case "APPLICANT":
                 sendNewCandidate();
                 break;
         }
+
     }
 
     const sendNewDiscussion = ( ) => {
-        setMessage(NEW_DISCUSSION_MESSAGE);
-        const routeBuilder = `project/${item.project}?discussion=${item.discussion}`;
+        setMessage(`${item.user.nickname} ${NEW_DISCUSSION_MESSAGE} ${item.project.title}!`);
+        const routeBuilder = `/project/${item.project.id}?discussion=${item.discussion.id}`;
         setRoute(routeBuilder);
     }
 
     const sendNewCommentCreator = ( ) => {
         setMessage(NEW_COMMENT_CREATOR_MESSAGE);
-        const routeBuilder = `project/${item.project}?comment=${item.comment}`;
-        setRoute(routeBuilder);
-    }
-
-    const sendNewCommentOwner = ( ) => {
-        setMessage(NEW_COMMENT_OWNER_MESSAGE);
-        const routeBuilder = `project/${item.project}?comment=${item.comment}`;
+        const routeBuilder = `/project/${item.project.id}?comment=${item.comment.id}`;
         setRoute(routeBuilder);
     }
 
     const sendNewReview = ( ) => {
-        setMessage(NEW_REVIEW_MESSAGE);
-        const routeBuilder = `project/${item.project}?review=${item.review}`;
+        setMessage( `${NEW_REVIEW_MESSAGE} ${item.project.title}!`);
+        const routeBuilder = `/project/${item.project.id}?review=${item.user.id}`;
         setRoute(routeBuilder);
     }
 
     const sendNewCandidate = ( ) => {
-        setMessage(NEW_POSTULATE_MESSAGE);
-        const routeBuilder = `project/${item.project}/manage?user=${item.user}`;
+        setMessage( `${item.user.nickname} ${NEW_POSTULATE_MESSAGE} ${item.project.title}!`);
+        const routeBuilder = `/project/${item.project.id}/manage?user=${item.user.id}`;
         setRoute(routeBuilder);
+    }
+
+    const handleOpen = () =>{
+        history.replace(route)
+        setNotification(null);
     }
 
     useEffect(( ) => {
@@ -86,8 +103,24 @@ export const NotificationItem = (props) => {
     }, [])
 
     return (
-        <MenuItemSeen seen={item === 2} onClick={() => history.push(route)}>
-            {message}
+        <MenuItemSeen seen={item.seen} onClick={ handleOpen }>
+                <NotificationContainer container direction='column'>
+                    <Grid item container direction='row'>
+                        <Grid item>
+                            <DateText>
+                                {new Date(item.date).toDateString()}
+                            </DateText>
+                        </Grid>
+                        <Grid item>
+                            {item.seen && <DateText>{` - Seen`}</DateText>}
+                        </Grid>
+                    </Grid>
+                    <Grid>
+                        <NotificationText>
+                            {message}
+                        </NotificationText>
+                    </Grid>
+                </NotificationContainer>
         </MenuItemSeen>
     );
 }

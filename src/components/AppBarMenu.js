@@ -18,6 +18,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import {NotificationItem} from "./NotificationItem";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import {getNotification} from "../utils/Projects";
 
 const IconBack = styled(ArrowBackIosNewIcon)`
   cursor: pointer;
@@ -68,9 +69,10 @@ const AvatarStyled = styled(Avatar)`
 `
 
 const AppBarMenu = ({ location }) => {
-  const { isLoggedIn, logOut } = useAuth();
+  const { isLoggedIn, isUserLoggedIn, logOut } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [notification, setNotification] = React.useState(null);
+  const [ notificationList, setNotificationList ] = React.useState([]);
 
   let history = useHistory();
 
@@ -95,9 +97,26 @@ const AppBarMenu = ({ location }) => {
     setNotification(null);
   };
 
+  const fetchNotification = async () => {
+    try {
+      const response = await getNotification(isUserLoggedIn());
+      setNotificationList(response.data);
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(()=>{
+    console.log(notificationList)
+  },[notificationList])
+
   useEffect(() => {
     console.log(location);
   }, [location]);
+
+  useEffect(() => {
+    isUserLoggedIn() && fetchNotification(isUserLoggedIn());
+  }, [isUserLoggedIn])
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -138,7 +157,7 @@ const AppBarMenu = ({ location }) => {
                         overlap="circular"
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                         variant="dot"
-                        show={true}
+                        show={notificationList?.length > 0}
                     >
                       <AvatarStyled >
                         <NotificationsIcon/>
@@ -152,12 +171,12 @@ const AppBarMenu = ({ location }) => {
                       onClose={handleCloseNotification}
                       PaperProps={{
                         style: {
-                          transform: "translateX(-20px) translateY(0px)",
+                          transform: "translateX(-90px) translateY(0px)",
                         },
                       }}
                   >
                     {
-                      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map((item) => <NotificationItem key={item} item={item} />)
+                      notificationList?.length > 0 && notificationList?.map((item) => <NotificationItem setNotification={setNotification} key={item} item={item} />)
                     }
                   </MenuNotification>
                   <IconButton onClick={handleMenu} color="inherit">
