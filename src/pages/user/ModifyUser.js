@@ -25,6 +25,7 @@ import {
   getUserInfoById,
   deleteUser,
   editUserPrivacy,
+    notificationPreferences
 } from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -104,18 +105,31 @@ const ModifyUser = (props) => {
     );
   }
 
-  const backCall = async (a, b, c, d, e) => {
-    console.log(e);
+  const backCall = async (a, b, c, d) => {
+
     try {
       let body = {
         tagsPrivacy: a ? "PUBLIC" : "PRIVATE",
         languagesPrivacy: b ? "PUBLIC" : "PRIVATE",
         ownedProjectsPrivacy: c ? "PUBLIC" : "PRIVATE",
-        collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE",
-        allowsNotifications: e,
+        collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE"
+
       };
       console.log(body);
       await editUserPrivacy(body);
+      showMessage("success", "Success!");
+    } catch (e) {
+      showMessage("error", "Oops... Something went wrong!");
+    }
+  };
+  const backCall2 = async (a) => {
+    console.log(a);
+    try {
+      let body = {
+        allowsNotifications: a
+      };
+      console.log(body);
+      await notificationPreferences(body);
       showMessage("success", "Success!");
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
@@ -130,8 +144,7 @@ const ModifyUser = (props) => {
       event.target.checked,
       checkedLanguages,
       checkedOwnedProjects,
-      checkedCollabProjects,
-      checkedEmail
+      checkedCollabProjects
     );
   };
   const handleChangeLanguages = async (event) => {
@@ -140,8 +153,7 @@ const ModifyUser = (props) => {
       checkedTags,
       event.target.checked,
       checkedOwnedProjects,
-      checkedCollabProjects,
-      checkedEmail
+      checkedCollabProjects
     );
   };
   const handleChangeOwnedProjects = async (event) => {
@@ -150,8 +162,7 @@ const ModifyUser = (props) => {
       checkedTags,
       checkedLanguages,
       event.target.checked,
-      checkedCollabProjects,
-      checkedEmail
+      checkedCollabProjects
     );
   };
   const handleChangeCollabProjects = async (event) => {
@@ -160,19 +171,14 @@ const ModifyUser = (props) => {
       checkedTags,
       checkedLanguages,
       checkedOwnedProjects,
-      event.target.checked,
-      checkedEmail
+      event.target.checked
     );
   };
 
   const handleChangeEmail = async (event) => {
     console.log(event.target.checked);
     setCheckedEmail(event.target.checked);
-    await backCall(
-      checkedTags,
-      checkedLanguages,
-      checkedOwnedProjects,
-      checkedCollabProjects,
+    await backCall2(
       event.target.checked
     );
   };
