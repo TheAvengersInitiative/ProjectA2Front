@@ -19,8 +19,8 @@ import {
   rejectApplicant,
 } from "../../utils/Projects";
 import styled from "styled-components";
-import {useQuery} from "../../utils/globalfunction";
-import {css, keyframes} from "@mui/styled-engine";
+import { useQuery } from "../../utils/globalfunction";
+import { css, keyframes } from "@mui/styled-engine";
 
 const highlightColor = keyframes`
   from {
@@ -33,17 +33,15 @@ const highlightColor = keyframes`
 `;
 
 const AplicantList = styled(ListItem)`
-  ${props => {
+  ${(props) => {
     if (props.highlight) {
-      return css`animation-name: ${highlightColor};
-      animation-duration: 2s;`
+      return css`
+        animation-name: ${highlightColor};
+        animation-duration: 2s;
+      `;
     }
   }}
- 
-`
-
-
-
+`;
 
 const ApplicantList = (props) => {
   const { showMessage, projID, updateList } = props;
@@ -53,7 +51,6 @@ const ApplicantList = (props) => {
   const [loading, setLoading] = useState(true);
 
   let query = useQuery();
-
 
   async function fetchApplicants() {
     try {
@@ -123,7 +120,7 @@ const ApplicantList = (props) => {
             return (
               <AplicantList
                 key={index}
-                highlight={query.get("user") && query.get("user") === item.id }
+                highlight={query.get("user") && query.get("user") === item.id}
                 secondaryAction={
                   <Stack direction="row" spacing={2}>
                     <IconButton onClick={() => onReject(item.id)}>

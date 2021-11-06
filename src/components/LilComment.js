@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, CardContent, Grid, Stack } from "@mui/material";
 import styled from "styled-components";
 import { hideComment, highlightComment } from "../utils/Projects";
-import {css, keyframes} from "@mui/styled-engine";
+import { css, keyframes } from "@mui/styled-engine";
 
 const TextLink = styled.p`
   color: dodgerblue;
@@ -25,18 +25,17 @@ const highlightColor = keyframes`
 
 const CardComment = styled(Card)`
   margin: 10px 0;
-  box-shadow: 0 0 8px 3px  ${(props) => props.highlight ? "rgba(42,42,42,0.13)" : "white" };
-  ${(props) =>
-  {
-
+  box-shadow: 0 0 8px 3px
+    ${(props) => (props.highlight ? "rgba(42,42,42,0.13)" : "white")};
+  ${(props) => {
     if (props.highlight) {
-      return css`animation-name: ${highlightColor};
+      return css`
+        animation-name: ${highlightColor};
         animation-duration: 2s;
-        animation-delay: 1.5s;`
+        animation-delay: 1.5s;
+      `;
     }
-  }
-  }
-
+  }}
 `;
 
 const DateText = styled.p`
@@ -67,7 +66,6 @@ const DetailsContainer = styled.div`
   }
 `;
 
-
 const LilComment = (props) => {
   const {
     key,
@@ -77,7 +75,7 @@ const LilComment = (props) => {
     fetchProject,
     projectOwner,
     isUserLoggedIn,
-      highlight,
+    highlight,
   } = props;
   const [hideActivated, setHideActivated] = useState("outlined");
   const [highlightActivated, setHighlightActivated] = useState("outlined");
@@ -120,7 +118,12 @@ const LilComment = (props) => {
   };
 
   return (
-    <CardComment variant="outlined" name={item.id} key={key} highlight={highlight}>
+    <CardComment
+      variant="outlined"
+      name={item.id}
+      key={key}
+      highlight={highlight}
+    >
       <CardContent>
         <Grid>
           <Stack direction={"row"} justifyContent="space-between">

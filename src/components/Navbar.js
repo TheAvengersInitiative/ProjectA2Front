@@ -1,37 +1,44 @@
 import React, { useState } from "react";
-import {Avatar, Badge, Box, Button, Grid, Menu, MenuItem} from "@mui/material";
-import {NotificationItem} from "./NotificationItem";
-import {styled} from "@mui/styles";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Grid,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { NotificationItem } from "./NotificationItem";
+import { styled } from "@mui/styles";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
+    "&::after": {
+      position: "absolute",
       top: 0,
       left: 0,
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      animation: 'ripple 1.2s infinite ease-in-out',
-      border: '1px solid currentColor',
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
       content: '""',
     },
   },
-  '@keyframes ripple': {
-    '0%': {
-      transform: 'scale(.8)',
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
       opacity: 1,
     },
-    '100%': {
-      transform: 'scale(2.4)',
+    "100%": {
+      transform: "scale(2.4)",
       opacity: 0,
     },
   },
 }));
-
 
 function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,34 +58,34 @@ function Navbar() {
       <Grid item>
         <Box p={1} pr={2}>
           <Button
-              id="basic-button"
-              aria-controls="basic-menu"
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
+            id="basic-button"
+            aria-controls="basic-menu"
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
           >
             <StyledBadge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                variant="dot"
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
             >
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </StyledBadge>
           </Button>
           <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              PaperProps={{
-                style: {
-                  transform: "translateX(-20px) translateY(0px)",
-                },
-              }}
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                transform: "translateX(-20px) translateY(0px)",
+              },
+            }}
           >
-            {
-              [1,2,3,4,5].map((item) => <NotificationItem item={item} />)
-            }
+            {[1, 2, 3, 4, 5].map((item) => (
+              <NotificationItem item={item} />
+            ))}
           </Menu>
           <Button
             id="basic-button"
