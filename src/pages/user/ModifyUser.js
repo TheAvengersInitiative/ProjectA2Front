@@ -25,6 +25,7 @@ import {
   getUserInfoById,
   deleteUser,
   editUserPrivacy,
+  notificationPreferences,
 } from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -83,6 +84,7 @@ const ModifyUser = (props) => {
         setCheckedCollabProjects(
           response["collabProjectsPrivacy"] === "PRIVATE" ? false : true
         );
+        setCheckedEmail(response["allowsNotifications"]);
         setLoading(false);
       })
       .catch((e) => {
@@ -94,6 +96,7 @@ const ModifyUser = (props) => {
     setCheckedOwnedProjects,
     setCheckedLanguages,
     setCheckedTags,
+    setCheckedEmail,
   ]);
 
   if (user) {
@@ -103,7 +106,6 @@ const ModifyUser = (props) => {
   }
 
   const backCall = async (a, b, c, d) => {
-    console.log(checkedTags);
     try {
       let body = {
         tagsPrivacy: a ? "PUBLIC" : "PRIVATE",
@@ -111,8 +113,22 @@ const ModifyUser = (props) => {
         ownedProjectsPrivacy: c ? "PUBLIC" : "PRIVATE",
         collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE",
       };
+      console.log(body);
       await editUserPrivacy(body);
-      showMessage("success", "Review added!");
+      showMessage("success", "Success!");
+    } catch (e) {
+      showMessage("error", "Oops... Something went wrong!");
+    }
+  };
+  const backCall2 = async (a) => {
+    console.log(a);
+    try {
+      let body = {
+        allowsNotifications: a,
+      };
+      console.log(body);
+      await notificationPreferences(body);
+      showMessage("success", "Success!");
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");
     }
@@ -156,8 +172,11 @@ const ModifyUser = (props) => {
       event.target.checked
     );
   };
-  const handleChangeEmail = (event) => {
+
+  const handleChangeEmail = async (event) => {
+    console.log(event.target.checked);
     setCheckedEmail(event.target.checked);
+    await backCall2(event.target.checked);
   };
 
   const handleClickOpen = () => {
