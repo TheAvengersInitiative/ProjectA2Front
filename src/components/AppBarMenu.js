@@ -194,6 +194,7 @@ const AppBarMenu = ({ location }) => {
                           setNotification={setNotification}
                           key={item}
                           item={item}
+                          fetchNotification = {fetchNotification}
                         />
                       ))}
                     {notificationList.length === 5 && (

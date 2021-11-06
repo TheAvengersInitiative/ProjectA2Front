@@ -36,7 +36,7 @@ const NotificationContainer = styled(Grid)`
 `;
 
 export const NotificationItem = (props) => {
-  const { item, setNotification } = props;
+  const { item, setNotification, fetchNotification } = props;
   const [message, setMessage] = useState("");
   const [route, setRoute] = useState("");
   const history = useHistory();
@@ -64,12 +64,19 @@ export const NotificationItem = (props) => {
         sendNewCandidate();
         break;
     }
+
   };
+
+  const marcarNotificacionVista = (id) => {
+    await notificacionVista(item.id)
+    fetchNotification()
+  }
 
   const sendNewDiscussion = () => {
     setMessage(
       `${item.user.nickname} ${NEW_DISCUSSION_MESSAGE} ${item.project.title}!`
     );
+    marcarNotificacionVista(item.id)
     const routeBuilder = `/project/${item.project.id}?discussion=${item.discussion.id}`;
     setRoute(routeBuilder);
   };
@@ -78,12 +85,14 @@ export const NotificationItem = (props) => {
     setMessage(
       `${item.user.nickname} ${NEW_COMMENT_CREATOR_MESSAGE} ${item.project.title}`
     );
+    marcarNotificacionVista(item.id)
     const routeBuilder = `/project/${item.project.id}?comment=${item.comment.id}`;
     setRoute(routeBuilder);
   };
 
   const sendNewReview = () => {
     setMessage(`${NEW_REVIEW_MESSAGE} ${item.project.title}!`);
+    marcarNotificacionVista(item.id)
     const routeBuilder = `/user/${item.userToNotify.id}?review=${item.project.title}`;
     setRoute(routeBuilder);
   };
@@ -92,6 +101,7 @@ export const NotificationItem = (props) => {
     setMessage(
       `${item.user.nickname} ${NEW_POSTULATE_MESSAGE} ${item.project.title}!`
     );
+    marcarNotificacionVista(item.id)
     const routeBuilder = `/project/${item.project.id}/manage?user=${item.user.id}`;
     setRoute(routeBuilder);
   };
