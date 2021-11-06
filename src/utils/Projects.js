@@ -146,6 +146,14 @@ export const deleteDiscussion = async (id) =>
     })
     .delete(`/discussion/${id}`);
 
+export const getNotification = async (token) =>
+  axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .get("/notification/first-five");
+
 // USER PRIVACY
 
 export const editUserPrivacy = async (data) =>

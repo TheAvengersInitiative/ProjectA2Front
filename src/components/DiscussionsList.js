@@ -29,6 +29,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModifyDiscussion from "./ModifyDiscussion";
 import DeleteDiscussion from "./DeleteDiscussion";
+import { useQuery } from "../utils/globalfunction";
+import { css, keyframes } from "@mui/styled-engine";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -52,6 +54,30 @@ const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
 
+const highlightColor = keyframes`
+  from {
+    background-color: #d5d5d5;
+  }
+
+  to {
+    background-color: white;
+  }
+`;
+
+const CardDiscussion = styled(Card)`
+  box-shadow: 0px 0px 8px 3px
+    ${(props) => (props.highlight ? "rgba(42,42,42,0.13)" : "white")};
+  ${(props) => {
+    if (props.highlight) {
+      return css`
+        animation-name: ${highlightColor};
+        animation-duration: 2s;
+        animation-delay: 1.5s;
+      `;
+    }
+  }}
+`;
+
 function DiscussionsList(props) {
   const { discussions, fetchProject, showMessage, user, owner, collaborators } =
     props;
@@ -63,6 +89,7 @@ function DiscussionsList(props) {
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
+  let query = useQuery();
 
   function isCollaborator() {
     if (collaborators?.find((item) => item?.id === user?.id)) {
@@ -129,10 +156,15 @@ function DiscussionsList(props) {
           {discussions ? (
             discussions.map((discussion, index) => (
               <>
-                <Card
+                <CardDiscussion
+                  name={discussion.id}
                   variant="outlined"
                   key={index}
                   style={{ margin: "20px 0" }}
+                  highlight={
+                    query.get("discussion") &&
+                    query.get("discussion") === discussion.id
+                  }
                 >
                   <CardHeader title={discussion.title} />
                   <CardContent>
@@ -209,7 +241,7 @@ function DiscussionsList(props) {
                       )}
                     </Box>
                   </CardContent>
-                </Card>
+                </CardDiscussion>
                 <CommentContainer>
                   {discussion?.comments
                     .map(
@@ -223,6 +255,10 @@ function DiscussionsList(props) {
                             fetchProject={fetchProject}
                             projectOwner={owner}
                             isUserLoggedIn={isUserLoggedIn}
+                            highlight={
+                              query.get("comment") &&
+                              query.get("comment") === item.id
+                            }
                           />
                         )
                     )
