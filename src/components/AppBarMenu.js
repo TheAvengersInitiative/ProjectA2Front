@@ -13,9 +13,9 @@ import {
   Typography,
 } from "@mui/material";
 
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AccountCircle } from "@mui/icons-material";
-import { useAuth } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
@@ -82,10 +82,10 @@ const ViewAll = styled.a`
 `;
 
 const AppBarMenu = ({ location }) => {
-  const { isLoggedIn, isUserLoggedIn, logOut } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [notification, setNotification] = React.useState(null);
   const [notificationList, setNotificationList] = React.useState([]);
+  const { isLoggedIn, logOut, token } = useContext(AuthContext);
 
   let history = useHistory();
 
@@ -112,7 +112,7 @@ const AppBarMenu = ({ location }) => {
 
   const fetchNotification = async () => {
     try {
-      const response = await getNotification(isUserLoggedIn());
+      const response = await getNotification(token);
       setNotificationList(response.data);
     } catch (e) {
       console.log(e);
@@ -128,8 +128,8 @@ const AppBarMenu = ({ location }) => {
   }, [location]);
 
   useEffect(() => {
-    isUserLoggedIn() && fetchNotification(isUserLoggedIn());
-  }, [localStorage.getItem("token")]);
+    token && fetchNotification(token);
+  }, [token]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
