@@ -129,8 +129,7 @@ export const hideComment = async (commentId, token) =>
     .put(`/discussion/hide/${commentId}`);
 
 // GET NOTIFS
-export const getNotfs = async () =>
-    await axiosInstance.get("/notification");
+export const getNotfs = async () => await axiosInstance.get("/notification");
 
 // MODIFY DISCUSSION
 export const modifyDiscussion = async (id, data) =>
@@ -170,9 +169,7 @@ export const notificationPreferences = async (data) =>
 
 // SEEN NOTIFICATION
 export const seenNotif = async (id) =>
-    await axiosInstance.put(`/notification/${id}`);
-
-
+  await axiosInstance.put(`/notification/${id}`);
 
 // BLACKLIST OF ENDPOINTS
 
