@@ -23,6 +23,7 @@ import ModifyUser from "./pages/user/ModifyUser";
 import Profile from "./pages/user/Profile";
 import ManageProject from "./pages/proyects/ManageProject";
 import ProjectDetails from "./pages/project/ProjectDetails";
+import Notifications from "./pages/notifications/Notifications";
 
 function App() {
   return (
@@ -93,6 +94,9 @@ function App() {
               />
               <PrivateRoute exact path="/my-projects" name="My projects">
                 <ProjectPage />
+              </PrivateRoute>
+              <PrivateRoute exact path="/notifications" name="Notifications">
+                <Notifications />
               </PrivateRoute>
               <PrivateRoute path="/my-projects/add">
                 <AddNewProject
