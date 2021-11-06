@@ -39,7 +39,7 @@ const ShowForm = (props) => {
   const onSubmit = async (values) => {
     try {
       const response = await submit(values);
-      setUserInfo(response);
+      await setUserInfo(response);
       showMessage("success", `Succesfully logged in`);
 
       setTimeout(() => {
