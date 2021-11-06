@@ -72,21 +72,7 @@ function Navbar() {
               <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </StyledBadge>
           </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            PaperProps={{
-              style: {
-                transform: "translateX(-20px) translateY(0px)",
-              },
-            }}
-          >
-            {[1, 2, 3, 4, 5].map((item) => (
-              <NotificationItem item={item} />
-            ))}
-          </Menu>
+
           <Button
             id="basic-button"
             aria-controls="basic-menu"
