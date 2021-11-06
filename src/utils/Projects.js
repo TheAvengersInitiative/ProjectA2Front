@@ -155,6 +155,11 @@ export const getNotification = async ( token ) =>
         })
         .get("/notification")
 
+// USER PRIVACY
+
+export const editUserPrivacy = async (data) =>
+  await axiosInstance.put(`/user/privacy`, data);
+
 // BLACKLIST OF ENDPOINTS
 
 // GET USER WITH TOKEN
