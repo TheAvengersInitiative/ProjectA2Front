@@ -63,7 +63,8 @@ const ModifyUser = (props) => {
   const [checkedTags, setCheckedTags] = React.useState(true);
   const [checkedLanguages, setCheckedLanguages] = React.useState(true);
   const [checkedOwnedProjects, setCheckedOwnedProjects] = React.useState(true);
-  const [checkedCollabProjects, setCheckedCollabProjects] = React.useState(true);
+  const [checkedCollabProjects, setCheckedCollabProjects] =
+    React.useState(true);
   const [checkedEmail, setCheckedEmail] = React.useState(true);
 
   useEffect(() => {
@@ -82,7 +83,7 @@ const ModifyUser = (props) => {
         setCheckedCollabProjects(
           response["collabProjectsPrivacy"] === "PRIVATE" ? false : true
         );
-        setCheckedEmail(response['allowsNotifications'])
+        setCheckedEmail(response["allowsNotifications"]);
         setLoading(false);
       })
       .catch((e) => {
@@ -94,7 +95,7 @@ const ModifyUser = (props) => {
     setCheckedOwnedProjects,
     setCheckedLanguages,
     setCheckedTags,
-    setCheckedEmail
+    setCheckedEmail,
   ]);
 
   if (user) {
@@ -111,9 +112,9 @@ const ModifyUser = (props) => {
         languagesPrivacy: b ? "PUBLIC" : "PRIVATE",
         ownedProjectsPrivacy: c ? "PUBLIC" : "PRIVATE",
         collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE",
-        allowsNotifications: e
+        allowsNotifications: e,
       };
-      console.log(body)
+      console.log(body);
       await editUserPrivacy(body);
       showMessage("success", "Success!");
     } catch (e) {
@@ -130,7 +131,7 @@ const ModifyUser = (props) => {
       checkedLanguages,
       checkedOwnedProjects,
       checkedCollabProjects,
-        checkedEmail
+      checkedEmail
     );
   };
   const handleChangeLanguages = async (event) => {
@@ -140,7 +141,7 @@ const ModifyUser = (props) => {
       event.target.checked,
       checkedOwnedProjects,
       checkedCollabProjects,
-        checkedEmail
+      checkedEmail
     );
   };
   const handleChangeOwnedProjects = async (event) => {
@@ -150,7 +151,7 @@ const ModifyUser = (props) => {
       checkedLanguages,
       event.target.checked,
       checkedCollabProjects,
-        checkedEmail
+      checkedEmail
     );
   };
   const handleChangeCollabProjects = async (event) => {
@@ -160,7 +161,7 @@ const ModifyUser = (props) => {
       checkedLanguages,
       checkedOwnedProjects,
       event.target.checked,
-        checkedEmail
+      checkedEmail
     );
   };
 
@@ -168,11 +169,11 @@ const ModifyUser = (props) => {
     console.log(event.target.checked);
     setCheckedEmail(event.target.checked);
     await backCall(
-        checkedTags,
-        checkedLanguages,
-        checkedOwnedProjects,
-        checkedCollabProjects,
-        event.target.checked
+      checkedTags,
+      checkedLanguages,
+      checkedOwnedProjects,
+      checkedCollabProjects,
+      event.target.checked
     );
   };
 
