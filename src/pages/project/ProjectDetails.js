@@ -22,6 +22,8 @@ import {
 } from "../../utils/Projects";
 import DiscussionsList from "../../components/DiscussionsList";
 import { useAuth } from "../../contexts/AuthContext";
+import { scroller } from "react-scroll";
+import { useQuery } from "../../utils/globalfunction";
 
 const Container = styled(Grid)`
   min-height: available;
@@ -54,6 +56,7 @@ const ProjectDetails = (props) => {
   const { id } = useParams();
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
+  let query = useQuery();
 
   const history = useHistory();
 
@@ -77,10 +80,27 @@ const ProjectDetails = (props) => {
     try {
       const response = await getProjectById(id);
       setDetails(response.data);
+      const focusId = query.get("discussion")
+        ? query.get("discussion")
+        : query.get("comment") ?? "";
+      if (focusId !== "") {
+        setTimeout(() => {
+          scrollTo(focusId);
+        }, 1500);
+      }
     } catch (e) {
       console.log(e);
       showMessage("error", "Oops... Something went wrong!");
     }
+  };
+
+  const scrollTo = (focusId) => {
+    scroller.scrollTo(focusId, {
+      duration: 800,
+      delay: 0,
+      offset: -150,
+      smooth: "easeInOutQuart",
+    });
   };
 
   useEffect(() => {
