@@ -19,7 +19,7 @@ const NotificationText = styled.p`
   font-size: 18px;
   margin: 0px;
   max-width: 300px;
-  white-space: break-spaces;
+  white-space: normal;
 `;
 
 const DateText = styled.p`
