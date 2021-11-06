@@ -19,11 +19,13 @@ import ReviewTable from "./ReviewTable";
 import { Rating } from "@mui/lab";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useQuery } from "../../utils/globalfunction";
 
 const Profile = (props) => {
   const { showMessage } = props;
   const [userInfo, setUserinfo] = useState();
   const [loading, setLoading] = useState(true);
+  let query = useQuery();
 
   const responsive = {
     desktop: {
@@ -90,6 +92,9 @@ const Profile = (props) => {
 
   useEffect(() => {
     fetchUserInfo();
+    if (query.get("review")) {
+      handleClickOpen();
+    }
   }, []);
 
   if (loading) return <LinearProgress />;

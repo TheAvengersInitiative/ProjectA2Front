@@ -87,6 +87,7 @@ function App() {
               <Route
                 exact
                 path="/project/:id"
+                replace
                 name="Project Detail"
                 render={(props) => <ProjectDetails {...props} />}
               />
