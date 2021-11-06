@@ -25,7 +25,7 @@ import {
   getUserInfoById,
   deleteUser,
   editUserPrivacy,
-    notificationPreferences
+  notificationPreferences,
 } from "../../utils/Projects";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -106,14 +106,12 @@ const ModifyUser = (props) => {
   }
 
   const backCall = async (a, b, c, d) => {
-
     try {
       let body = {
         tagsPrivacy: a ? "PUBLIC" : "PRIVATE",
         languagesPrivacy: b ? "PUBLIC" : "PRIVATE",
         ownedProjectsPrivacy: c ? "PUBLIC" : "PRIVATE",
-        collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE"
-
+        collaboratedProjectsPrivacy: d ? "PUBLIC" : "PRIVATE",
       };
       console.log(body);
       await editUserPrivacy(body);
@@ -126,7 +124,7 @@ const ModifyUser = (props) => {
     console.log(a);
     try {
       let body = {
-        allowsNotifications: a
+        allowsNotifications: a,
       };
       console.log(body);
       await notificationPreferences(body);
@@ -178,9 +176,7 @@ const ModifyUser = (props) => {
   const handleChangeEmail = async (event) => {
     console.log(event.target.checked);
     setCheckedEmail(event.target.checked);
-    await backCall2(
-      event.target.checked
-    );
+    await backCall2(event.target.checked);
   };
 
   const handleClickOpen = () => {

@@ -162,7 +162,7 @@ export const editUserPrivacy = async (data) =>
 // NOTIFICATION PREFERENCES
 
 export const notificationPreferences = async (data) =>
-    await axiosInstance.put(`/user/notification-preferences`, data);
+  await axiosInstance.put(`/user/notification-preferences`, data);
 
 // BLACKLIST OF ENDPOINTS
 
