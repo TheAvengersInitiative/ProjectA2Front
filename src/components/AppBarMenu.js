@@ -13,9 +13,9 @@ import {
   Typography,
 } from "@mui/material";
 
-import React, {useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { AccountCircle } from "@mui/icons-material";
-import {AuthContext} from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
@@ -86,7 +86,6 @@ const AppBarMenu = ({ location }) => {
   const [notification, setNotification] = React.useState(null);
   const [notificationList, setNotificationList] = React.useState([]);
   const { isLoggedIn, logOut, token } = useContext(AuthContext);
-
 
   let history = useHistory();
 
