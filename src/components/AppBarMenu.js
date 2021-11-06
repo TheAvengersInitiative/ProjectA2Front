@@ -10,7 +10,6 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
 } from "@mui/material";
 
 import React, { useContext, useEffect } from "react";
@@ -79,6 +78,17 @@ const ViewAll = styled.a`
   justify-content: center;
   align-items: center;
   padding: 10px 0;
+`;
+
+const Logo = styled.img`
+  height: 35px;
+`;
+
+const Login = styled.a`
+  text-decoration: none;
+  color: white !important;
+  font-size: 20px;
+  font-weight: 500;
 `;
 
 const AppBarMenu = ({ location }) => {
@@ -152,12 +162,12 @@ const AppBarMenu = ({ location }) => {
               )}
               <Grid item>
                 <Link href="/" color={"inherit"} underline={"none"}>
-                  <Typography variant="h6">A2</Typography>
+                  <Logo src="https://cdn.discordapp.com/attachments/411201278031560708/906627245081260032/logo.png" />
                 </Link>
               </Grid>
             </Grid>
             <Grid item>
-              {isLoggedIn && (
+              {isLoggedIn ? (
                 <div>
                   <Button
                     id="basic-notification"
@@ -231,6 +241,12 @@ const AppBarMenu = ({ location }) => {
                     <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
                   </Menu>
                 </div>
+              ) : (
+                location.pathname !== "/login" && (
+                  <div>
+                    <Login href="/login">Login</Login>
+                  </div>
+                )
               )}
             </Grid>
           </Grid>
