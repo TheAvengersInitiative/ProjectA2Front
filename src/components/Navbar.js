@@ -8,7 +8,6 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { NotificationItem } from "./NotificationItem";
 import { styled } from "@mui/styles";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
