@@ -33,6 +33,10 @@ export function AuthProvider({ children }) {
     localStorage.setItem("token", response.headers.token);
   };
 
+  useEffect(()=>{
+    setToken(localStorage.getItem("token"))
+  },[])
+
   return (
     <AuthContext.Provider
       value={{ isLoggedIn, logOut, getUserInfo, setUserInfo, isUserLoggedIn, token }}
