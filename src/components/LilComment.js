@@ -149,10 +149,9 @@ const LilComment = (props) => {
                 <AuthorText>{item.user.nickname}</AuthorText>
               </DetailsContainer>
               <Grid container direction="row">
-              {((user && user?.id === item.user.id) ||
-              (user &&
-               user?.id === projectOwner?.id)) && (
-                <OptionsComment>
+                {((user && user?.id === item.user.id) ||
+                  (user && user?.id === projectOwner?.id)) && (
+                  <OptionsComment>
                     <TextLink onClick={handleClickOpenDelete}>Delete</TextLink>
                     <DeleteComment
                       open={openDelete}
@@ -160,8 +159,8 @@ const LilComment = (props) => {
                       id={item.id}
                       fetchProject={fetchProject}
                     ></DeleteComment>
-                </OptionsComment>
-              )}
+                  </OptionsComment>
+                )}
                 {user && user?.id === item.user.id && (
                   <OptionsComment>
                     <TextLink
