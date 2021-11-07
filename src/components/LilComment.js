@@ -149,9 +149,9 @@ const LilComment = (props) => {
                 <AuthorText>{item.user.nickname}</AuthorText>
               </DetailsContainer>
               <Grid container direction="row">
-              {(user && user?.id === item.user.id) ||
+              {((user && user?.id === item.user.id) ||
               (user &&
-               user?.id === item?.project?.owner.id) && (
+               user?.id === projectOwner?.id)) && (
                 <OptionsComment>
                     <TextLink onClick={handleClickOpenDelete}>Delete</TextLink>
                     <DeleteComment
