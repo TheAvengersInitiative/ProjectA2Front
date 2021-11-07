@@ -128,6 +128,9 @@ export const hideComment = async (commentId, token) =>
     })
     .put(`/discussion/hide/${commentId}`);
 
+// GET NOTIFS
+export const getNotfs = async () => await axiosInstance.get("/notification");
+
 // MODIFY DISCUSSION
 export const modifyDiscussion = async (id, data) =>
   await axios
@@ -146,10 +149,27 @@ export const deleteDiscussion = async (id) =>
     })
     .delete(`/discussion/${id}`);
 
+export const getNotification = async (token) =>
+  axios
+    .create({
+      baseURL: "http://localhost:8080",
+      headers: { Authorization: token },
+    })
+    .get("/notification/first-five");
+
 // USER PRIVACY
 
 export const editUserPrivacy = async (data) =>
   await axiosInstance.put(`/user/privacy`, data);
+
+// NOTIFICATION PREFERENCES
+
+export const notificationPreferences = async (data) =>
+  await axiosInstance.put(`/user/notification-preferences`, data);
+
+// SEEN NOTIFICATION
+export const seenNotif = async (id) =>
+  await axiosInstance.put(`/notification/${id}`);
 
 // BLACKLIST OF ENDPOINTS
 

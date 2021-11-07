@@ -3,6 +3,7 @@ import { Button, Card, CardContent, Grid, Stack } from "@mui/material";
 import styled from "styled-components";
 import { hideComment, highlightComment } from "../utils/Projects";
 import DeleteComment from "./DeleteComment";
+import { css, keyframes } from "@mui/styled-engine";
 
 const TextLink = styled.p`
   color: dodgerblue;
@@ -13,8 +14,29 @@ const TextLink = styled.p`
   width: min-content;
 `;
 
+const highlightColor = keyframes`
+  from {
+    background-color: #d5d5d5;
+  }
+
+  to {
+    background-color: white;
+  }
+`;
+
 const CardComment = styled(Card)`
   margin: 10px 0;
+  box-shadow: 0 0 8px 3px
+    ${(props) => (props.highlight ? "rgba(42,42,42,0.13)" : "white")};
+  ${(props) => {
+    if (props.highlight) {
+      return css`
+        animation-name: ${highlightColor};
+        animation-duration: 2s;
+        animation-delay: 1.5s;
+      `;
+    }
+  }}
 `;
 
 const DateText = styled.p`
@@ -44,6 +66,7 @@ const DetailsContainer = styled.div`
     margin-right: 10px;
   }
 `;
+
 const LilComment = (props) => {
   const {
     key,
@@ -53,6 +76,7 @@ const LilComment = (props) => {
     fetchProject,
     projectOwner,
     isUserLoggedIn,
+    highlight,
   } = props;
   const [hideActivated, setHideActivated] = useState("outlined");
   const [highlightActivated, setHighlightActivated] = useState("outlined");
@@ -104,7 +128,12 @@ const LilComment = (props) => {
   };
 
   return (
-    <CardComment variant="outlined" key={key}>
+    <CardComment
+      variant="outlined"
+      name={item.id}
+      key={key}
+      highlight={highlight}
+    >
       <CardContent>
         <Grid>
           <Stack direction={"row"} justifyContent="space-between">

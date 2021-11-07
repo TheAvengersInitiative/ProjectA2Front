@@ -59,6 +59,8 @@ function Search(props) {
     )
   ).current;
 
+  console.log("se llama ", state);
+
   const selectFilter = (e) => {
     console.log(e.target.value);
     setFilter(e.target.value);
@@ -88,7 +90,7 @@ function Search(props) {
 
   const getAllProjects = async () => {
     const response = await getAllProject();
-    setState(response.data);
+    setState({ projects: response.data });
   };
 
   const deleteChip = async (value, filtername) => {
@@ -165,7 +167,7 @@ function Search(props) {
       let array = [...tags, query];
 
       const body = {
-        title: name ?? null,
+        title: name ? name : null,
         tags: array.length > 0 ? array : null,
         languages: language.length > 0 ? language : null,
         page: 0,
@@ -185,7 +187,7 @@ function Search(props) {
     try {
       let array = [...language, query];
       const body = {
-        title: name ?? null,
+        title: name ? name : null,
         tags: tags.length > 0 ? tags : null,
         languages: array.length > 0 ? array : null,
         page: 0,
