@@ -204,41 +204,50 @@ function DiscussionsList(props) {
                           </TextLink>
                         </Grid>
                       )}
-                      {((isUserLoggedIn() &&
-                        user &&
-                        user?.id === discussion?.owner?.id) ||
-                        (user && user?.id === discussion.project.owner.id)) && (
-                        <Grid>
-                          <IconButton
-                            aria-label="delete"
-                            color="primary"
-                            size="small"
-                            onClick={handleClickOpenDelete}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <DeleteDiscussion
-                            open={openDelete}
-                            handleClose={handleCloseDelete}
-                            id={discussion.id}
-                            fetchProject={fetchProject}
-                          />
-                          <IconButton
-                            aria-label="edit"
-                            color="primary"
-                            size="small"
-                            onClick={handleClickOpenUpdate}
-                          >
-                            <EditIcon />
-                          </IconButton>
-                          <ModifyDiscussion
-                            open={openUpdate}
-                            handleClose={handleCloseUpdate}
-                            id={discussion?.id}
-                            fetchProject={fetchProject}
-                          />
-                        </Grid>
-                      )}
+                      <Grid container direction="row">
+                        {((isUserLoggedIn() &&
+                          user &&
+                          user?.id === discussion?.owner?.id) ||
+                          (user &&
+                            user?.id === discussion.project.owner.id)) && (
+                          <Grid>
+                            <IconButton
+                              aria-label="delete"
+                              color="primary"
+                              size="small"
+                              onClick={handleClickOpenDelete}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                            <DeleteDiscussion
+                              open={openDelete}
+                              handleClose={handleCloseDelete}
+                              id={discussion.id}
+                              fetchProject={fetchProject}
+                            />
+                          </Grid>
+                        )}
+                        {isUserLoggedIn() &&
+                          user &&
+                          user?.id === discussion?.owner?.id && (
+                            <Grid>
+                              <IconButton
+                                aria-label="edit"
+                                color="primary"
+                                size="small"
+                                onClick={handleClickOpenUpdate}
+                              >
+                                <EditIcon />
+                              </IconButton>
+                              <ModifyDiscussion
+                                open={openUpdate}
+                                handleClose={handleCloseUpdate}
+                                id={discussion?.id}
+                                fetchProject={fetchProject}
+                              />
+                            </Grid>
+                          )}
+                      </Grid>
                     </Box>
                   </CardContent>
                 </CardDiscussion>
