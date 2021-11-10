@@ -46,6 +46,7 @@ function SubmitDialog(props) {
       await startDiscussion(id, formData);
       fetchProject();
       showMessage("success", "Successfully created a new discusion");
+      setSelectedTags([]);
       handleClose();
     } catch (e) {
       showMessage(
