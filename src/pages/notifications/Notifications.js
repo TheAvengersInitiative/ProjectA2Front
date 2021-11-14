@@ -1,4 +1,11 @@
-import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Link,
+  Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -173,9 +180,15 @@ const ManageProject = (props) => {
                       <TableCell
                         component="th"
                         scope="row"
-                        onClick={() => handleOpen(row.url)}
+                        /*onClick={() => handleOpen(row.url)}*/
                       >
-                        {row.title}
+                        <Link
+                          href={`${row.url}`}
+                          color={"inherit"}
+                          underline={"none"}
+                        >
+                          {row.title}
+                        </Link>
                       </TableCell>
 
                       <TableCell>
