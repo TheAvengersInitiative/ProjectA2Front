@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -9,13 +9,16 @@ import ApplicantList from "./ApplicantList";
 
 import { useHistory, useParams } from "react-router-dom";
 import Review from "./review";
-import { getProjectById, getUserInfoById } from "../../utils/Projects";
+import { getProjectById, getUserInfoByIdWithToken } from "../../utils/Projects";
 import { withSnackbar } from "../../components/SnackBarHOC";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const ManageProject = (props) => {
   const { showMessage } = props;
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState();
+  const { token } = useContext(AuthContext);
+
   let history = useHistory();
 
   let { id } = useParams();
@@ -25,7 +28,7 @@ const ManageProject = (props) => {
   async function fetchProjectData() {
     try {
       const response = await getProjectById(id);
-      const user = await getUserInfoById();
+      const user = await getUserInfoByIdWithToken(token);
 
       if (user.data.id !== response.data.owner.id) {
         history.push("/");
@@ -36,6 +39,8 @@ const ManageProject = (props) => {
       showMessage("error", "Opss... Something went wrong");
     }
   }
+
+  useEffect(() => {}, [token]);
 
   useEffect(() => {
     fetchProjectData();

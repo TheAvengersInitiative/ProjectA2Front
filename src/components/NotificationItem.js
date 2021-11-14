@@ -97,7 +97,7 @@ export const NotificationItem = (props) => {
   };
 
   const handleOpen = () => {
-    history.replace(route);
+    history.push(route);
     setNotification(null);
   };
 
