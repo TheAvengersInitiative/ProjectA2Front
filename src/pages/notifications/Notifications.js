@@ -1,5 +1,5 @@
 import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, {useContext, useEffect} from "react";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -15,11 +15,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import { format } from "date-fns";
 import TableBody from "@mui/material/TableBody";
+import {AuthContext} from "../../contexts/AuthContext";
 
 const ManageProject = (props) => {
   const { showMessage } = props;
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
+  const { fetchNotification } = useContext(AuthContext);
 
   console.log(showMessage);
 
@@ -39,6 +41,7 @@ const ManageProject = (props) => {
   const checkSeen = async (id) => {
     await seenNotif(id);
     fetchNotificationData();
+    fetchNotification();
   };
 
   function getRows() {

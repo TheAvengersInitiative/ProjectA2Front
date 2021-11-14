@@ -44,6 +44,7 @@ const ShowForm = (props) => {
 
       setTimeout(() => {
         history.push(`/`);
+
       }, 1000);
     } catch (e) {
       showMessage("error", e.response?.data?.errors || "Invalid credentials");

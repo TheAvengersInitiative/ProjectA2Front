@@ -20,7 +20,6 @@ import { useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { NotificationItem } from "./NotificationItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { getNotification } from "../utils/Projects";
 
 const IconBack = styled(ArrowBackIosNewIcon)`
   cursor: pointer;
@@ -93,9 +92,9 @@ const Login = styled.a`
 
 const AppBarMenu = ({ location }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [notification, setNotification] = React.useState(null);
+  const [notificationModal, setNotificationModal] = React.useState(null);
   const [notificationList, setNotificationList] = React.useState([]);
-  const { isLoggedIn, logOut, token } = useContext(AuthContext);
+  const { isLoggedIn, logOut, notification } = useContext(AuthContext);
 
   let history = useHistory();
 
@@ -113,21 +112,13 @@ const AppBarMenu = ({ location }) => {
   };
 
   const handleOpenNotification = (event) => {
-    setNotification(event.currentTarget);
+    setNotificationModal(event.currentTarget);
   };
 
   const handleCloseNotification = () => {
-    setNotification(null);
+    setNotificationModal(null);
   };
 
-  const fetchNotification = async () => {
-    try {
-      const response = await getNotification(token);
-      setNotificationList(response.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   useEffect(() => {
     console.log(notificationList);
@@ -138,8 +129,8 @@ const AppBarMenu = ({ location }) => {
   }, [location]);
 
   useEffect(() => {
-    token && fetchNotification(token);
-  }, [token]);
+    setNotificationList(notification);
+  }, [notification]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -173,7 +164,7 @@ const AppBarMenu = ({ location }) => {
                     id="basic-notification"
                     aria-controls="basic-menu"
                     aria-haspopup="true"
-                    aria-expanded={notification ? "true" : undefined}
+                    aria-expanded={notificationModal ? "true" : undefined}
                     onClick={handleOpenNotification}
                   >
                     <StyledBadge
@@ -187,29 +178,32 @@ const AppBarMenu = ({ location }) => {
                       </AvatarStyled>
                     </StyledBadge>
                   </Button>
-                  <MenuNotification
-                    id="basic-notification"
-                    anchorEl={notification}
-                    open={notification}
-                    onClose={handleCloseNotification}
-                    PaperProps={{
-                      style: {
-                        transform: "translateX(-90px) translateY(0px)",
-                      },
-                    }}
-                  >
-                    {notificationList?.length > 0 &&
+                  {
+                    notificationList?.length > 0 &&
+                    <MenuNotification
+                        id="basic-notification"
+                        anchorEl={notificationModal}
+                        open={notificationModal}
+                        onClose={handleCloseNotification}
+                        PaperProps={{
+                          style: {
+                            transform: "translateX(-90px) translateY(0px)",
+                          },
+                        }}
+                    >
+                      {notificationList?.length > 0 &&
                       notificationList?.map((item) => (
-                        <NotificationItem
-                          setNotification={setNotification}
-                          key={item}
-                          item={item}
-                        />
+                          <NotificationItem
+                              setNotification={setNotificationModal}
+                              key={item}
+                              item={item}
+                          />
                       ))}
-                    {notificationList.length === 5 && (
-                      <ViewAll href="/notifications">View all</ViewAll>
-                    )}
-                  </MenuNotification>
+
+                          <ViewAll href="/notifications">View all</ViewAll>
+                    </MenuNotification>
+                  }
+
                   <IconButton onClick={handleMenu} color="inherit">
                     <AccountCircle />
                   </IconButton>
