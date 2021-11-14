@@ -1,4 +1,11 @@
-import { Box, Container, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Link,
+  Typography,
+} from "@mui/material";
 import React, {useContext, useEffect} from "react";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -16,12 +23,20 @@ import TableContainer from "@mui/material/TableContainer";
 import { format } from "date-fns";
 import TableBody from "@mui/material/TableBody";
 import {AuthContext} from "../../contexts/AuthContext";
+import {
+  NEW_COMMENT_CREATOR_MESSAGE,
+  NEW_DISCUSSION_MESSAGE,
+  NEW_POSTULATE_MESSAGE,
+  NEW_REVIEW_MESSAGE,
+} from "../../utils/const";
+import { useHistory } from "react-router-dom";
 
 const ManageProject = (props) => {
   const { showMessage } = props;
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState({});
   const { fetchNotification } = useContext(AuthContext);
+  const history = useHistory();
 
   console.log(showMessage);
 
@@ -44,6 +59,8 @@ const ManageProject = (props) => {
     fetchNotification();
   };
 
+  //3 columnas, sacar la de body
+
   function getRows() {
     let array = [];
     console.log(data);
@@ -53,14 +70,55 @@ const ManageProject = (props) => {
         array.push({
           id: d.id,
           date: d.date,
-          title: d?.discussion?.title,
-          body: d?.discussion?.body,
+          title: manageBehavior(d).message,
+          url: manageBehavior(d).route,
         })
     );
     return array.sort(function (a, b) {
       return new Date(b.date) - new Date(a.date);
     });
   }
+
+  const manageBehavior = (item) => {
+    switch (item.type) {
+      case "DISCUSSION":
+        return sendNewDiscussion(item);
+
+      case "COMMENT":
+        return sendNewCommentCreator(item);
+
+      case "REVIEW":
+        return sendNewReview(item);
+
+      case "APPLICANT":
+        return sendNewCandidate(item);
+    }
+  };
+
+  const sendNewDiscussion = (item) => {
+    const msg = `${item.user.nickname} ${NEW_DISCUSSION_MESSAGE} ${item.project.title}!`;
+    const routeBuilder = `/project/${item.project.id}?discussion=${item.discussion.id}`;
+    return { message: msg, route: routeBuilder };
+  };
+
+  const sendNewCommentCreator = (item) => {
+    const msg = `${item.user.nickname} ${NEW_COMMENT_CREATOR_MESSAGE} ${item.project.title}`;
+    const routeBuilder = `/project/${item.project.id}?comment=${item.comment.id}`;
+    return { message: msg, route: routeBuilder };
+  };
+
+  const sendNewReview = (item) => {
+    const msg = `${NEW_REVIEW_MESSAGE} ${item.project.title}!`;
+    const routeBuilder = `/user/${item.userToNotify.id}?review=${item.project.title}`;
+    return { message: msg, route: routeBuilder };
+  };
+
+  const sendNewCandidate = (item) => {
+    const msg = `${item.user.nickname} ${NEW_POSTULATE_MESSAGE} ${item.project.title}!`;
+    const routeBuilder = `/project/${item.project.id}/manage?user=${item.user.id}`;
+    return { message: msg, route: routeBuilder };
+  };
+
   function getSeenRows() {
     let array = [];
     console.log(data);
@@ -70,8 +128,8 @@ const ManageProject = (props) => {
         array.push({
           id: d.id,
           date: d.date,
-          title: d?.discussion?.title,
-          body: d?.discussion?.body,
+          title: manageBehavior(d).message,
+          url: manageBehavior(d).route,
         })
     );
     return array.sort(function (a, b) {
@@ -90,6 +148,11 @@ const ManageProject = (props) => {
       setValue(newValue);
     };
 
+    const handleOpen = (route) => {
+      history.replace(route);
+      console.log(route);
+    };
+
     return (
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
@@ -106,7 +169,7 @@ const ManageProject = (props) => {
                   <TableRow>
                     <TableCell>Date</TableCell>
                     <TableCell>Title</TableCell>
-                    <TableCell>Body</TableCell>
+
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -117,10 +180,20 @@ const ManageProject = (props) => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>{format(new Date(row.date), "PP")}</TableCell>
-                      <TableCell component="th" scope="row">
-                        {row.title}
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        /*onClick={() => handleOpen(row.url)}*/
+                      >
+                        <Link
+                          href={`${row.url}`}
+                          color={"inherit"}
+                          underline={"none"}
+                        >
+                          {row.title}
+                        </Link>
                       </TableCell>
-                      <TableCell>{row.body}</TableCell>
+
                       <TableCell>
                         {
                           <IconButton onClick={() => checkSeen(row?.id)}>
@@ -141,20 +214,21 @@ const ManageProject = (props) => {
                   <TableRow>
                     <TableCell>Date</TableCell>
                     <TableCell>Title</TableCell>
-                    <TableCell>Body</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {getSeenRows()?.map((row) => (
                     <TableRow
+                      onClick={() => handleOpen(row.url)}
                       key={row.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
+                      {console.log(row)}
+
                       <TableCell>{format(new Date(row.date), "PP")}</TableCell>
                       <TableCell component="th" scope="row">
                         {row.title}
                       </TableCell>
-                      <TableCell>{row.body}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
