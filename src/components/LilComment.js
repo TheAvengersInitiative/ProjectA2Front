@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, CardContent, Grid, Stack } from "@mui/material";
 import styled from "styled-components";
 import { hideComment, highlightComment } from "../utils/Projects";
+import DeleteComment from "./DeleteComment";
 import { css, keyframes } from "@mui/styled-engine";
 
 const TextLink = styled.p`
@@ -79,6 +80,7 @@ const LilComment = (props) => {
   } = props;
   const [hideActivated, setHideActivated] = useState("outlined");
   const [highlightActivated, setHighlightActivated] = useState("outlined");
+  const [openDelete, setOpenDelete] = useState(false);
 
   useEffect(() => {
     if (item.hidden) {
@@ -88,6 +90,14 @@ const LilComment = (props) => {
       setHighlightActivated("contained");
     }
   }, []);
+
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
 
   const onHide = async () => {
     try {
@@ -138,15 +148,24 @@ const LilComment = (props) => {
                 <DateText>-</DateText>
                 <AuthorText>{item.user.nickname}</AuthorText>
               </DetailsContainer>
-              {user && user?.id === item.user.id && (
-                <OptionsComment>
-                  <TextLink
-                    onClick={() => openModal(item.id, true, item.comment)}
-                  >
-                    Edit
-                  </TextLink>
-                </OptionsComment>
-              )}
+              <Grid>
+                {user && user?.id === item.user.id && (
+                  <OptionsComment>
+                    <TextLink onClick={handleClickOpenDelete}>Delete</TextLink>
+                    <DeleteComment
+                      open={openDelete}
+                      handleClose={handleCloseDelete}
+                      id={item.id}
+                      fetchProject={fetchProject}
+                    ></DeleteComment>
+                    <TextLink
+                      onClick={() => openModal(item.id, true, item.comment)}
+                    >
+                      Edit
+                    </TextLink>
+                  </OptionsComment>
+                )}
+              </Grid>
             </Stack>
 
             {user && user?.id === projectOwner?.id && (
