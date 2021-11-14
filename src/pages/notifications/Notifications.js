@@ -166,12 +166,15 @@ const ManageProject = (props) => {
                 <TableBody>
                   {getRows()?.map((row) => (
                     <TableRow
-                      onClick={() => handleOpen(row.url)}
                       key={row.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>{format(new Date(row.date), "PP")}</TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        onClick={() => handleOpen(row.url)}
+                      >
                         {row.title}
                       </TableCell>
 
