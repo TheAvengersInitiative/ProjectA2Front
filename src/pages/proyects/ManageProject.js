@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import React, {useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
@@ -9,9 +9,9 @@ import ApplicantList from "./ApplicantList";
 
 import { useHistory, useParams } from "react-router-dom";
 import Review from "./review";
-import {getProjectById, getUserInfoByIdWithToken} from "../../utils/Projects";
+import { getProjectById, getUserInfoByIdWithToken } from "../../utils/Projects";
 import { withSnackbar } from "../../components/SnackBarHOC";
-import {AuthContext} from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const ManageProject = (props) => {
   const { showMessage } = props;
@@ -40,9 +40,7 @@ const ManageProject = (props) => {
     }
   }
 
-  useEffect(()=>{
-
-  },[token])
+  useEffect(() => {}, [token]);
 
   useEffect(() => {
     fetchProjectData();

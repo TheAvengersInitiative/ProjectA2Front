@@ -119,7 +119,6 @@ const AppBarMenu = ({ location }) => {
     setNotificationModal(null);
   };
 
-
   useEffect(() => {
     console.log(notificationList);
   }, [notificationList]);
@@ -178,31 +177,30 @@ const AppBarMenu = ({ location }) => {
                       </AvatarStyled>
                     </StyledBadge>
                   </Button>
-                  {
-                    notificationList?.length > 0 &&
+                  {notificationList?.length > 0 && (
                     <MenuNotification
-                        id="basic-notification"
-                        anchorEl={notificationModal}
-                        open={notificationModal}
-                        onClose={handleCloseNotification}
-                        PaperProps={{
-                          style: {
-                            transform: "translateX(-90px) translateY(0px)",
-                          },
-                        }}
+                      id="basic-notification"
+                      anchorEl={notificationModal}
+                      open={notificationModal}
+                      onClose={handleCloseNotification}
+                      PaperProps={{
+                        style: {
+                          transform: "translateX(-90px) translateY(0px)",
+                        },
+                      }}
                     >
                       {notificationList?.length > 0 &&
-                      notificationList?.map((item) => (
+                        notificationList?.map((item) => (
                           <NotificationItem
-                              setNotification={setNotificationModal}
-                              key={item}
-                              item={item}
+                            setNotification={setNotificationModal}
+                            key={item}
+                            item={item}
                           />
-                      ))}
+                        ))}
 
-                          <ViewAll href="/notifications">View all</ViewAll>
+                      <ViewAll href="/notifications">View all</ViewAll>
                     </MenuNotification>
-                  }
+                  )}
 
                   <IconButton onClick={handleMenu} color="inherit">
                     <AccountCircle />

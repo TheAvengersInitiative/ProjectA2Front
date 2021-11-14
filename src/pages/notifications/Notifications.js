@@ -6,7 +6,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import React, {useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -22,7 +22,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import { format } from "date-fns";
 import TableBody from "@mui/material/TableBody";
-import {AuthContext} from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import {
   NEW_COMMENT_CREATOR_MESSAGE,
   NEW_DISCUSSION_MESSAGE,
