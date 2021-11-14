@@ -140,7 +140,7 @@ const ManageProject = (props) => {
 
     const handleOpen = (route) => {
       history.replace(route);
-      console.log(route)
+      console.log(route);
     };
 
     return (
@@ -200,9 +200,8 @@ const ManageProject = (props) => {
                 <TableBody>
                   {getSeenRows()?.map((row) => (
                     <TableRow
-                        onClick={() => handleOpen(row.url)}
-
-                        key={row.id}
+                      onClick={() => handleOpen(row.url)}
+                      key={row.id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       {console.log(row)}
