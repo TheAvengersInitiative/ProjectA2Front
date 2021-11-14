@@ -149,7 +149,7 @@ const ManageProject = (props) => {
     };
 
     const handleOpen = (route) => {
-      history.replace(route);
+      history.push(route);
       console.log(route);
     };
 
