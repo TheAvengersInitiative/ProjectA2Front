@@ -238,7 +238,7 @@ const ProjectDetails = (props) => {
             </Box>
             <Box mt={4}>
               <Typography>
-                Owner:
+                Owner:{" "}
                 <Link href={`/user/${details?.owner?.id}`}>
                   {details?.owner?.nickname}
                 </Link>

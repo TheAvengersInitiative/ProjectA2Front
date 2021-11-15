@@ -11,11 +11,11 @@ import {
 import { deleteDiscussion } from "../utils/Projects";
 
 function DeleteDiscussion(props) {
-  const { handleClose, open, showMessage, fetchProject, id } = props;
+  const { handleClose, open, showMessage, fetchProject } = props;
 
   const onSubmit = async () => {
     try {
-      await deleteDiscussion(id);
+      await deleteDiscussion(open);
       fetchProject();
       showMessage("success", "Successfully deleted the discussion");
       handleClose();

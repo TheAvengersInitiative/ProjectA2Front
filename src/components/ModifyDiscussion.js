@@ -17,7 +17,7 @@ import { createFilterOptions } from "@mui/material/Autocomplete";
 import { modifyDiscussion } from "../utils/Projects";
 
 function ModifyDiscussion(props) {
-  const { handleClose, open, showMessage, id, fetchProject } = props;
+  const { handleClose, open, showMessage, fetchProject } = props;
 
   const [tags] = useState([]);
 
@@ -31,6 +31,14 @@ function ModifyDiscussion(props) {
     body: "",
   };
 
+  if (open) {
+    Object.keys(initialValues).forEach(
+      (key) => (initialValues[key] = open[key])
+    );
+    !selectedTags.length &&
+      setSelectedTags(open.forumTags.map((tag) => tag.name));
+  }
+
   const validationSchema = Yup.object({
     title: Yup.string().required().min(3).max(32).label("Title"),
 
@@ -40,9 +48,10 @@ function ModifyDiscussion(props) {
   const onSubmit = async (formData) => {
     try {
       formData.forumTags = selectedTags;
-      await modifyDiscussion(id, formData);
+      await modifyDiscussion(open.id, formData);
       fetchProject();
       showMessage("success", "Successfully modified the discussion");
+      setSelectedTags([]);
       handleClose();
     } catch (e) {
       showMessage("error", "An error occured");

@@ -15,6 +15,8 @@ import {
   DialogContent,
   TextField,
   IconButton,
+  Stack,
+  CardActions,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
@@ -39,15 +41,6 @@ const DiscussionContainer = styled.div`
   padding-bottom: 30px;
 `;
 
-const TextLink = styled.p`
-  color: dodgerblue;
-  cursor: pointer;
-  &:hover {
-    color: royalblue;
-  }
-  width: min-content;
-`;
-
 const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
@@ -63,6 +56,8 @@ function DiscussionsList(props) {
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
 
+  const isOwner = () => user?.id === owner?.id;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -71,16 +66,16 @@ function DiscussionsList(props) {
     setOpen(false);
   };
 
-  const handleClickOpenUpdate = () => {
-    setOpenUpdate(true);
+  const handleClickOpenUpdate = (discussion) => {
+    setOpenUpdate(discussion);
   };
 
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
   };
 
-  const handleClickOpenDelete = () => {
-    setOpenDelete(true);
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(id);
   };
 
   const handleCloseDelete = () => {
@@ -103,9 +98,15 @@ function DiscussionsList(props) {
           alignItems="center"
         >
           <Typography>Discussions ({discussions?.length})</Typography>
-          <Button variant="outlined" disableElevation onClick={handleClickOpen}>
-            Start a discussion
-          </Button>
+          {isUserLoggedIn() && (
+            <Button
+              variant="outlined"
+              disableElevation
+              onClick={handleClickOpen}
+            >
+              Start a discussion
+            </Button>
+          )}
         </Grid>
         <Grid item xs={12}>
           {discussions ? (
@@ -118,7 +119,7 @@ function DiscussionsList(props) {
                 >
                   <CardHeader title={discussion.title} />
                   <CardContent>
-                    <Box ml={1}>
+                    <Stack spacing={2}>
                       <Grid container direction="row">
                         <Grid>
                           <Typography>Tags: </Typography>
@@ -144,46 +145,47 @@ function DiscussionsList(props) {
                       <Typography>
                         User:
                         <Link href={`/user/${discussion.project.owner.id}`}>
-                          {discussion.project.owner.nickname}
+                          {discussion.owner.nickname}
                         </Link>
                       </Typography>
+                    </Stack>
+                  </CardContent>
+                  <CardActions>
+                    <Stack direction="row" spacing={2}>
                       {isUserLoggedIn() && (
                         <Grid>
-                          <TextLink onClick={() => openModal(discussion.id)}>
+                          <Button
+                            size="small"
+                            color="primary"
+                            onClick={() => openModal(discussion.id)}
+                          >
                             Comment
-                          </TextLink>
+                          </Button>
                         </Grid>
                       )}
-                      <IconButton
-                        aria-label="delete"
-                        color="primary"
-                        size="small"
-                        onClick={handleClickOpenDelete}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <DeleteDiscussion
-                        open={openDelete}
-                        handleClose={handleCloseDelete}
-                        id={discussion.id}
-                        fetchProject={fetchProject}
-                      />
-                      <IconButton
-                        aria-label="edit"
-                        color="primary"
-                        size="small"
-                        onClick={handleClickOpenUpdate}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <ModifyDiscussion
-                        open={openUpdate}
-                        handleClose={handleCloseUpdate}
-                        id={discussion.id}
-                        fetchProject={fetchProject}
-                      />
-                    </Box>
-                  </CardContent>
+                      {isOwner() && (
+                        <>
+                          <IconButton
+                            aria-label="delete"
+                            color="primary"
+                            size="small"
+                            onClick={() => handleClickOpenDelete(discussion.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+
+                          <IconButton
+                            aria-label="edit"
+                            color="primary"
+                            size="small"
+                            onClick={() => handleClickOpenUpdate(discussion)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </>
+                      )}
+                    </Stack>
+                  </CardActions>
                 </Card>
                 <CommentContainer>
                   {discussion?.comments
@@ -211,6 +213,16 @@ function DiscussionsList(props) {
             <Typography>There are no discussions</Typography>
           )}
         </Grid>
+        <ModifyDiscussion
+          fetchProject={fetchProject}
+          open={openUpdate}
+          handleClose={handleCloseUpdate}
+        />
+        <DeleteDiscussion
+          fetchProject={fetchProject}
+          open={openDelete}
+          handleClose={handleCloseDelete}
+        />
         <SubmitDialog
           open={open}
           handleClose={handleClose}
@@ -267,7 +279,10 @@ const AddComment = (props) => {
         fetchProject();
         setModalReview(false);
       } catch (e) {
-        showMessage("error", "Oops... Something went wrong!");
+        showMessage(
+          "error",
+          e.response.data || "Oops... Something went wrong!"
+        );
       }
     } else {
       setError(true);

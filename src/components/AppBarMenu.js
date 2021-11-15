@@ -8,6 +8,7 @@ import {
   MenuItem,
   Toolbar,
   Typography,
+  Button,
 } from "@mui/material";
 
 import React, { useEffect } from "react";
@@ -69,7 +70,7 @@ const AppBarMenu = ({ location }) => {
               </Grid>
             </Grid>
             <Grid item>
-              {isLoggedIn && (
+              {isLoggedIn ? (
                 <div>
                   <IconButton onClick={handleMenu} color="inherit">
                     <AccountCircle />
@@ -102,6 +103,12 @@ const AppBarMenu = ({ location }) => {
                     <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
                   </Menu>
                 </div>
+              ) : (
+                <Link href="/login">
+                  <Button variant="contained" color="primary" disableElevation>
+                    Login
+                  </Button>
+                </Link>
               )}
             </Grid>
           </Grid>

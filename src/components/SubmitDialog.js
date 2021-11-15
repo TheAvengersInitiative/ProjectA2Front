@@ -48,7 +48,7 @@ function SubmitDialog(props) {
       showMessage("success", "Successfully created a new discusion");
       handleClose();
     } catch (e) {
-      showMessage("error", "An error occured");
+      showMessage("error", e.response.data || "An error occured");
     }
   };
 

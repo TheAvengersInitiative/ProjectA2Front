@@ -54,15 +54,13 @@ const ManageProject = (props) => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Applicants" value="1" />
-              <Tab label="Discussions" value="2" />
-              <Tab label="Collaborators" value="3" />
+              <Tab label="Collaborators" value="2" />
             </TabList>
           </Box>
           <TabPanel value="1">
             <ApplicantList projID={id} updateList={fetchProjectData} />
           </TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
-          <TabPanel value="3">
+          <TabPanel value="2">
             <Review data={data} projectId={id} />
           </TabPanel>
         </TabContext>
