@@ -148,8 +148,9 @@ const LilComment = (props) => {
                 <DateText>-</DateText>
                 <AuthorText>{item.user.nickname}</AuthorText>
               </DetailsContainer>
-              <Grid>
-                {user && user?.id === item.user.id && (
+              <Grid container direction="row">
+                {((user && user?.id === item.user.id) ||
+                  (user && user?.id === projectOwner?.id)) && (
                   <OptionsComment>
                     <TextLink onClick={handleClickOpenDelete}>Delete</TextLink>
                     <DeleteComment
@@ -158,6 +159,10 @@ const LilComment = (props) => {
                       id={item.id}
                       fetchProject={fetchProject}
                     ></DeleteComment>
+                  </OptionsComment>
+                )}
+                {user && user?.id === item.user.id && (
+                  <OptionsComment>
                     <TextLink
                       onClick={() => openModal(item.id, true, item.comment)}
                     >
