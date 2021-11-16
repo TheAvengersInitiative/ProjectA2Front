@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState("");
   const [notification, setNotification] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getUserInfo = () => isLoggedIn;
 
@@ -62,6 +63,8 @@ export function AuthProvider({ children }) {
         token,
         notification,
         fetchNotification,
+        loading,
+        setLoading,
       }}
     >
       {children}

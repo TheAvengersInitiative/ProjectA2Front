@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   Grid,
@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled, { keyframes } from "styled-components";
-import { useAuth } from "../contexts/AuthContext";
+import { AuthContext, useAuth } from "../contexts/AuthContext";
 import {
   putCommentDiscussionWithToken,
   putCommentEditDiscussionWithToken,
@@ -291,6 +291,7 @@ const AddComment = (props) => {
 
   const [text, setText] = useState("");
   const [error, setError] = useState(false);
+  const { setLoading } = useContext(AuthContext);
 
   useEffect(() => {
     setText(defaultText ?? "");
@@ -303,11 +304,13 @@ const AddComment = (props) => {
         const body = {
           comment: text,
         };
+        setLoading(true);
         if (defaultText) {
           await putCommentEditDiscussionWithToken(body, id, isUserLoggedIn());
         } else {
           await putCommentDiscussionWithToken(body, id, isUserLoggedIn());
         }
+        setLoading(false);
         showMessage("success", "Review added!");
         setDefaultText("");
         fetchProject();

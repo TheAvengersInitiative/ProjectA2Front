@@ -24,6 +24,7 @@ import Profile from "./pages/user/Profile";
 import ManageProject from "./pages/proyects/ManageProject";
 import ProjectDetails from "./pages/project/ProjectDetails";
 import Notifications from "./pages/notifications/Notifications";
+import { Loader } from "./components/Loader";
 
 function App() {
   return (
@@ -115,6 +116,7 @@ function App() {
             </Switch>
           </Box>
         </Container>
+        <Loader />
       </Router>
     </AuthProvider>
   );

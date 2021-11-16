@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Form, Formik } from "formik";
 import TextFieldContainer from "./TextFieldContainer";
@@ -16,9 +16,11 @@ import {
 } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import { startDiscussion } from "../utils/Projects";
+import { AuthContext } from "../contexts/AuthContext";
 
 function SubmitDialog(props) {
   const { handleClose, open, showMessage, fetchProject } = props;
+  const { setLoading } = useContext(AuthContext);
 
   let { id } = useParams();
 
@@ -43,7 +45,9 @@ function SubmitDialog(props) {
   const onSubmit = async (formData) => {
     try {
       formData.forumTags = selectedTags;
+      setLoading(true);
       await startDiscussion(id, formData);
+      setLoading(false);
       fetchProject();
       showMessage("success", "Successfully created a new discusion");
       setSelectedTags([]);

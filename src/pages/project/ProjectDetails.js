@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   Avatar,
@@ -21,7 +21,7 @@ import {
   putJoinToProjectWithToken,
 } from "../../utils/Projects";
 import DiscussionsList from "../../components/DiscussionsList";
-import { useAuth } from "../../contexts/AuthContext";
+import { AuthContext, useAuth } from "../../contexts/AuthContext";
 import { scroller } from "react-scroll";
 import { useQuery } from "../../utils/globalfunction";
 
@@ -57,6 +57,7 @@ const ProjectDetails = (props) => {
   const [user, setUser] = useState();
   const [buttonType, setButtonType] = useState({ type: "join", loading: true });
   let query = useQuery();
+  const { setLoading } = useContext(AuthContext);
 
   const history = useHistory();
 
@@ -125,7 +126,9 @@ const ProjectDetails = (props) => {
   const handleJoinToProject = async () => {
     try {
       setButtonType({ ...buttonType, loading: true });
+      setLoading(true);
       await putJoinToProjectWithToken(id, isUserLoggedIn());
+      setLoading(false);
       showMessage("success", "Request sent successfully!");
       setButtonType({ type: "applicant", loading: false });
     } catch (e) {

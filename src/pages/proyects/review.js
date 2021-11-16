@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -20,6 +20,7 @@ import { AddReviewById, getReviewById } from "../../utils/Projects";
 import { Rating } from "@mui/lab";
 import { useParams } from "react-router-dom";
 import { withSnackbar } from "../../components/SnackBarHOC";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const Review = (props) => {
   const { data, projectId, showMessage } = props;
@@ -107,6 +108,7 @@ const AddNewReview = (props) => {
   const [value, setValue] = useState(1);
   const [text, setText] = useState("");
   let { id } = useParams();
+  const { setLoading } = useContext(AuthContext);
 
   const addReview = async () => {
     try {
@@ -120,9 +122,10 @@ const AddNewReview = (props) => {
           comment: text,
         };
       }
+      setLoading(true);
       await AddReviewById(body, id);
       showMessage("success", "Review added!");
-
+      setLoading(false);
       setModalReview(false);
     } catch (e) {
       showMessage("error", "Oops... Something went wrong!");

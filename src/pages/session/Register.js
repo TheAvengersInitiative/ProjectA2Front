@@ -1,11 +1,12 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form } from "formik";
 import TextFieldContainer from "../../components/TextFieldContainer";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
 
 import { withSnackbar } from "../../components/SnackBarHOC";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email().required().nullable().label("Email"),
@@ -40,10 +41,13 @@ export const Register = (props) => {
 export const ShowForm = (props) => {
   const { title, subtitle, submit, showMessage, initialValues } = props;
   const history = useHistory();
+  const { setLoading } = useContext(AuthContext);
 
   const onSubmit = async (values) => {
     try {
+      setLoading(true);
       await submit(values);
+      setLoading(false);
 
       showMessage("success", `Succesfully created user`);
 
