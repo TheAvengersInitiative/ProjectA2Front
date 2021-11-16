@@ -33,10 +33,10 @@ function ModifyDiscussion(props) {
 
   if (open) {
     Object.keys(initialValues).forEach(
-        (key) => (initialValues[key] = open[key])
+      (key) => (initialValues[key] = open[key])
     );
     !selectedTags.length &&
-    setSelectedTags(open.forumTags.map((tag) => tag.name));
+      setSelectedTags(open.forumTags.map((tag) => tag.name));
   }
 
   const validationSchema = Yup.object({
@@ -60,100 +60,100 @@ function ModifyDiscussion(props) {
   };
 
   return (
-      <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Modify Discussion</DialogTitle>
-        <DialogContent>
-          <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={onSubmit}
-          >
-            {(formikProps) => (
-                <Form>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <TextFieldContainer
-                          id="title"
-                          label="Title"
-                          formikProps={formikProps}
-                          type="title"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Autocomplete
-                          noOptionsText="Tag must have at least 1 character and at most 24 charaters"
-                          defaultValue={selectedTags}
-                          multiple
-                          size="medium"
-                          options={tags}
-                          onChange={(_, newValue) => {
-                            setSelectedTags(newValue);
-                          }}
-                          filterOptions={(options, params) => {
-                            const filtered = filter(options, params);
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
+      <DialogTitle id="form-dialog-title">Modify Discussion</DialogTitle>
+      <DialogContent>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {(formikProps) => (
+            <Form>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <TextFieldContainer
+                    id="title"
+                    label="Title"
+                    formikProps={formikProps}
+                    type="title"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Autocomplete
+                    noOptionsText="Tag must have at least 1 character and at most 24 charaters"
+                    defaultValue={selectedTags}
+                    multiple
+                    size="medium"
+                    options={tags}
+                    onChange={(_, newValue) => {
+                      setSelectedTags(newValue);
+                    }}
+                    filterOptions={(options, params) => {
+                      const filtered = filter(options, params);
 
-                            const input = params.inputValue;
-                            if (
-                                input !== "" &&
-                                input.length >= 1 &&
-                                input.length <= 24
-                            ) {
-                              filtered.push(input);
-                            }
+                      const input = params.inputValue;
+                      if (
+                        input !== "" &&
+                        input.length >= 1 &&
+                        input.length <= 24
+                      ) {
+                        filtered.push(input);
+                      }
 
-                            return filtered;
-                          }}
-                          renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                  <Chip
-                                      key={index}
-                                      label={option}
-                                      size="small"
-                                      color="success"
-                                      {...getTagProps({ index })}
-                                  />
-                              ))
-                          }
-                          renderInput={(params) => (
-                              <TextField
-                                  {...params}
-                                  variant="filled"
-                                  label="Tags"
-                                  helperText="Choose a minimum of 1 and a maximum of 5 tags"
-                              />
-                          )}
-                      />
-                      <Grid item xs={12}>
-                        <TextFieldContainer
-                            id="body"
-                            label="Body"
-                            formikProps={formikProps}
-                            type="body"
-                            multiline
-                            rows={5}
+                      return filtered;
+                    }}
+                    renderTags={(value, getTagProps) =>
+                      value.map((option, index) => (
+                        <Chip
+                          key={index}
+                          label={option}
+                          size="small"
+                          color="success"
+                          {...getTagProps({ index })}
                         />
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={10}>
-                      <Button onClick={() => handleClose()} variant="outlined">
-                        Cancel
-                      </Button>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Button variant="outlined" type="submit">
-                        Update
-                      </Button>
-                    </Grid>
+                      ))
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="filled"
+                        label="Tags"
+                        helperText="Choose a minimum of 1 and a maximum of 5 tags"
+                      />
+                    )}
+                  />
+                  <Grid item xs={12}>
+                    <TextFieldContainer
+                      id="body"
+                      label="Body"
+                      formikProps={formikProps}
+                      type="body"
+                      multiline
+                      rows={5}
+                    />
                   </Grid>
-                </Form>
-            )}
-          </Formik>
-        </DialogContent>
-      </Dialog>
+                </Grid>
+                <Grid item xs={10}>
+                  <Button onClick={() => handleClose()} variant="outlined">
+                    Cancel
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button variant="outlined" type="submit">
+                    Update
+                  </Button>
+                </Grid>
+              </Grid>
+            </Form>
+          )}
+        </Formik>
+      </DialogContent>
+    </Dialog>
   );
 }
 
