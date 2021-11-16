@@ -28,8 +28,10 @@ const ManageProject = (props) => {
   async function fetchProjectData() {
     try {
       const response = await getProjectById(id);
-      console.log(token)
-      const user = await getUserInfoByIdWithToken(localStorage.getItem('token'));
+      console.log(token);
+      const user = await getUserInfoByIdWithToken(
+        localStorage.getItem("token")
+      );
 
       if (user.data.id !== response.data.owner.id) {
         history.push("/");
