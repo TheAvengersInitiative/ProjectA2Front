@@ -17,9 +17,10 @@ import {
   IconButton,
   Stack,
   CardActions,
+  css,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import {
   putCommentDiscussionWithToken,
@@ -31,6 +32,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModifyDiscussion from "./ModifyDiscussion";
 import DeleteDiscussion from "./DeleteDiscussion";
+import { useQuery } from "../utils/globalfunction";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -45,10 +47,33 @@ const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
 
+const highlightColor = keyframes`
+  from {
+    background-color: #d5d5d5;
+  }
+  to {
+    background-color: white;
+  }
+`;
+
+const CardDiscussion = styled(Card)`
+  box-shadow: 0px 0px 8px 3px
+    ${(props) => (props.highlight ? "rgba(42,42,42,0.13)" : "white")};
+  ${(props) => {
+    if (props.highlight) {
+      return css`
+        animation-name: ${highlightColor};
+        animation-duration: 2s;
+        animation-delay: 1.5s;
+      `;
+    }
+  }}
+`;
+
 function DiscussionsList(props) {
   const { discussions, fetchProject, showMessage, user, owner } = props;
   const { isUserLoggedIn } = useAuth();
-
+  let query = useQuery();
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -112,10 +137,15 @@ function DiscussionsList(props) {
           {discussions ? (
             discussions.map((discussion, index) => (
               <>
-                <Card
+                <CardDiscussion
+                  name={discussion.id}
                   variant="outlined"
                   key={index}
                   style={{ margin: "20px 0" }}
+                  highlight={
+                    query.get("discussion") &&
+                    query.get("discussion") === discussion.id
+                  }
                 >
                   <CardHeader title={discussion.title} />
                   <CardContent>
@@ -186,7 +216,7 @@ function DiscussionsList(props) {
                       )}
                     </Stack>
                   </CardActions>
-                </Card>
+                </CardDiscussion>
                 <CommentContainer>
                   {discussion?.comments
                     .map(
@@ -200,6 +230,10 @@ function DiscussionsList(props) {
                             fetchProject={fetchProject}
                             projectOwner={owner}
                             isUserLoggedIn={isUserLoggedIn}
+                            highlight={
+                              query.get("comment") &&
+                              query.get("comment") === item.id
+                            }
                           />
                         )
                     )
