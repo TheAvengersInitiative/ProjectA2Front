@@ -15,12 +15,14 @@ import {
   DialogContent,
   TextField,
   IconButton,
+  Stack,
+  CardActions,
+  css,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import {
-  getComments,
   putCommentDiscussionWithToken,
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
@@ -31,7 +33,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModifyDiscussion from "./ModifyDiscussion";
 import DeleteDiscussion from "./DeleteDiscussion";
 import { useQuery } from "../utils/globalfunction";
-import { css, keyframes } from "@mui/styled-engine";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -42,15 +43,6 @@ const DiscussionContainer = styled.div`
   padding-bottom: 30px;
 `;
 
-const TextLink = styled.p`
-  color: dodgerblue;
-  cursor: pointer;
-  &:hover {
-    color: royalblue;
-  }
-  width: min-content;
-`;
-
 const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
@@ -59,7 +51,6 @@ const highlightColor = keyframes`
   from {
     background-color: #d5d5d5;
   }
-
   to {
     background-color: white;
   }
@@ -80,25 +71,17 @@ const CardDiscussion = styled(Card)`
 `;
 
 function DiscussionsList(props) {
-  const { discussions, fetchProject, showMessage, user, owner, collaborators } =
-    props;
+  const { discussions, fetchProject, showMessage, user, owner } = props;
   const { isUserLoggedIn } = useAuth();
-
+  let query = useQuery();
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
-  let query = useQuery();
 
-  function isCollaborator() {
-    if (collaborators?.find((item) => item?.id === user?.id)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  const isOwner = () => user?.id === owner?.id;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -108,16 +91,16 @@ function DiscussionsList(props) {
     setOpen(false);
   };
 
-  const handleClickOpenUpdate = () => {
-    setOpenUpdate(true);
+  const handleClickOpenUpdate = (discussion) => {
+    setOpenUpdate(discussion);
   };
 
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
   };
 
-  const handleClickOpenDelete = () => {
-    setOpenDelete(true);
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(id);
   };
 
   const handleCloseDelete = () => {
@@ -140,17 +123,14 @@ function DiscussionsList(props) {
           alignItems="center"
         >
           <Typography>Discussions ({discussions?.length})</Typography>
-          {((isUserLoggedIn() && user && user?.id === owner?.id) ||
-            isCollaborator()) && (
-            <Grid>
-              <Button
-                variant="outlined"
-                disableElevation
-                onClick={handleClickOpen}
-              >
-                Start a discussion
-              </Button>
-            </Grid>
+          {isUserLoggedIn() && (
+            <Button
+              variant="outlined"
+              disableElevation
+              onClick={handleClickOpen}
+            >
+              Start a discussion
+            </Button>
           )}
         </Grid>
         <Grid item xs={12}>
@@ -169,7 +149,7 @@ function DiscussionsList(props) {
                 >
                   <CardHeader title={discussion.title} />
                   <CardContent>
-                    <Box ml={1}>
+                    <Stack spacing={2}>
                       <Grid container direction="row">
                         <Grid>
                           <Typography>Tags: </Typography>
@@ -194,63 +174,48 @@ function DiscussionsList(props) {
                       </Grid>
                       <Typography>
                         User:
-                        <Link href={`/user/${discussion?.owner?.id}`}>
-                          {discussion?.owner?.nickname}
+                        <Link href={`/user/${discussion.project.owner.id}`}>
+                          {discussion.owner.nickname}
                         </Link>
                       </Typography>
+                    </Stack>
+                  </CardContent>
+                  <CardActions>
+                    <Stack direction="row" spacing={2}>
                       {isUserLoggedIn() && (
                         <Grid>
-                          <TextLink onClick={() => openModal(discussion.id)}>
+                          <Button
+                            size="small"
+                            color="primary"
+                            onClick={() => openModal(discussion.id)}
+                          >
                             Comment
-                          </TextLink>
+                          </Button>
                         </Grid>
                       )}
-                      <Grid container direction="row">
-                        {((isUserLoggedIn() &&
-                          user &&
-                          user?.id === discussion?.owner?.id) ||
-                          (user &&
-                            user?.id === discussion.project.owner.id)) && (
-                          <Grid>
-                            <IconButton
-                              aria-label="delete"
-                              color="primary"
-                              size="small"
-                              onClick={handleClickOpenDelete}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                            <DeleteDiscussion
-                              open={openDelete}
-                              handleClose={handleCloseDelete}
-                              id={discussion.id}
-                              fetchProject={fetchProject}
-                            />
-                          </Grid>
-                        )}
-                        {isUserLoggedIn() &&
-                          user &&
-                          user?.id === discussion?.owner?.id && (
-                            <Grid>
-                              <IconButton
-                                aria-label="edit"
-                                color="primary"
-                                size="small"
-                                onClick={handleClickOpenUpdate}
-                              >
-                                <EditIcon />
-                              </IconButton>
-                              <ModifyDiscussion
-                                open={openUpdate}
-                                handleClose={handleCloseUpdate}
-                                id={discussion?.id}
-                                fetchProject={fetchProject}
-                              />
-                            </Grid>
-                          )}
-                      </Grid>
-                    </Box>
-                  </CardContent>
+                      {isOwner() && (
+                        <>
+                          <IconButton
+                            aria-label="delete"
+                            color="primary"
+                            size="small"
+                            onClick={() => handleClickOpenDelete(discussion.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+
+                          <IconButton
+                            aria-label="edit"
+                            color="primary"
+                            size="small"
+                            onClick={() => handleClickOpenUpdate(discussion)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </>
+                      )}
+                    </Stack>
+                  </CardActions>
                 </CardDiscussion>
                 <CommentContainer>
                   {discussion?.comments
@@ -282,6 +247,16 @@ function DiscussionsList(props) {
             <Typography>There are no discussions</Typography>
           )}
         </Grid>
+        <ModifyDiscussion
+          fetchProject={fetchProject}
+          open={openUpdate}
+          handleClose={handleCloseUpdate}
+        />
+        <DeleteDiscussion
+          fetchProject={fetchProject}
+          open={openDelete}
+          handleClose={handleCloseDelete}
+        />
         <SubmitDialog
           open={open}
           handleClose={handleClose}
@@ -336,10 +311,12 @@ const AddComment = (props) => {
         showMessage("success", "Review added!");
         setDefaultText("");
         fetchProject();
-        getComments(id);
         setModalReview(false);
       } catch (e) {
-        showMessage("error", "Oops... Something went wrong!");
+        showMessage(
+          "error",
+          e.response.data || "Oops... Something went wrong!"
+        );
       }
     } else {
       setError(true);

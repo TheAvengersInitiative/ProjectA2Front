@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, MenuItem } from "@mui/material";
 import styled from "styled-components";
 import {
@@ -8,6 +8,8 @@ import {
   NEW_REVIEW_MESSAGE,
 } from "../utils/const";
 import { useHistory } from "react-router-dom";
+import { seenNotif } from "../utils/Projects";
+import { AuthContext } from "../contexts/AuthContext";
 
 const MenuItemSeen = styled(MenuItem)`
   background-color: ${(props) => props.seen && "ghostwhite"};
@@ -40,6 +42,7 @@ export const NotificationItem = (props) => {
   const [message, setMessage] = useState("");
   const [route, setRoute] = useState("");
   const history = useHistory();
+  const { fetchNotification } = useContext(AuthContext);
 
   /*
     Alta de discusion
@@ -96,7 +99,9 @@ export const NotificationItem = (props) => {
     setRoute(routeBuilder);
   };
 
-  const handleOpen = () => {
+  const handleOpen = async () => {
+    await seenNotif(item.id);
+    await fetchNotification();
     history.push(route);
     setNotification(null);
   };
