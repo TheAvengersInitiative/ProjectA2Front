@@ -179,9 +179,6 @@ const ModifyUser = (props) => {
     await backCall2(event.target.checked);
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleGoHome = async () => {
     try {
       await deleteUser();
@@ -288,15 +285,6 @@ const ModifyUser = (props) => {
                             type="submit"
                           >
                             {"UPDATE"}
-                          </Button>
-                        </Grid>
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={handleClickOpen}
-                          >
-                            {"DELETE"}
                           </Button>
                         </Grid>
                       </Grid>
