@@ -15,12 +15,13 @@ import {
   DialogContent,
   TextField,
   IconButton,
+  Stack,
+  CardActions,
 } from "@mui/material";
 import SubmitDialog from "./SubmitDialog";
 import styled from "styled-components";
 import { useAuth } from "../contexts/AuthContext";
 import {
-  getComments,
   putCommentDiscussionWithToken,
   putCommentEditDiscussionWithToken,
 } from "../utils/Projects";
@@ -30,8 +31,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModifyDiscussion from "./ModifyDiscussion";
 import DeleteDiscussion from "./DeleteDiscussion";
-import { useQuery } from "../utils/globalfunction";
-import { css, keyframes } from "@mui/styled-engine";
 
 const DiscussionContainer = styled.div`
   padding-top: 30px;
@@ -42,46 +41,12 @@ const DiscussionContainer = styled.div`
   padding-bottom: 30px;
 `;
 
-const TextLink = styled.p`
-  color: dodgerblue;
-  cursor: pointer;
-  &:hover {
-    color: royalblue;
-  }
-  width: min-content;
-`;
-
 const CommentContainer = styled(Grid)`
   padding-left: 50px;
 `;
 
-const highlightColor = keyframes`
-  from {
-    background-color: #d5d5d5;
-  }
-
-  to {
-    background-color: white;
-  }
-`;
-
-const CardDiscussion = styled(Card)`
-  box-shadow: 0px 0px 8px 3px
-    ${(props) => (props.highlight ? "rgba(42,42,42,0.13)" : "white")};
-  ${(props) => {
-    if (props.highlight) {
-      return css`
-        animation-name: ${highlightColor};
-        animation-duration: 2s;
-        animation-delay: 1.5s;
-      `;
-    }
-  }}
-`;
-
 function DiscussionsList(props) {
-  const { discussions, fetchProject, showMessage, user, owner, collaborators } =
-    props;
+  const { discussions, fetchProject, showMessage, user, owner } = props;
   const { isUserLoggedIn } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -90,15 +55,8 @@ function DiscussionsList(props) {
   const [modalAddComment, setModalAddComment] = useState(false);
   const [discussionId, setDiscussionId] = useState("");
   const [defaultText, setDefaultText] = useState("");
-  let query = useQuery();
 
-  function isCollaborator() {
-    if (collaborators?.find((item) => item?.id === user?.id)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  const isOwner = () => user?.id === owner?.id;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -108,16 +66,16 @@ function DiscussionsList(props) {
     setOpen(false);
   };
 
-  const handleClickOpenUpdate = () => {
-    setOpenUpdate(true);
+  const handleClickOpenUpdate = (discussion) => {
+    setOpenUpdate(discussion);
   };
 
   const handleCloseUpdate = () => {
     setOpenUpdate(false);
   };
 
-  const handleClickOpenDelete = () => {
-    setOpenDelete(true);
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(id);
   };
 
   const handleCloseDelete = () => {
@@ -131,175 +89,158 @@ function DiscussionsList(props) {
   };
 
   return (
-    <>
-      <DiscussionContainer>
-        <Grid
-          justifyContent="space-between"
-          container
-          direction="row"
-          alignItems="center"
-        >
-          <Typography>Discussions ({discussions?.length})</Typography>
-          {((isUserLoggedIn() && user && user?.id === owner?.id) ||
-            isCollaborator()) && (
-            <Grid>
-              <Button
-                variant="outlined"
-                disableElevation
-                onClick={handleClickOpen}
-              >
-                Start a discussion
-              </Button>
-            </Grid>
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          {discussions ? (
-            discussions.map((discussion, index) => (
-              <>
-                <CardDiscussion
-                  name={discussion.id}
-                  variant="outlined"
-                  key={index}
-                  style={{ margin: "20px 0" }}
-                  highlight={
-                    query.get("discussion") &&
-                    query.get("discussion") === discussion.id
-                  }
+      <>
+        <DiscussionContainer>
+          <Grid
+              justifyContent="space-between"
+              container
+              direction="row"
+              alignItems="center"
+          >
+            <Typography>Discussions ({discussions?.length})</Typography>
+            {isUserLoggedIn() && (
+                <Button
+                    variant="outlined"
+                    disableElevation
+                    onClick={handleClickOpen}
                 >
-                  <CardHeader title={discussion.title} />
-                  <CardContent>
-                    <Box ml={1}>
-                      <Grid container direction="row">
-                        <Grid>
-                          <Typography>Tags: </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Grid container direction="row">
-                            {discussion.forumTags.map((item, index) => (
-                              <Box ml={1} key={index}>
-                                <Chip
-                                  variant="filled"
-                                  color="secondary"
-                                  size="small"
-                                  label={item.name}
-                                />
-                              </Box>
-                            ))}
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid>
-                        <Typography>Body: {discussion.body} </Typography>
-                      </Grid>
-                      <Typography>
-                        User:
-                        <Link href={`/user/${discussion?.owner?.id}`}>
-                          {discussion?.owner?.nickname}
-                        </Link>
-                      </Typography>
-                      {isUserLoggedIn() && (
-                        <Grid>
-                          <TextLink onClick={() => openModal(discussion.id)}>
-                            Comment
-                          </TextLink>
-                        </Grid>
-                      )}
-                      <Grid container direction="row">
-                        {((isUserLoggedIn() &&
-                          user &&
-                          user?.id === discussion?.owner?.id) ||
-                          (user &&
-                            user?.id === discussion.project.owner.id)) && (
-                          <Grid>
-                            <IconButton
-                              aria-label="delete"
-                              color="primary"
-                              size="small"
-                              onClick={handleClickOpenDelete}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                            <DeleteDiscussion
-                              open={openDelete}
-                              handleClose={handleCloseDelete}
-                              id={discussion.id}
-                              fetchProject={fetchProject}
-                            />
-                          </Grid>
-                        )}
-                        {isUserLoggedIn() &&
-                          user &&
-                          user?.id === discussion?.owner?.id && (
-                            <Grid>
-                              <IconButton
-                                aria-label="edit"
-                                color="primary"
-                                size="small"
-                                onClick={handleClickOpenUpdate}
-                              >
-                                <EditIcon />
-                              </IconButton>
-                              <ModifyDiscussion
-                                open={openUpdate}
-                                handleClose={handleCloseUpdate}
-                                id={discussion?.id}
-                                fetchProject={fetchProject}
-                              />
+                  Start a discussion
+                </Button>
+            )}
+          </Grid>
+          <Grid item xs={12}>
+            {discussions ? (
+                discussions.map((discussion, index) => (
+                    <>
+                      <Card
+                          variant="outlined"
+                          key={index}
+                          style={{ margin: "20px 0" }}
+                      >
+                        <CardHeader title={discussion.title} />
+                        <CardContent>
+                          <Stack spacing={2}>
+                            <Grid container direction="row">
+                              <Grid>
+                                <Typography>Tags: </Typography>
+                              </Grid>
+                              <Grid item>
+                                <Grid container direction="row">
+                                  {discussion.forumTags.map((item, index) => (
+                                      <Box ml={1} key={index}>
+                                        <Chip
+                                            variant="filled"
+                                            color="secondary"
+                                            size="small"
+                                            label={item.name}
+                                        />
+                                      </Box>
+                                  ))}
+                                </Grid>
+                              </Grid>
                             </Grid>
-                          )}
-                      </Grid>
-                    </Box>
-                  </CardContent>
-                </CardDiscussion>
-                <CommentContainer>
-                  {discussion?.comments
-                    .map(
-                      (item, index) =>
-                        ((user && user?.id === owner?.id) || !item?.hidden) && (
-                          <LilComment
-                            key={index}
-                            item={item}
-                            user={user}
-                            openModal={openModal}
-                            fetchProject={fetchProject}
-                            projectOwner={owner}
-                            isUserLoggedIn={isUserLoggedIn}
-                            highlight={
-                              query.get("comment") &&
-                              query.get("comment") === item.id
-                            }
-                          />
-                        )
-                    )
-                    .sort((value) => {
-                      return value?.props?.item?.highlighted ? -1 : 1; // `true` values first
-                    })}
-                </CommentContainer>
-              </>
-            ))
-          ) : (
-            <Typography>There are no discussions</Typography>
-          )}
-        </Grid>
-        <SubmitDialog
-          open={open}
-          handleClose={handleClose}
-          fetchProject={fetchProject}
-        />
-      </DiscussionContainer>
-      {modalAddComment && (
-        <AddComment
-          setModalReview={setModalAddComment}
-          fetchProject={fetchProject}
-          id={discussionId}
-          showMessage={showMessage}
-          isUserLoggedIn={isUserLoggedIn}
-          defaultText={defaultText}
-          setDefaultText={setDefaultText}
-        />
-      )}
-    </>
+                            <Grid>
+                              <Typography>Body: {discussion.body} </Typography>
+                            </Grid>
+                            <Typography>
+                              User:
+                              <Link href={`/user/${discussion.project.owner.id}`}>
+                                {discussion.owner.nickname}
+                              </Link>
+                            </Typography>
+                          </Stack>
+                        </CardContent>
+                        <CardActions>
+                          <Stack direction="row" spacing={2}>
+                            {isUserLoggedIn() && (
+                                <Grid>
+                                  <Button
+                                      size="small"
+                                      color="primary"
+                                      onClick={() => openModal(discussion.id)}
+                                  >
+                                    Comment
+                                  </Button>
+                                </Grid>
+                            )}
+                            {isOwner() && (
+                                <>
+                                  <IconButton
+                                      aria-label="delete"
+                                      color="primary"
+                                      size="small"
+                                      onClick={() => handleClickOpenDelete(discussion.id)}
+                                  >
+                                    <DeleteIcon />
+                                  </IconButton>
+
+                                  <IconButton
+                                      aria-label="edit"
+                                      color="primary"
+                                      size="small"
+                                      onClick={() => handleClickOpenUpdate(discussion)}
+                                  >
+                                    <EditIcon />
+                                  </IconButton>
+                                </>
+                            )}
+                          </Stack>
+                        </CardActions>
+                      </Card>
+                      <CommentContainer>
+                        {discussion?.comments
+                            .map(
+                                (item, index) =>
+                                    ((user && user?.id === owner?.id) || !item?.hidden) && (
+                                        <LilComment
+                                            key={index}
+                                            item={item}
+                                            user={user}
+                                            openModal={openModal}
+                                            fetchProject={fetchProject}
+                                            projectOwner={owner}
+                                            isUserLoggedIn={isUserLoggedIn}
+                                        />
+                                    )
+                            )
+                            .sort((value) => {
+                              return value?.props?.item?.highlighted ? -1 : 1; // `true` values first
+                            })}
+                      </CommentContainer>
+                    </>
+                ))
+            ) : (
+                <Typography>There are no discussions</Typography>
+            )}
+          </Grid>
+          <ModifyDiscussion
+              fetchProject={fetchProject}
+              open={openUpdate}
+              handleClose={handleCloseUpdate}
+          />
+          <DeleteDiscussion
+              fetchProject={fetchProject}
+              open={openDelete}
+              handleClose={handleCloseDelete}
+          />
+          <SubmitDialog
+              open={open}
+              handleClose={handleClose}
+              fetchProject={fetchProject}
+          />
+        </DiscussionContainer>
+        {modalAddComment && (
+            <AddComment
+                setModalReview={setModalAddComment}
+                fetchProject={fetchProject}
+                id={discussionId}
+                showMessage={showMessage}
+                isUserLoggedIn={isUserLoggedIn}
+                defaultText={defaultText}
+                setDefaultText={setDefaultText}
+            />
+        )}
+      </>
   );
 }
 
@@ -336,10 +277,12 @@ const AddComment = (props) => {
         showMessage("success", "Review added!");
         setDefaultText("");
         fetchProject();
-        getComments(id);
         setModalReview(false);
       } catch (e) {
-        showMessage("error", "Oops... Something went wrong!");
+        showMessage(
+            "error",
+            e.response.data || "Oops... Something went wrong!"
+        );
       }
     } else {
       setError(true);
@@ -347,53 +290,53 @@ const AddComment = (props) => {
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => setModalReview(false)}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      fullWidth={true}
-    >
-      <Box p={1}>
-        <DialogTitle id="alert-dialog-title">{`${
-          defaultText ? "Edit" : "Add"
-        } comment `}</DialogTitle>
-        <DialogContent>
-          <Grid container direction="column" alignItems="center">
-            <Grid item minWidth={530}>
-              <Box mt={2} mb={1}>
-                <TextField
-                  fullWidth={true}
-                  id="outlined-multiline-static"
-                  error={error}
-                  multiline
-                  rows={6}
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  defaultValue="Default Value"
-                  inputProps={{ maxLength: 500 }}
-                  placeholder="Write your comment..."
-                  helperText="Max 500 words"
-                />
-              </Box>
+      <Dialog
+          open={open}
+          onClose={() => setModalReview(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          fullWidth={true}
+      >
+        <Box p={1}>
+          <DialogTitle id="alert-dialog-title">{`${
+              defaultText ? "Edit" : "Add"
+          } comment `}</DialogTitle>
+          <DialogContent>
+            <Grid container direction="column" alignItems="center">
+              <Grid item minWidth={530}>
+                <Box mt={2} mb={1}>
+                  <TextField
+                      fullWidth={true}
+                      id="outlined-multiline-static"
+                      error={error}
+                      multiline
+                      rows={6}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
+                      defaultValue="Default Value"
+                      inputProps={{ maxLength: 500 }}
+                      placeholder="Write your comment..."
+                      helperText="Max 500 words"
+                  />
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogContent>
-          <Grid container justifyContent="space-between">
-            <Button
-              onClick={() => (setModalReview(false), setDefaultText(""))}
-              color="error"
-            >
-              Cancel
-            </Button>
-            <Button onClick={() => addComment()} autoFocus>
-              {defaultText ? "Edit" : "Add"}
-            </Button>
-          </Grid>
-        </DialogContent>
-      </Box>
-    </Dialog>
+          </DialogContent>
+          <DialogContent>
+            <Grid container justifyContent="space-between">
+              <Button
+                  onClick={() => (setModalReview(false), setDefaultText(""))}
+                  color="error"
+              >
+                Cancel
+              </Button>
+              <Button onClick={() => addComment()} autoFocus>
+                {defaultText ? "Edit" : "Add"}
+              </Button>
+            </Grid>
+          </DialogContent>
+        </Box>
+      </Dialog>
   );
 };
 
