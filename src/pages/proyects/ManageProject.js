@@ -28,7 +28,10 @@ const ManageProject = (props) => {
   async function fetchProjectData() {
     try {
       const response = await getProjectById(id);
-      const user = await getUserInfoByIdWithToken(token);
+      console.log(token);
+      const user = await getUserInfoByIdWithToken(
+        localStorage.getItem("token")
+      );
 
       if (user.data.id !== response.data.owner.id) {
         history.push("/");
@@ -59,14 +62,12 @@ const ManageProject = (props) => {
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Applicants" value="1" />
-              <Tab label="Discussions" value="2" />
               <Tab label="Collaborators" value="3" />
             </TabList>
           </Box>
           <TabPanel value="1">
             <ApplicantList projID={id} updateList={fetchProjectData} />
           </TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
           <TabPanel value="3">
             <Review data={data} projectId={id} />
           </TabPanel>
